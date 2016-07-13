@@ -8,7 +8,6 @@ This library assumes that the oracle forms applications is started directly usin
 
 
 ## TODO
-* enable dynamic debug logging
 * Attach to running process instead of launch new one
 * test screenshot
 * add sample jnlp file
