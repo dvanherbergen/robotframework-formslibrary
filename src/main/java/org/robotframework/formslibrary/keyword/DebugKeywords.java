@@ -19,7 +19,8 @@ public class DebugKeywords {
 
     @RobotKeyword("Prints the name of all buttons found in the selected context.\n\n Example:\n | List Buttons|\n")
     public void listButtons() {
-        new ContextOperator().listComponents(ComponentType.BUTTON, ComponentType.PUSH_BUTTON);
+        new ContextOperator().listComponents(ComponentType.BUTTON, ComponentType.PUSH_BUTTON, ComponentType.LW_CHECK_BOX,
+                ComponentType.EXTENDED_CHECKBOX);
     }
 
     @RobotKeyword("Prints the name of all text and dropdown fields found in the selected context.\n\n Example:\n | List Fields|\n")
