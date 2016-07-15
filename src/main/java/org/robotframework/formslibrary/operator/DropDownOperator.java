@@ -5,12 +5,13 @@ import java.awt.event.KeyEvent;
 
 import org.junit.Assert;
 import org.robotframework.formslibrary.chooser.ByNameChooser;
+import org.robotframework.formslibrary.util.ComponentType;
 import org.robotframework.formslibrary.util.ObjectUtil;
 
 public class DropDownOperator extends BaseComponentOperator {
 
     public DropDownOperator(String identifier) {
-        super(new ByNameChooser(identifier, "oracle.forms.ui.VPopList"));
+        super(new ByNameChooser(identifier, ComponentType.DROP_DOWN));
     }
 
     @Override

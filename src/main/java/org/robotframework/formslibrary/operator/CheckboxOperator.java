@@ -4,6 +4,7 @@ import java.awt.Component;
 
 import org.junit.Assert;
 import org.robotframework.formslibrary.chooser.ByNameChooser;
+import org.robotframework.formslibrary.util.ComponentType;
 import org.robotframework.formslibrary.util.ObjectUtil;
 
 public class CheckboxOperator extends BaseComponentOperator {
@@ -13,7 +14,7 @@ public class CheckboxOperator extends BaseComponentOperator {
     }
 
     public CheckboxOperator(String identifier) {
-        super(new ByNameChooser(identifier, "oracle.ewt.lwAWT.LWCheckbox"));
+        super(new ByNameChooser(identifier, ComponentType.LW_CHECK_BOX));
     }
 
     public boolean isChecked() {

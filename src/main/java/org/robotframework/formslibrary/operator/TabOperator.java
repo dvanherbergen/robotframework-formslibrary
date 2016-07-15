@@ -2,13 +2,14 @@ package org.robotframework.formslibrary.operator;
 
 import org.junit.Assert;
 import org.robotframework.formslibrary.chooser.ByClassChooser;
+import org.robotframework.formslibrary.util.ComponentType;
 import org.robotframework.formslibrary.util.Logger;
 import org.robotframework.formslibrary.util.ObjectUtil;
 
 public class TabOperator extends BaseComponentOperator {
 
     public TabOperator() {
-        super(new ByClassChooser(0, "oracle.ewt.tabBar.TabBar"));
+        super(new ByClassChooser(0, ComponentType.TAB_BAR));
     }
 
     public void select(String name) {

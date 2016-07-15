@@ -3,6 +3,7 @@ package org.robotframework.formslibrary.chooser;
 import java.awt.Component;
 
 import org.netbeans.jemmy.ComponentChooser;
+import org.robotframework.formslibrary.util.ComponentType;
 import org.robotframework.formslibrary.util.Logger;
 import org.robotframework.formslibrary.util.ObjectUtil;
 
@@ -29,7 +30,7 @@ public class ByPrecedingLWLabelChooser implements ComponentChooser {
             return true;
         }
 
-        if (component.getClass().getName().equals("oracle.ewt.lwAWT.LWLabel")) {
+        if (component.getClass().getName().equals(ComponentType.LABEL)) {
             String label = ObjectUtil.getString(component, "getText()");
             if (label != null) {
                 label = label.replaceAll(":", "").trim();

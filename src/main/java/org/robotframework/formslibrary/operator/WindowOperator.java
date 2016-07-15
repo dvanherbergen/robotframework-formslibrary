@@ -8,6 +8,7 @@ import java.util.List;
 import org.junit.Assert;
 import org.netbeans.jemmy.operators.ContainerOperator;
 import org.robotframework.formslibrary.chooser.ByClassChooser;
+import org.robotframework.formslibrary.util.ComponentType;
 import org.robotframework.formslibrary.util.ContextUtil;
 import org.robotframework.formslibrary.util.Logger;
 import org.robotframework.formslibrary.util.ObjectUtil;
@@ -21,7 +22,7 @@ import org.robotframework.swing.operator.ComponentWrapper;
 public class WindowOperator extends ContainerOperator implements ComponentWrapper {
 
     public WindowOperator() {
-        super(FrameOperator.newOperatorFor(0), new ByClassChooser(0, "oracle.forms.ui.FormDesktopContainer"));
+        super(FrameOperator.newOperatorFor(0), new ByClassChooser(0, ComponentType.FORM_DESKTOP));
     }
 
     public List<String> getWindowTitles() {
@@ -31,7 +32,7 @@ public class WindowOperator extends ContainerOperator implements ComponentWrappe
         for (Component frame : extendedFrames) {
             Component[] children = ((Container) frame).getComponents();
             for (Component child : children) {
-                if (child.getClass().getName().equals("oracle.ewt.lwAWT.lwWindow.laf.TitleBar")) {
+                if (child.getClass().getName().equals(ComponentType.TITLE_BAR)) {
                     boolean visible = ObjectUtil.getBoolean(frame, "isVisible()");
                     String title = ObjectUtil.getString(child, "getLWWindow().getTitle()");
                     Logger.debug("Found window '" + title + "' [visible=" + visible + "]");
@@ -51,7 +52,7 @@ public class WindowOperator extends ContainerOperator implements ComponentWrappe
         for (Component frame : extendedFrames) {
             Component[] children = ((Container) frame).getComponents();
             for (Component child : children) {
-                if (child.getClass().getName().equals("oracle.ewt.lwAWT.lwWindow.laf.TitleBar")) {
+                if (child.getClass().getName().equals(ComponentType.TITLE_BAR)) {
 
                     String title = ObjectUtil.getString(child, "getLWWindow().getTitle()");
                     if (TextUtil.matches(title, windowTitle)) {
@@ -80,7 +81,7 @@ public class WindowOperator extends ContainerOperator implements ComponentWrappe
         for (Component frame : extendedFrames) {
             Component[] children = ((Container) frame).getComponents();
             for (Component child : children) {
-                if (child.getClass().getName().equals("oracle.ewt.lwAWT.lwWindow.laf.TitleBar")) {
+                if (child.getClass().getName().equals(ComponentType.TITLE_BAR)) {
                     if (ObjectUtil.getBoolean(frame, "isVisible()")) {
                         String title = ObjectUtil.getString(child, "getLWWindow().getTitle()");
                         if (!title.contains("Main Menu")) {

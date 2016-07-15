@@ -22,7 +22,8 @@ public class ContextUtil {
         }
 
         String contextClass = Context.getContext().getSource().getClass().getName();
-        if (!contextClass.equals("javax.swing.JFrame") && !contextClass.equals("oracle.forms.ui.ExtendedFrame")) {
+        if (!contextClass.equals(ComponentType.JFRAME) && !contextClass.equals(ComponentType.EXTENDED_FRAME)
+                && !contextClass.equals(ComponentType.WINDOW)) {
             Assert.fail("Invalid context selected: " + contextClass);
         }
 

@@ -1,35 +1,38 @@
 package org.robotframework.formslibrary.operator;
 
 import java.awt.Component;
-import java.awt.Container;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.junit.Assert;
+import org.robotframework.formslibrary.util.ComponentType;
 import org.robotframework.formslibrary.util.ComponentUtil;
 import org.robotframework.formslibrary.util.Logger;
 import org.robotframework.formslibrary.util.ObjectUtil;
 import org.robotframework.formslibrary.util.TextUtil;
 
-public class TableOperator {
+public class TableOperator extends ContextOperator {
 
-    private Container container;
+    /**
+     * Locate a matching row by field values.
+     * 
+     * @return the first field of the matching row.
+     */
+    private Component findRow(String[] columnValues) {
 
-    public TableOperator(Container container) {
-        this.container = container;
-    }
-
-    public void selectRow(String[] columnValues) {
+        Logger.info("Locating row " + TextUtil.formatArray(columnValues));
 
         // find all matching first columns
-        List<Component> keyColumns = findTextFieldsByValue(container, columnValues[0]);
+        List<Component> keyColumns = findTextFieldsByValue(columnValues[0]);
         if (keyColumns.isEmpty()) {
             Assert.fail("No column found with value " + columnValues[0]);
         }
 
         for (int i = 1; i < columnValues.length; i++) {
 
-            List<Component> nextColumns = findTextFieldsByValue(container, columnValues[i]);
+            List<Component> nextColumns = findTextFieldsByValue(columnValues[i]);
             List<Component> toRemove = new ArrayList<Component>();
             for (Component col : keyColumns) {
                 if (!hasNextColumn(col, nextColumns)) {
@@ -45,70 +48,68 @@ public class TableOperator {
             Logger.info("Multiple rows found. Selecting first one.");
         }
 
-        // select row by simulating a mouse click
-        Component keyField = keyColumns.get(0);
-        Logger.info("Found matching row @ x" + keyField.getX() + ", y" + keyField.getY());
-        ComponentUtil.simulateMouseClick(keyField);
+        return keyColumns.get(0);
 
-        // check if a checkbox exists to the left of the row and select
-        // it if it is available
-
-        Component checkBox = locateCheckBox(keyField);
-        if (checkBox != null) {
-            new CheckboxOperator(checkBox).check();
-        }
     }
 
-    private Component locateCheckBox(Component keyField) {
+    /**
+     * Select a row by simulating a mouse click in the first field.
+     */
+    public void selectRow(String[] columnValues) {
 
-        List<Component> result = findAllCheckboxes(container);
+        Component firstRowField = findRow(columnValues);
+
+        Logger.info("Found matching row @ x" + firstRowField.getX() + ", y" + firstRowField.getY());
+        ComponentUtil.simulateMouseClick(firstRowField);
+
+    }
+
+    /**
+     * Find all checkboxes located on the same vertical position as the table
+     * text fields.
+     */
+    private List<Component> findRowCheckBoxes(Component keyField) {
+
+        List<Component> result = findAllComponents(ComponentType.CHECK_BOX);
+        List<Component> rowCheckboxes = new ArrayList<Component>();
+
         for (Component box : result) {
 
-            // check if box is located to the left of the keyfield (max 50px)
-            if (keyField.getX() - 50 < box.getX() && box.getX() < keyField.getX()) {
+            // check if component is at same level of row
+            int deltaY = keyField.getY() - box.getY();
+            if (-5 < deltaY && deltaY < 5) {
+                rowCheckboxes.add(box);
+            }
+        }
 
-                // check if component is at same level of row
-                int deltaY = keyField.getY() - box.getY();
-                if (-5 < deltaY && deltaY < 5) {
-                    return (Component) ObjectUtil.invoke(box, "getLWCheckBox()");
+        Collections.sort(rowCheckboxes, new Comparator<Component>() {
+
+            @Override
+            public int compare(Component c1, Component c2) {
+
+                if (c1.getX() < c2.getX()) {
+                    return -1;
+                } else if (c1.getX() == c2.getX()) {
+                    return 0;
+                } else {
+                    return 1;
                 }
-            }
-        }
 
-        return null;
+            }
+        });
+
+        return rowCheckboxes;
     }
 
-    private List<Component> findAllCheckboxes(Component component) {
+    private List<Component> findTextFieldsByValue(String value) {
 
+        List<Component> allTextFields = findAllComponents(ComponentType.TEXT_FIELD);
         List<Component> result = new ArrayList<Component>();
 
-        if (component.getClass().getName().equals("oracle.forms.ui.VCheckbox")) {
-            result.add(component);
-        } else if (component instanceof Container) {
-
-            Component[] childComponents = ((Container) component).getComponents();
-            for (Component child : childComponents) {
-                result.addAll(findAllCheckboxes(child));
-            }
-        }
-
-        return result;
-    }
-
-    private List<Component> findTextFieldsByValue(Component component, String value) {
-
-        List<Component> result = new ArrayList<Component>();
-
-        if (component.getClass().getName().equals("oracle.forms.ui.VTextField")) {
-            String text = ObjectUtil.getString(component, "getText()");
+        for (Component textField : allTextFields) {
+            String text = ObjectUtil.getString(textField, "getText()");
             if (TextUtil.matches(value, text)) {
-                result.add(component);
-            }
-        } else if (component instanceof Container) {
-
-            Component[] childComponents = ((Container) component).getComponents();
-            for (Component child : childComponents) {
-                result.addAll(findTextFieldsByValue(child, value));
+                result.add(textField);
             }
         }
 
@@ -128,6 +129,29 @@ public class TableOperator {
 
         }
         return false;
+    }
+
+    private CheckboxOperator getCheckboxOperator(int index, String[] columnValues) {
+
+        List<Component> boxes = findRowCheckBoxes(findRow(columnValues));
+
+        if (boxes.size() < index) {
+            Assert.fail("Only found " + boxes.size() + " checkboxes next to the row");
+        }
+
+        return new CheckboxOperator((Component) ObjectUtil.invoke(boxes.get(index - 1), "getLWCheckBox()"));
+    }
+
+    public void selectRowCheckbox(int index, String[] columnValues) {
+        getCheckboxOperator(index, columnValues).check();
+    }
+
+    public void deselectRowCheckbox(int index, String[] columnValues) {
+        getCheckboxOperator(index, columnValues).uncheck();
+    }
+
+    public boolean getRowCheckboxState(int index, String[] columnValues) {
+        return getCheckboxOperator(index, columnValues).isChecked();
     }
 
 }

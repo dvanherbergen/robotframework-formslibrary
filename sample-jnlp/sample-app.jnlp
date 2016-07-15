@@ -1,0 +1,47 @@
+<!-- Start this application using the command "javaws sample-app.jnlp" -->
+<jnlp spec="1.0+" codebase="http://localhost:7777/forms/java/">
+	<information>
+	  <title>Sample App</title>  
+	  <vendor>Sample Vendor</vendor>  
+	</information>
+	<security>
+		<all-permissions />
+	</security>
+	<resources>
+		<j2se version="1.6" />
+		<jar href="http://localhost:7777/forms/java/frmall.jar" main="true" />
+		<!-- include application jars which are not signed by Oracle -->
+		<extension name="libs" href="file:///path/to/sample-app-lib.jnlp" />
+	</resources>
+	<applet-desc main-class="oracle.forms.engine.Main" name="Forms" width="1024" height="768">
+		<param name="serverURL" value="http://localhost:7777/forms/lservlet?ifcfs=http://localhost:7777/forms/frmservlet?config=ENV&amp;ifsessid=WLS_FORMS.formsapp.139&amp;acceptLanguage=en-US,nl-BE;q=0.5" />
+		<param name="networkRetries" value="5"/>
+		<param name="serverArgs" value="escapeparams=true module=app_main.fmx userid=  debug=no host= port= obr=no record= tracegroup= log= term= ssoProxyConnect=no"/>
+		<param name="separateFrame" value="no"/>
+		<param name="splashScreen"  value="no"/>
+		<param name="background"  value="no"/>
+		<param name="lookAndFeel"  value="Oracle"/>
+		<param name="colorScheme"  value="Blue"/>
+		<param name="serverApp" value="default"/>
+		<param name="logo" value="no"/>
+		<param name="imageBase" value="codebase"/>
+		<param name="formsMessageListener" value=""/>
+		<param name="recordFilename" value=""/>
+		<param name="EndUserMonitoringEnabled" value="false"/>
+		<param name="EndUserMonitoringURL" value=""/>
+		<param name="heartBeat" value=""/>
+		<param name="MaxEventWait" value=""/>
+		<param name="allowAlertClipboard" value="true"/>
+		<param name="disableValidateClipboard" value="false"/>
+		<param name="enableJavascriptEvent" value="true"/>
+		<param name="MAYSCRIPT" value="true"/>
+		<param name="digitSubstitution" value="context"/>
+		<param name="legacy_lifecycle" value="false"/>
+		<param name="JavaScriptBlocksHeartBeat" value="false"/>
+		<param name="highContrast" value="false"/>
+		<param name="disableMDIScrollbars" value=""/>
+		<param name="clientDPI" value=""/>
+		<param name="applet_stop_timeout" value="800"/>
+		<param name="guiMode" value="0" />
+	</applet-desc>
+</jnlp>

@@ -6,13 +6,14 @@ import org.junit.Assert;
 import org.robotframework.formslibrary.chooser.ByNameChooser;
 import org.robotframework.formslibrary.chooser.ByPrecedingLWLabelChooser;
 import org.robotframework.formslibrary.chooser.CompositeChooser;
+import org.robotframework.formslibrary.util.ComponentType;
 import org.robotframework.formslibrary.util.ObjectUtil;
 
 public class TextFieldOperator extends BaseComponentOperator {
 
     public TextFieldOperator(String identifier) {
         super(new CompositeChooser(new ByPrecedingLWLabelChooser(identifier),
-                new ByNameChooser(identifier, "oracle.forms.ui.VTextField", "oracle.forms.ui.FLWTextArea")));
+                new ByNameChooser(identifier, ComponentType.TEXT_FIELD, ComponentType.TEXT_AREA)));
     }
 
     @Override

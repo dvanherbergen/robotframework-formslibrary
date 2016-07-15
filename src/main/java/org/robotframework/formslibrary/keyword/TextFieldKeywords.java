@@ -21,4 +21,9 @@ public class TextFieldKeywords {
         new TextFieldOperator(identifier).verifyValue(value);
     }
 
+    @RobotKeyword("Get field content.\n\n" + "Example:\n" + "| \r\n" + "| ${textFieldValue}= | Get Field | _username_ | \n")
+    @ArgumentNames({ "identifier" })
+    public String getField(String identifier) {
+        return new TextFieldOperator(identifier).getValue();
+    }
 }

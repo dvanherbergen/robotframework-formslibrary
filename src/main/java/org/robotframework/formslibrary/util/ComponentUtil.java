@@ -12,10 +12,10 @@ public class ComponentUtil {
         String componentType = component.getClass().getName();
         String componentName = null;
 
-        if (componentType.equals("oracle.ewt.button.PushButton") || componentType.equals("oracle.ewt.lwAWT.lwMenu.LWMenu")
-                || componentType.equals("oracle.forms.ui.ExtendedCheckbox")) {
+        if (componentType.equals(ComponentType.PUSH_BUTTON) || componentType.equals(ComponentType.MENU)
+                || componentType.equals(ComponentType.EXTENDED_CHECKBOX)) {
             componentName = ObjectUtil.getString(component, "getLabel()");
-        } else if (componentType.equals("oracle.forms.ui.VButton") || componentType.equals("oracle.forms.ui.VTextField")) {
+        } else if (componentType.equals(ComponentType.BUTTON) || componentType.equals(ComponentType.TEXT_FIELD)) {
             componentName = getAccessibleText(component);
         }
 
@@ -47,7 +47,7 @@ public class ComponentUtil {
         String componentType = component.getClass().getName();
         boolean editable = false;
 
-        if (componentType.equals("oracle.forms.ui.VTextField")) {
+        if (componentType.equals(ComponentType.TEXT_FIELD)) {
             editable = ObjectUtil.getBoolean(component, "isEditable()");
         }
         return editable;

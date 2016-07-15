@@ -2,6 +2,7 @@ package org.robotframework.formslibrary.operator;
 
 import org.junit.Assert;
 import org.robotframework.formslibrary.chooser.ByClassChooser;
+import org.robotframework.formslibrary.util.ComponentType;
 import org.robotframework.formslibrary.util.Constants;
 import org.robotframework.formslibrary.util.Logger;
 import org.robotframework.formslibrary.util.ObjectUtil;
@@ -13,7 +14,7 @@ import org.robotframework.formslibrary.util.TextUtil;
 public class TreeOperator extends BaseComponentOperator {
 
     public TreeOperator() {
-        super(new ByClassChooser(0, "oracle.ewt.dTree.DTree"));
+        super(new ByClassChooser(0, ComponentType.TREE));
     }
 
     /**
@@ -32,7 +33,7 @@ public class TreeOperator extends BaseComponentOperator {
 
         Object tree = ObjectUtil.invoke(dTreeRootItem, "getTree()");
         Object selection = ObjectUtil.invoke(tree, "getSelection()");
-        ObjectUtil.invokeMethodWithTypedArg(selection, "selectItem()", "oracle.ewt.dTree.DTreeItem", treeItem);
+        ObjectUtil.invokeMethodWithTypedArg(selection, "selectItem()", ComponentType.TREE_ITEM, treeItem);
 
     }
 

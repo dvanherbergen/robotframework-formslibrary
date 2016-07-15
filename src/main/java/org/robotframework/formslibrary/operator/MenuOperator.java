@@ -4,6 +4,7 @@ import java.awt.Component;
 
 import org.junit.Assert;
 import org.robotframework.formslibrary.chooser.ByNameChooser;
+import org.robotframework.formslibrary.util.ComponentType;
 import org.robotframework.formslibrary.util.Constants;
 import org.robotframework.formslibrary.util.Logger;
 import org.robotframework.formslibrary.util.ObjectUtil;
@@ -15,7 +16,7 @@ import org.robotframework.formslibrary.util.TextUtil;
 public class MenuOperator extends BaseComponentOperator {
 
     public MenuOperator(String rootMenuLabel) {
-        super(new ByNameChooser(rootMenuLabel, "oracle.ewt.lwAWT.lwMenu.LWMenu"));
+        super(new ByNameChooser(rootMenuLabel, ComponentType.MENU));
     }
 
     /**

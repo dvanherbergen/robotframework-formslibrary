@@ -19,7 +19,7 @@ public class ByNameChooser implements ComponentChooser {
     private String[] allowedClassNames;
     private String name;
     private int desiredIndex;
-    private int currentIndex;
+    private int currentIndex = 1;
 
     public ByNameChooser(String identifier, String... allowedClassNames) {
         this.allowedClassNames = allowedClassNames;
@@ -32,7 +32,7 @@ public class ByNameChooser implements ComponentChooser {
         if (m.matches()) {
             return Integer.valueOf(m.group(3));
         } else {
-            return 0;
+            return 1;
         }
     }
 

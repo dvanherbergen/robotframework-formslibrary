@@ -1,0 +1,12 @@
+<jnlp spec="1.0+" codebase="http://localhost:7777/forms/java/">  
+	<information>  
+	  <title>Sample App</title>  
+	  <vendor>Sample Vendor</vendor>  
+	</information>  
+	<resources>  
+	  <jar href="/sample/app-1.jar" />
+	  <jar href="/sample/app-2.jar" />
+	  <jar href="/sample/app-3.jar" />	  
+	</resources>  
+	<component-desc />
+</jnlp> 

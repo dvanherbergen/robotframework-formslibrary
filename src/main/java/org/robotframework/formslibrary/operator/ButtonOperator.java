@@ -2,13 +2,14 @@ package org.robotframework.formslibrary.operator;
 
 import org.junit.Assert;
 import org.robotframework.formslibrary.chooser.ByNameChooser;
+import org.robotframework.formslibrary.util.ComponentType;
 import org.robotframework.formslibrary.util.ObjectUtil;
 import org.robotframework.swing.button.AbstractButtonOperator;
 
 public class ButtonOperator extends BaseComponentOperator implements AbstractButtonOperator {
 
     public ButtonOperator(String identifier) {
-        super(new ByNameChooser(identifier, "oracle.ewt.button.PushButton", "oracle.forms.ui.VButton"));
+        super(new ByNameChooser(identifier, ComponentType.PUSH_BUTTON, ComponentType.BUTTON));
     }
 
     @Override
