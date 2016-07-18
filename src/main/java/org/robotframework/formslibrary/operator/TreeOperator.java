@@ -1,6 +1,6 @@
 package org.robotframework.formslibrary.operator;
 
-import org.junit.Assert;
+import org.robotframework.formslibrary.FormsLibraryException;
 import org.robotframework.formslibrary.chooser.ByClassChooser;
 import org.robotframework.formslibrary.util.ComponentType;
 import org.robotframework.formslibrary.util.Constants;
@@ -28,7 +28,7 @@ public class TreeOperator extends BaseComponentOperator {
         Object dTreeRootItem = ObjectUtil.invoke(getSource(), "getRoot()");
         Object treeItem = findTreeItem(dTreeRootItem, path);
         if (treeItem == null) {
-            Assert.fail("Could not find tree path " + path);
+            throw new FormsLibraryException("Could not find tree path " + path);
         }
 
         Object tree = ObjectUtil.invoke(dTreeRootItem, "getTree()");

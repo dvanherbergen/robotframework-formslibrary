@@ -1,6 +1,6 @@
 package org.robotframework.formslibrary.util;
 
-import org.junit.Assert;
+import org.robotframework.formslibrary.FormsLibraryException;
 import org.robotframework.formslibrary.operator.FrameOperator;
 import org.robotframework.swing.context.Context;
 
@@ -24,7 +24,7 @@ public class ContextUtil {
         String contextClass = Context.getContext().getSource().getClass().getName();
         if (!contextClass.equals(ComponentType.JFRAME) && !contextClass.equals(ComponentType.EXTENDED_FRAME)
                 && !contextClass.equals(ComponentType.WINDOW)) {
-            Assert.fail("Invalid context selected: " + contextClass);
+            throw new FormsLibraryException("Invalid context selected: " + contextClass);
         }
 
     }

@@ -2,7 +2,7 @@ package org.robotframework.formslibrary.keyword;
 
 import java.awt.Component;
 
-import org.junit.Assert;
+import org.robotframework.formslibrary.FormsLibraryException;
 import org.robotframework.formslibrary.operator.AlertOperator;
 import org.robotframework.formslibrary.operator.ContextOperator;
 import org.robotframework.formslibrary.util.ComponentType;
@@ -19,7 +19,7 @@ public class AlertKeywords {
     public void alertMessageIsShown(String message) {
         String alertMessage = getAlertMessage();
         if (!TextUtil.matches(alertMessage, message)) {
-            Assert.fail("Alert message '" + alertMessage + "' was not expected.");
+            throw new FormsLibraryException("Alert message '" + alertMessage + "' was not expected.");
         }
     }
 
@@ -34,7 +34,7 @@ public class AlertKeywords {
         if (alertPane != null) {
             AlertOperator operator = new AlertOperator(alertPane);
             String alertMessage = operator.getAlertMessage();
-            Assert.fail("Alert message '" + alertMessage + "' was not expected.");
+            throw new FormsLibraryException("Alert message '" + alertMessage + "' was not expected.");
         }
     }
 }

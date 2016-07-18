@@ -2,10 +2,10 @@ package org.robotframework.formslibrary.operator;
 
 import java.awt.Component;
 
-import org.junit.Assert;
 import org.netbeans.jemmy.ComponentChooser;
 import org.netbeans.jemmy.operators.ComponentOperator;
 import org.netbeans.jemmy.operators.ContainerOperator;
+import org.robotframework.formslibrary.FormsLibraryException;
 import org.robotframework.formslibrary.util.Configuration;
 import org.robotframework.formslibrary.util.ContextUtil;
 import org.robotframework.swing.context.Context;
@@ -26,7 +26,7 @@ public abstract class BaseComponentOperator extends ComponentOperator {
             try {
                 Thread.sleep(delay);
             } catch (InterruptedException e) {
-                Assert.fail(e.getMessage());
+                throw new FormsLibraryException(e);
             }
         }
 

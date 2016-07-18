@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import org.junit.Assert;
+import org.robotframework.formslibrary.FormsLibraryException;
 import org.robotframework.formslibrary.util.ComponentType;
 import org.robotframework.formslibrary.util.ComponentUtil;
 import org.robotframework.formslibrary.util.Logger;
@@ -27,7 +27,7 @@ public class TableOperator extends ContextOperator {
         // find all matching first columns
         List<Component> keyColumns = findTextFieldsByValue(columnValues[0]);
         if (keyColumns.isEmpty()) {
-            Assert.fail("No column found with value " + columnValues[0]);
+            throw new FormsLibraryException("No column found with value " + columnValues[0]);
         }
 
         for (int i = 1; i < columnValues.length; i++) {
@@ -43,7 +43,7 @@ public class TableOperator extends ContextOperator {
         }
 
         if (keyColumns.size() == 0) {
-            Assert.fail("No matching row found.");
+            throw new FormsLibraryException("No matching row found.");
         } else if (keyColumns.size() > 1) {
             Logger.info("Multiple rows found. Selecting first one.");
         }
@@ -136,7 +136,7 @@ public class TableOperator extends ContextOperator {
         List<Component> boxes = findRowCheckBoxes(findRow(columnValues));
 
         if (boxes.size() < index) {
-            Assert.fail("Only found " + boxes.size() + " checkboxes next to the row");
+            throw new FormsLibraryException("Only found " + boxes.size() + " checkboxes next to the row");
         }
 
         return new CheckboxOperator((Component) ObjectUtil.invoke(boxes.get(index - 1), "getLWCheckBox()"));

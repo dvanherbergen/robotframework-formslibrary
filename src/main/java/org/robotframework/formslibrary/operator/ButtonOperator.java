@@ -1,6 +1,6 @@
 package org.robotframework.formslibrary.operator;
 
-import org.junit.Assert;
+import org.robotframework.formslibrary.FormsLibraryException;
 import org.robotframework.formslibrary.chooser.ByNameChooser;
 import org.robotframework.formslibrary.util.ComponentType;
 import org.robotframework.formslibrary.util.ObjectUtil;
@@ -25,7 +25,7 @@ public class ButtonOperator extends BaseComponentOperator implements AbstractBut
     @Override
     public void push() {
         if (!getSource().isEnabled()) {
-            Assert.fail("Button is not enabled.");
+            throw new FormsLibraryException("Button is not enabled.");
         }
         ObjectUtil.invoke(getSource(), "simulatePush()");
         System.out.println("Button was pushed.");

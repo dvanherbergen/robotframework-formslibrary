@@ -1,6 +1,6 @@
 package org.robotframework.formslibrary.operator;
 
-import org.junit.Assert;
+import org.robotframework.formslibrary.FormsLibraryException;
 import org.robotframework.formslibrary.chooser.ByClassChooser;
 import org.robotframework.formslibrary.util.ComponentType;
 import org.robotframework.formslibrary.util.Logger;
@@ -26,6 +26,6 @@ public class TabOperator extends BaseComponentOperator {
             }
         }
 
-        Assert.fail("Tab " + name + " not found.");
+        throw new FormsLibraryException("Tab " + name + " not found.");
     }
 }

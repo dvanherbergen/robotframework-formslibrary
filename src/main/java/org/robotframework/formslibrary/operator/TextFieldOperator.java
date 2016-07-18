@@ -2,7 +2,7 @@ package org.robotframework.formslibrary.operator;
 
 import java.awt.event.FocusEvent;
 
-import org.junit.Assert;
+import org.robotframework.formslibrary.FormsLibraryException;
 import org.robotframework.formslibrary.chooser.ByNameChooser;
 import org.robotframework.formslibrary.chooser.ByPrecedingLWLabelChooser;
 import org.robotframework.formslibrary.chooser.CompositeChooser;
@@ -35,7 +35,7 @@ public class TextFieldOperator extends BaseComponentOperator {
 
     public void verifyValue(String value) {
         if (!value.equals(getValue())) {
-            Assert.fail("Field value '" + getValue() + "' does not match " + value);
+            throw new FormsLibraryException("Field value '" + getValue() + "' does not match " + value);
         }
     }
 

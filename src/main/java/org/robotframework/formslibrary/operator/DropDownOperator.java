@@ -3,7 +3,7 @@ package org.robotframework.formslibrary.operator;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyEvent;
 
-import org.junit.Assert;
+import org.robotframework.formslibrary.FormsLibraryException;
 import org.robotframework.formslibrary.chooser.ByNameChooser;
 import org.robotframework.formslibrary.util.ComponentType;
 import org.robotframework.formslibrary.util.ObjectUtil;
@@ -45,7 +45,7 @@ public class DropDownOperator extends BaseComponentOperator {
         }
 
         if (!value.equals(getValue())) {
-            Assert.fail("Could not find value '" + value + "' in the list.");
+            throw new FormsLibraryException("Could not find value '" + value + "' in the list.");
         }
 
         getSource().dispatchEvent(new FocusEvent(getSource(), FocusEvent.FOCUS_LOST));

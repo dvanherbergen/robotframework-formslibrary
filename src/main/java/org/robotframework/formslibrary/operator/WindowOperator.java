@@ -5,8 +5,8 @@ import java.awt.Container;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Assert;
 import org.netbeans.jemmy.operators.ContainerOperator;
+import org.robotframework.formslibrary.FormsLibraryException;
 import org.robotframework.formslibrary.chooser.ByClassChooser;
 import org.robotframework.formslibrary.util.ComponentType;
 import org.robotframework.formslibrary.util.ContextUtil;
@@ -66,8 +66,7 @@ public class WindowOperator extends ContainerOperator implements ComponentWrappe
             }
         }
 
-        Assert.fail("No window with title '" + windowTitle + "' found.");
-        System.out.println("CONTEXT: " + Context.getContext().getClass());
+        throw new FormsLibraryException("No window with title '" + windowTitle + "' found.");
     }
 
     public void closeOpenWindows() {

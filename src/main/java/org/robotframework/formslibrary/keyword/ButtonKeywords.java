@@ -1,6 +1,6 @@
 package org.robotframework.formslibrary.keyword;
 
-import org.junit.Assert;
+import org.robotframework.formslibrary.FormsLibraryException;
 import org.robotframework.formslibrary.context.ContextChangeMonitor;
 import org.robotframework.formslibrary.operator.ButtonOperator;
 import org.robotframework.formslibrary.util.Logger;
@@ -36,7 +36,7 @@ public class ButtonKeywords {
     @ArgumentNames({ "identifier" })
     public void verifyButtonIsDisabled(String identifier) {
         if (new ButtonOperator(identifier).isEnabled()) {
-            Assert.fail("Button is enabled.");
+            throw new FormsLibraryException("Button is enabled.");
         } else {
             Logger.info("Button is disabled.");
         }
@@ -46,7 +46,7 @@ public class ButtonKeywords {
     @ArgumentNames({ "identifier" })
     public void verifyButtonIsEnabled(String identifier) {
         if (!new ButtonOperator(identifier).isEnabled()) {
-            Assert.fail("Button is disabled.");
+            throw new FormsLibraryException("Button is disabled.");
         } else {
             Logger.info("Button is enabled.");
         }

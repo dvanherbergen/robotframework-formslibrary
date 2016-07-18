@@ -2,7 +2,7 @@ package org.robotframework.formslibrary.operator;
 
 import java.awt.Component;
 
-import org.junit.Assert;
+import org.robotframework.formslibrary.FormsLibraryException;
 import org.robotframework.formslibrary.chooser.ByNameChooser;
 import org.robotframework.formslibrary.util.ComponentType;
 import org.robotframework.formslibrary.util.ObjectUtil;
@@ -23,13 +23,13 @@ public class CheckboxOperator extends BaseComponentOperator {
 
     public void verifyNotChecked() {
         if (isChecked()) {
-            Assert.fail("Checkbox is checked.");
+            throw new FormsLibraryException("Checkbox is checked.");
         }
     }
 
     public void verifyChecked() {
         if (!isChecked()) {
-            Assert.fail("Checkbox is not checked.");
+            throw new FormsLibraryException("Checkbox is not checked.");
         }
     }
 

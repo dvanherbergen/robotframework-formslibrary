@@ -13,8 +13,7 @@ This library assumes that the oracle forms applications is started directly usin
 * support upside down dropdown (see failing test)
 * Attach to running process instead of launch new one
 * test screenshot
-* add sample jnlp file
-* add sample test cases
+* add sample test case
 
 ## Support
 

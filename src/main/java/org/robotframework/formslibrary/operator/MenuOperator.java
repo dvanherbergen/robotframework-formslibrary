@@ -2,7 +2,7 @@ package org.robotframework.formslibrary.operator;
 
 import java.awt.Component;
 
-import org.junit.Assert;
+import org.robotframework.formslibrary.FormsLibraryException;
 import org.robotframework.formslibrary.chooser.ByNameChooser;
 import org.robotframework.formslibrary.util.ComponentType;
 import org.robotframework.formslibrary.util.Constants;
@@ -35,7 +35,7 @@ public class MenuOperator extends BaseComponentOperator {
             menuItem = findMenuItem(getSource(), TextUtil.getNextSegments(path, Constants.LEVEL_SEPARATOR));
         }
         if (menuItem == null) {
-            Assert.fail("Could not find menuItem for path " + path);
+            throw new FormsLibraryException("Could not find menuItem for path " + path);
         } else {
             Logger.info("Clicking menu item for path " + path);
             ObjectUtil.invoke(menuItem, "activate()");

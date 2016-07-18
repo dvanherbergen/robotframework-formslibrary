@@ -2,7 +2,7 @@ package org.robotframework.formslibrary.util;
 
 import java.lang.reflect.Method;
 
-import junit.framework.Assert;
+import org.robotframework.formslibrary.FormsLibraryException;
 
 /**
  * Adding frmall.jar to the java agent path prevents the application from
@@ -26,17 +26,15 @@ public class ObjectUtil {
             Method m = object.getClass().getMethod(cleanPath(methodName));
             return (Boolean) m.invoke(object);
         } catch (Exception e) {
-            Logger.error(e);
-            Assert.fail("Could not invoke method " + methodName);
+            throw new FormsLibraryException("Could not invoke method " + methodName, e);
         }
-        return false;
     }
 
     public static Object getNonNullResult(Object object, String methodName, String message) {
 
         Object result = invoke(object, cleanPath(methodName));
         if (result == null) {
-            throw new RuntimeException(message + " - " + object.getClass().getName() + "." + methodName + " returned null. ");
+            throw new FormsLibraryException(message + " - " + object.getClass().getName() + "." + methodName + " returned null. ");
         }
         return result;
     }
@@ -84,10 +82,8 @@ public class ObjectUtil {
             Method m = object.getClass().getMethod(cleanPath(methodName));
             return m.invoke(object);
         } catch (Exception e) {
-            Logger.error(e);
-            Assert.fail("Could not invoke method " + methodName);
+            throw new FormsLibraryException("Could not invoke method " + methodName, e);
         }
-        return null;
 
     }
 
@@ -99,10 +95,8 @@ public class ObjectUtil {
             return m.invoke(object, value);
 
         } catch (Exception e) {
-            Logger.error(e);
-            Assert.fail("Could not invoke method " + methodName);
+            throw new FormsLibraryException("Could not invoke method " + methodName, e);
         }
-        return null;
     }
 
     public static void invokeMethodWithStringArg(Object object, String methodName, String value) {
@@ -113,8 +107,7 @@ public class ObjectUtil {
             m.invoke(object, value);
 
         } catch (Exception e) {
-            Logger.error(e);
-            Assert.fail("Could not invoke method " + methodName);
+            throw new FormsLibraryException("Could not invoke method " + methodName, e);
         }
 
     }
@@ -132,8 +125,7 @@ public class ObjectUtil {
                 }
             }
         } catch (Exception e) {
-            Logger.error(e);
-            Assert.fail("Could not invoke method " + methodName);
+            throw new FormsLibraryException("Could not invoke method " + methodName, e);
         }
         return null;
     }
@@ -146,10 +138,8 @@ public class ObjectUtil {
             return m.invoke(object, value);
 
         } catch (Exception e) {
-            Logger.error(e);
-            Assert.fail("Could not invoke method " + methodName);
+            throw new FormsLibraryException("Could not invoke method " + methodName, e);
         }
-        return null;
     }
 
 }
