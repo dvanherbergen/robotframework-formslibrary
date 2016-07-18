@@ -1,6 +1,7 @@
 package org.robotframework.formslibrary.operator;
 
 import java.awt.Component;
+import java.awt.event.KeyEvent;
 
 import org.netbeans.jemmy.ComponentChooser;
 import org.netbeans.jemmy.operators.ComponentOperator;
@@ -41,5 +42,19 @@ public abstract class BaseComponentOperator extends ComponentOperator {
         ContextUtil.verifyContext();
         return (ContainerOperator) Context.getContext();
 
+    }
+    
+    /**
+     * Simulate a key press/release event on the component.
+     * @param key KeyEvent.VK_... 
+     */
+    protected void simulateKeyPressed(int key) {
+    	getSource().dispatchEvent(new KeyEvent(getSource(), KeyEvent.KEY_PRESSED, 0, 1, key, KeyEvent.CHAR_UNDEFINED));
+        getSource().dispatchEvent(new KeyEvent(getSource(), KeyEvent.KEY_RELEASED, 0, 2, key, KeyEvent.CHAR_UNDEFINED));
+    }
+    
+    @Override
+    public boolean isEnabled() {
+        return getSource().isEnabled();
     }
 }

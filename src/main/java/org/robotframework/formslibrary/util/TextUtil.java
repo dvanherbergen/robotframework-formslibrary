@@ -1,5 +1,7 @@
 package org.robotframework.formslibrary.util;
 
+import java.util.Set;
+
 public class TextUtil {
 
     public static String getFirstSegment(String input, String divider) {
@@ -60,4 +62,14 @@ public class TextUtil {
         }
         return builder.toString();
     }
+
+	public static String print(Set<String> options) {
+		StringBuilder builder = new StringBuilder();
+		for (String s : options) {
+			builder.append(" '");
+			builder.append(s);
+			builder.append("'");
+		}
+		return builder.toString();
+	}
 }
