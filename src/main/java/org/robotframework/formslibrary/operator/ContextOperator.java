@@ -5,6 +5,8 @@ import java.awt.Container;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.netbeans.jemmy.ComponentChooser;
+import org.robotframework.formslibrary.chooser.ByClassChooser;
 import org.robotframework.formslibrary.util.ComponentUtil;
 import org.robotframework.swing.context.Context;
 
@@ -14,38 +16,40 @@ public class ContextOperator {
         return (Container) Context.getContext().getSource();
     }
 
-    public Component findComponent(String className) {
-        return null;
+    public Component findComponent(ComponentChooser chooser) {
+        List<Component> result = findChildComponentsByChooser(getSource(), chooser);
+        if (result.isEmpty()) {
+        	return null;
+        } else {
+        	return result.get(0);
+        }
+    }
+    
+    public List<Component> findAllComponents(ComponentChooser chooser) {
+        return findChildComponentsByChooser(getSource(), chooser);
     }
 
     public List<Component> findAllComponents(String... classNames) {
-        return findChildComponentsByClass(getSource(), classNames);
+        return findAllComponents(new ByClassChooser(0, classNames));
     }
 
+    public Component findComponent(String... classNames) {
+        return findComponent(new ByClassChooser(0, classNames));
+    }
+    
     /**
-     * Find all childComponents of a given type
+     * Find all childComponents that match a given chooser selection.
      */
-    private List<Component> findChildComponentsByClass(Component component, String... classNames) {
+    private List<Component> findChildComponentsByChooser(Component component, ComponentChooser chooser) {
 
         List<Component> result = new ArrayList<Component>();
 
-        boolean isMatch = false;
-        for (String className : classNames) {
-            if (component.getClass().getName().equals(className)) {
-                isMatch = true;
-                break;
-            }
-        }
-        if (classNames.length == 0) {
-            isMatch = true;
-        }
-
-        if (isMatch) {
+        if (chooser.checkComponent(component)) {
             result.add(component);
         } else if (component instanceof Container) {
             Component[] childComponents = ((Container) component).getComponents();
             for (Component child : childComponents) {
-                result.addAll(findChildComponentsByClass(child, classNames));
+                result.addAll(findChildComponentsByChooser(child, chooser));
             }
         }
 
@@ -53,7 +57,7 @@ public class ContextOperator {
     }
 
     public void listComponents(String... componentTypes) {
-        for (Component component : findAllComponents(componentTypes)) {
+        for (Component component : findAllComponents(new ByClassChooser(0, componentTypes))) {
             String location = String.format("%1$-8s", component.getX() + "," + component.getY());
             System.out.println(location + " : " + ComponentUtil.getComponentName(component));
         }
@@ -85,4 +89,5 @@ public class ContextOperator {
         }
 
     }
+
 }

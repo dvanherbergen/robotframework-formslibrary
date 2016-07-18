@@ -9,8 +9,6 @@ This library assumes that the oracle forms applications is started directly usin
 
 ## TODO
 * add listview (omlopen > periodieke omlopen > omlopen planning > toon opnemers
-* Merge text and dropdown keywords
-* support upside down dropdown (see failing test)
 * Attach to running process instead of launch new one
 * test screenshot
 * add sample test case
