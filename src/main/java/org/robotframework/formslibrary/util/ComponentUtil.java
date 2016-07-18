@@ -1,6 +1,7 @@
 package org.robotframework.formslibrary.util;
 
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.event.MouseEvent;
 
 import javax.accessibility.AccessibleContext;
@@ -60,5 +61,20 @@ public class ComponentUtil {
 
         component.dispatchEvent(new MouseEvent(component, MouseEvent.MOUSE_PRESSED, 0, MouseEvent.BUTTON1, 5, 5, 1, false));
         component.dispatchEvent(new MouseEvent(component, MouseEvent.MOUSE_RELEASED, 0, MouseEvent.BUTTON1, 5, 5, 1, false));
+    }
+    
+    
+    public static boolean containsComponent(Component parent, Component component) {
+        if (parent == component) {
+            return true;
+        } else if (parent instanceof Container) {
+            Component[] childComponents = ((Container) parent).getComponents();
+            for (Component child : childComponents) {
+                if (containsComponent(child, component)) {
+                	return true;
+                }
+            }
+        }
+        return false;
     }
 }

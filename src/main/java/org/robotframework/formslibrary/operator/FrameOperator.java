@@ -1,42 +1,46 @@
 package org.robotframework.formslibrary.operator;
 
+import java.awt.Component;
+
 import org.netbeans.jemmy.ComponentChooser;
 import org.netbeans.jemmy.operators.JFrameOperator;
 import org.netbeans.jemmy.util.RegExComparator;
+import org.robotframework.formslibrary.util.ComponentUtil;
 import org.robotframework.swing.chooser.ByNameOrTitleFrameChooser;
 import org.robotframework.swing.common.Identifier;
 import org.robotframework.swing.operator.ComponentWrapper;
 
 public class FrameOperator extends JFrameOperator implements ComponentWrapper {
 
-    public static FrameOperator newOperatorFor(int index) {
+	public static FrameOperator newOperatorFor(int index) {
+		return new FrameOperator(index);
+	}
 
-        return new FrameOperator(index);
-    }
+	private FrameOperator(int index) {
+		super(index);
+	}
 
-    private FrameOperator(int index) {
-        super(index);
-    }
+	public static FrameOperator newOperatorFor(String titleOrName) {
+		Identifier identifier = new Identifier(titleOrName);
+		if (identifier.isRegExp())
+			return new FrameOperator(createRegExpChooser(identifier.asString()));
+		return new FrameOperator(new ByNameOrTitleFrameChooser(titleOrName, "Frame"));
+	}
 
-    public static FrameOperator newOperatorFor(String titleOrName) {
+	private static ComponentChooser createRegExpChooser(String title) {
+		return new JFrameFinder(new FrameByTitleFinder(title, new RegExComparator()));
+	}
 
-        Identifier identifier = new Identifier(titleOrName);
-        if (identifier.isRegExp())
-            return new FrameOperator(createRegExpChooser(identifier.asString()));
-        return new FrameOperator(new ByNameOrTitleFrameChooser(titleOrName, "Frame"));
-    }
+	private FrameOperator(ComponentChooser chooser) {
+		super(chooser);
+	}
 
-    private static ComponentChooser createRegExpChooser(String title) {
+	private FrameOperator(String title) {
+		super(title);
+	}
 
-        return new JFrameFinder(new FrameByTitleFinder(title, new RegExComparator()));
-    }
-
-    private FrameOperator(ComponentChooser chooser) {
-        super(chooser);
-    }
-
-    private FrameOperator(String title) {
-        super(title);
-    }
+	public boolean containsComponent(Component component) {
+		return ComponentUtil.containsComponent(getSource(), component);
+	}
 
 }

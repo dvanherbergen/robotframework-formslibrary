@@ -7,6 +7,11 @@ The goal of this library is to extend the robotframework remoteswinglibrary with
 This library assumes that the oracle forms applications is started directly using java web start and not as a browser plugin.
 
 
+## TO TEST
+* updated select (up+down)
+* test auto reset of context after closing window
+* test new failure logging with exceptions
+
 ## TODO
 * add listview (omlopen > periodieke omlopen > omlopen planning > toon opnemers
 * Attach to running process instead of launch new one
