@@ -19,13 +19,22 @@ public class ContextChangeMonitor {
 
     public void stop() {
         List<String> newOpenWindows = new WindowOperator().getWindowTitles();
+
+        // check if a window was closed
+        if (newOpenWindows.size() < initialOpenWindows.size()) {
+            FormsContext.resetContext();
+            return;
+        }
+
+        // check for new windows
         for (String name : newOpenWindows) {
             if (!initialOpenWindows.contains(name)) {
                 // there is a new window open
                 Logger.info("Found new window '" + name + "', autosetting context to new window.");
                 new WindowOperator().setWindowAsContext(name);
-                break;
+                return;
             }
         }
+
     }
 }

@@ -1,9 +1,9 @@
 package org.robotframework.formslibrary.keyword;
 
 import org.robotframework.formslibrary.context.ContextChangeMonitor;
+import org.robotframework.formslibrary.context.FormsContext;
 import org.robotframework.formslibrary.operator.MenuOperator;
 import org.robotframework.formslibrary.util.Constants;
-import org.robotframework.formslibrary.util.ContextUtil;
 import org.robotframework.formslibrary.util.TextUtil;
 import org.robotframework.javalib.annotation.ArgumentNames;
 import org.robotframework.javalib.annotation.RobotKeyword;
@@ -17,7 +17,7 @@ public class MenuKeywords {
     public void selectMenu(String menuPath) {
 
         // restore root context
-        ContextUtil.initRootContext();
+        FormsContext.resetContext();
 
         // Extract the first menu label from the menu path
         String rootMenuLabel = TextUtil.getFirstSegment(menuPath, Constants.LEVEL_SEPARATOR);

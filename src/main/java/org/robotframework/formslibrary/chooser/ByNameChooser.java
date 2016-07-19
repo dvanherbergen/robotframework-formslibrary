@@ -7,7 +7,6 @@ import java.util.regex.Pattern;
 import org.netbeans.jemmy.ComponentChooser;
 import org.robotframework.formslibrary.util.ComponentUtil;
 import org.robotframework.formslibrary.util.Logger;
-import org.robotframework.formslibrary.util.TextUtil;
 
 /**
  * Chooser to select forms components based on their name.
@@ -50,9 +49,9 @@ public class ByNameChooser implements ComponentChooser {
 
         for (String className : allowedClassNames) {
             if (component.getClass().getName().equals(className)) {
-                String componentName = ComponentUtil.getComponentName(component);
-                if (TextUtil.matches(componentName, name)) {
-                    Logger.info("Found matching " + className + " with name " + componentName + " and index " + currentIndex);
+                if (ComponentUtil.hasName(component, name)) {
+                    Logger.info("Found " + component.getClass().getSimpleName() + " '" + ComponentUtil.getFormattedComponentNames(component) + "' ["
+                            + currentIndex + "].");
                     if (currentIndex == desiredIndex) {
                         return true;
                     } else {

@@ -3,10 +3,10 @@ package org.robotframework.formslibrary.operator;
 import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import org.robotframework.formslibrary.FormsLibraryException;
+import org.robotframework.formslibrary.util.ComponentComparator;
 import org.robotframework.formslibrary.util.ComponentType;
 import org.robotframework.formslibrary.util.ComponentUtil;
 import org.robotframework.formslibrary.util.Logger;
@@ -82,22 +82,7 @@ public class TableOperator extends ContextOperator {
             }
         }
 
-        Collections.sort(rowCheckboxes, new Comparator<Component>() {
-
-            @Override
-            public int compare(Component c1, Component c2) {
-
-                if (c1.getX() < c2.getX()) {
-                    return -1;
-                } else if (c1.getX() == c2.getX()) {
-                    return 0;
-                } else {
-                    return 1;
-                }
-
-            }
-        });
-
+        Collections.sort(rowCheckboxes, new ComponentComparator());
         return rowCheckboxes;
     }
 

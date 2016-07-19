@@ -8,12 +8,11 @@ import java.util.List;
 import org.netbeans.jemmy.operators.ContainerOperator;
 import org.robotframework.formslibrary.FormsLibraryException;
 import org.robotframework.formslibrary.chooser.ByClassChooser;
+import org.robotframework.formslibrary.context.FormsContext;
 import org.robotframework.formslibrary.util.ComponentType;
-import org.robotframework.formslibrary.util.ContextUtil;
 import org.robotframework.formslibrary.util.Logger;
 import org.robotframework.formslibrary.util.ObjectUtil;
 import org.robotframework.formslibrary.util.TextUtil;
-import org.robotframework.swing.context.Context;
 import org.robotframework.swing.operator.ComponentWrapper;
 
 /**
@@ -57,7 +56,7 @@ public class WindowOperator extends ContainerOperator implements ComponentWrappe
                     String title = ObjectUtil.getString(child, "getLWWindow().getTitle()");
                     if (TextUtil.matches(title, windowTitle)) {
 
-                        Context.setContext(new ExtendedFrameOperator((Container) frame));
+                        FormsContext.setContext(new ExtendedFrameOperator((Container) frame));
                         frame.requestFocus();
                         Logger.info("Context set to window '" + title + "'");
                         return;
@@ -72,7 +71,7 @@ public class WindowOperator extends ContainerOperator implements ComponentWrappe
     public void closeOpenWindows() {
 
         // reset context before closing windows
-        ContextUtil.initRootContext();
+        FormsContext.resetContext();
 
         List<Component> framesToClose = new ArrayList<Component>();
 

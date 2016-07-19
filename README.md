@@ -15,7 +15,7 @@ This library assumes that the oracle forms applications is started directly usin
 ## TODO
 * add listview (omlopen > periodieke omlopen > omlopen planning > toon opnemers
 * Attach to running process instead of launch new one
-* test screenshot
+* test screenshot (using wxpython, it takes screenshot of active desktop)
 * add sample test case
 
 ## Support

@@ -10,10 +10,10 @@ import org.robotframework.formslibrary.util.TextUtil;
 public class TextFieldOperator extends BaseComponentOperator {
 
     public TextFieldOperator(Component component) {
-		super(component);
-	}
+        super(component);
+    }
 
-	public void setValue(String value) {
+    public void setValue(String value) {
         // apply focus to the field, otherwise values are ignored in the
         // searches.
         getSource().dispatchEvent(new FocusEvent(getSource(), FocusEvent.FOCUS_GAINED));

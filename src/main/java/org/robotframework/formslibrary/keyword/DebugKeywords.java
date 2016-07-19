@@ -2,6 +2,7 @@ package org.robotframework.formslibrary.keyword;
 
 import org.robotframework.formslibrary.operator.ContextOperator;
 import org.robotframework.formslibrary.util.ComponentType;
+import org.robotframework.formslibrary.util.ComponentUtil;
 import org.robotframework.formslibrary.util.Configuration;
 import org.robotframework.javalib.annotation.ArgumentNames;
 import org.robotframework.javalib.annotation.RobotKeyword;
@@ -25,7 +26,7 @@ public class DebugKeywords {
 
     @RobotKeyword("Prints the name of all text and dropdown fields found in the selected context.\n\n Example:\n | List Fields|\n")
     public void listFields() {
-        new ContextOperator().listComponents(ComponentType.TEXT_AREA, ComponentType.TEXT_FIELD, ComponentType.DROP_DOWN);
+        new ContextOperator().listTextFields();
     }
 
     @RobotKeyword("Set a keyword execution delay for all formslibrary keywords.\n\n" + "| Set Delay | _delay in ms_ |\n")
@@ -39,4 +40,8 @@ public class DebugKeywords {
         Configuration.setDebugEnabled(true);
     }
 
+    @RobotKeyword("Get the current context.\n\n" + "| Get Current Context|\n")
+    public String getContext() {
+        return ComponentUtil.getFormattedComponentNames(new ContextOperator().getSource());
+    }
 }

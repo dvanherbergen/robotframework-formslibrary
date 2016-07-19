@@ -21,13 +21,13 @@ public class TextFieldKeywords {
             + "| Set Field | _username_ | _jeff_ | \n")
     @ArgumentNames({ "identifier", "value" })
     public void setField(String identifier, String value) {
-    	getOperator(identifier).setValue(value);
+        getOperator(identifier).setValue(value);
     }
 
     @RobotKeyword("Verify field content.\n\n" + "Example:\n" + "| Field Should Contain | _username_ | _jeff_ | \n")
     @ArgumentNames({ "identifier", "value" })
     public void fieldShouldContain(String identifier, String value) {
-    	getOperator(identifier).verifyValue(value);
+        getOperator(identifier).verifyValue(value);
     }
 
     @RobotKeyword("Get field content.\n\n" + "Example:\n" + "| \r\n" + "| ${textFieldValue}= | Get Field | _username_ | \n")
@@ -35,29 +35,28 @@ public class TextFieldKeywords {
     public String getField(String identifier) {
         return getOperator(identifier).getValue();
     }
-    
-    
+
     private TextFieldOperator getOperator(String identifier) {
-    	
-    	Component component = null;
-    	ContextOperator operator = new ContextOperator();
-    	
-    	
-    	component = operator.findComponent(new ByNameChooser(identifier, ComponentType.TEXT_FIELD, ComponentType.TEXT_AREA));
-    	if (component != null) {
-    		return new TextFieldOperator(component);
-    	}
-    	
-    	component = operator.findComponent(new ByNameChooser(identifier, ComponentType.DROP_DOWN));
-    	if (component != null) {
-    		return new SelectOperator(component);
-    	}
-    	
-    	component = operator.findComponent(new ByPrecedingLWLabelChooser(identifier));
-    	if (component != null) {
-    		return new TextFieldOperator(component);
-    	}
-        
-    	throw new FormsLibraryException("No component " + identifier + " found in current context " + ComponentUtil.getComponentName(operator.getSource()));
+
+        ContextOperator operator = new ContextOperator();
+        Component component = operator
+                .findTextField(new ByNameChooser(identifier, ComponentType.TEXT_FIELD, ComponentType.TEXT_AREA, ComponentType.SELECT_FIELD));
+
+        if (component != null) {
+            if (component.getClass().getName().equals(ComponentType.SELECT_FIELD)) {
+                return new SelectOperator(component);
+            } else {
+                return new TextFieldOperator(component);
+            }
+        }
+
+        component = operator.findComponent(new ByPrecedingLWLabelChooser(identifier));
+        if (component != null) {
+            return new TextFieldOperator(component);
+        }
+
+        throw new FormsLibraryException(
+                "No component " + identifier + " found in current context '" + ComponentUtil.getFormattedComponentNames(operator.getSource()) + "'");
     }
+
 }

@@ -17,7 +17,7 @@ public class AlertOperator extends BaseComponentOperator {
     }
 
     public String getAlertMessage() {
-        return ComponentUtil.getComponentName(getSource());
+        return ComponentUtil.getAccessibleText(getSource());
     }
 
 }

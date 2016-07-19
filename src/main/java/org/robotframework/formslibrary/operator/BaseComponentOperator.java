@@ -7,9 +7,8 @@ import org.netbeans.jemmy.ComponentChooser;
 import org.netbeans.jemmy.operators.ComponentOperator;
 import org.netbeans.jemmy.operators.ContainerOperator;
 import org.robotframework.formslibrary.FormsLibraryException;
+import org.robotframework.formslibrary.context.FormsContext;
 import org.robotframework.formslibrary.util.Configuration;
-import org.robotframework.formslibrary.util.ContextUtil;
-import org.robotframework.swing.context.Context;
 
 public abstract class BaseComponentOperator extends ComponentOperator {
 
@@ -38,21 +37,20 @@ public abstract class BaseComponentOperator extends ComponentOperator {
      * first window.
      */
     private static ContainerOperator getContext() {
-
-        ContextUtil.verifyContext();
-        return (ContainerOperator) Context.getContext();
-
+        return (ContainerOperator) FormsContext.getContext();
     }
-    
+
     /**
      * Simulate a key press/release event on the component.
-     * @param key KeyEvent.VK_... 
+     * 
+     * @param key
+     *            KeyEvent.VK_...
      */
     protected void simulateKeyPressed(int key) {
-    	getSource().dispatchEvent(new KeyEvent(getSource(), KeyEvent.KEY_PRESSED, 0, 1, key, KeyEvent.CHAR_UNDEFINED));
+        getSource().dispatchEvent(new KeyEvent(getSource(), KeyEvent.KEY_PRESSED, 0, 1, key, KeyEvent.CHAR_UNDEFINED));
         getSource().dispatchEvent(new KeyEvent(getSource(), KeyEvent.KEY_RELEASED, 0, 2, key, KeyEvent.CHAR_UNDEFINED));
     }
-    
+
     @Override
     public boolean isEnabled() {
         return getSource().isEnabled();

@@ -5,13 +5,19 @@ import java.awt.Component;
 import org.netbeans.jemmy.ComponentChooser;
 
 /**
- * Chooser to select forms components based on their name.
+ * Chooser to select forms components based on their name. Hidden components are
+ * ignored.
  */
 public class ByClassChooser implements ComponentChooser {
 
     private String[] allowedClassNames;
     private int index;
 
+    /**
+     * @param index
+     *            of the class to select or -1 to select all classes
+     * @param allowedClassNames
+     */
     public ByClassChooser(int index, String... allowedClassNames) {
         this.index = index;
         this.allowedClassNames = allowedClassNames;
@@ -21,8 +27,8 @@ public class ByClassChooser implements ComponentChooser {
     public boolean checkComponent(Component component) {
 
         for (String className : allowedClassNames) {
-            if (component.getClass().getName().equals(className)) {
-                if (index == 0) {
+            if (component.getClass().getName().equals(className) && component.isShowing()) {
+                if (index <= 0) {
                     return true;
                 } else {
                     index--;

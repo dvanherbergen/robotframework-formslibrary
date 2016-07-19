@@ -13,11 +13,12 @@ import org.robotframework.javalib.annotation.RobotKeywords;
 public class ButtonKeywords {
 
     @RobotKeyword("Uses current context to search for a button by its label and when found, pushes it.\n\n "
-            + " If the button opens a new window and detectNewWindow=true, the context will be set to the new window automatically. detectNewWindow defaults to true. Example:\n | Click Button | _OK_ |\n")
-    @ArgumentNames({ "identifier", "detectNewWindow=" })
-    public void clickButton(String identifier, boolean detectNewWindow) {
+            + " If the button opens a new window and detectWindowChange=true, the context will be set to the new window automatically. "
+            + "Similarly if the button closes a window, the context will be reset to the root context. DetectWindowChange defaults to true. Example:\n | Click Button | _OK_ |\n")
+    @ArgumentNames({ "identifier", "detectWindowChange=" })
+    public void clickButton(String identifier, boolean detectWindowChange) {
 
-        if (detectNewWindow) {
+        if (detectWindowChange) {
             ContextChangeMonitor monitor = new ContextChangeMonitor();
             monitor.start();
             new ButtonOperator(identifier).push();

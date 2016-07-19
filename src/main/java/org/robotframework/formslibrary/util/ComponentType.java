@@ -16,7 +16,7 @@ public class ComponentType {
     public static final String TITLE_BAR = "oracle.ewt.lwAWT.lwWindow.laf.TitleBar";
     public static final String FORM_DESKTOP = "oracle.forms.ui.FormDesktopContainer";
     public static final String TAB_BAR = "oracle.ewt.tabBar.TabBar";
-    public static final String DROP_DOWN = "oracle.forms.ui.VPopList";
+    public static final String SELECT_FIELD = "oracle.forms.ui.VPopList";
     public static final String TREE = "oracle.ewt.dTree.DTree";
     public static final String TREE_ITEM = "oracle.ewt.dTree.DTreeItem";
     public static final String TEXT_AREA = "oracle.forms.ui.FLWTextArea";

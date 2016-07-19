@@ -35,9 +35,9 @@ public class MenuOperator extends BaseComponentOperator {
             menuItem = findMenuItem(getSource(), TextUtil.getNextSegments(path, Constants.LEVEL_SEPARATOR));
         }
         if (menuItem == null) {
-            throw new FormsLibraryException("Could not find menuItem for path " + path);
+            throw new FormsLibraryException("Could not find menu path '" + path + "'");
         } else {
-            Logger.info("Clicking menu item for path " + path);
+            Logger.info("Selecting menu '" + path + "'");
             ObjectUtil.invoke(menuItem, "activate()");
         }
     }
