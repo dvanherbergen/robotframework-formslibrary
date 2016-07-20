@@ -7,7 +7,7 @@ import org.robotframework.formslibrary.chooser.ByNameChooser;
 import org.robotframework.formslibrary.util.ComponentType;
 import org.robotframework.formslibrary.util.ObjectUtil;
 
-public class CheckboxOperator extends BaseComponentOperator {
+public class CheckboxOperator extends AbstractComponentOperator {
 
     public CheckboxOperator(Component checkBox) {
         super(checkBox);

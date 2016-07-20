@@ -14,6 +14,13 @@ public class TableKeywords {
         new TableOperator().selectRow(columnValues);
     }
 
+    @RobotKeyword("Set a field value in a table row." + " The row is identified by values\n\n" + "Example:\n"
+            + "| Set Row Field | _field name_ || _field value_ | _first col value_ | _second col value_ | \n")
+    @ArgumentNames({ "identifier", "value", "*columnvalues" })
+    public void setRowField(String identifier, String value, String... columnValues) {
+        new TableOperator().setRowField(identifier, value, columnValues);
+    }
+
     @RobotKeyword("Select a checkbox in a table row. The first checkbox in a row is identified using index 1, the second one as 2, etc."
             + " The row is identified by values\n\n" + "Example:\n"
             + "| Select Row Checkbox | _checkbox index_ | _first col value_ | _second col value_ | \n")

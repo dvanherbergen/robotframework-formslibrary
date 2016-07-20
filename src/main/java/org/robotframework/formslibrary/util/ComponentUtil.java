@@ -2,6 +2,7 @@ package org.robotframework.formslibrary.util;
 
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -132,6 +133,17 @@ public class ComponentUtil {
         component.dispatchEvent(new MouseEvent(component, MouseEvent.MOUSE_RELEASED, 0, MouseEvent.BUTTON1, 5, 5, 1, false));
     }
 
+    /**
+     * Simulate a key press/release event on the component.
+     * 
+     * @param key
+     *            KeyEvent.VK_...
+     */
+    public static void simulateKeyPressed(Component component, int key) {
+        component.dispatchEvent(new KeyEvent(component, KeyEvent.KEY_PRESSED, 0, 1, key, KeyEvent.CHAR_UNDEFINED));
+        component.dispatchEvent(new KeyEvent(component, KeyEvent.KEY_RELEASED, 0, 2, key, KeyEvent.CHAR_UNDEFINED));
+    }
+
     public static boolean containsComponent(Component parent, Component component) {
         if (parent == component) {
             return true;
@@ -142,6 +154,35 @@ public class ComponentUtil {
                     return true;
                 }
             }
+        }
+        return false;
+    }
+
+    /**
+     * Check if comp2 is located to the right of comp1.
+     */
+    public static boolean areAdjacent(Component comp1, Component comp2) {
+
+        if (areaAlignedVertically(comp1, comp2)) {
+            int deltaX = comp2.getX() - (comp1.getX() + comp1.getWidth());
+            if (-3 < deltaX && deltaX < 15) {
+                Logger.info("Found adjacent field " + comp1.getX() + "-" + (comp1.getX() + comp1.getWidth()) + "," + comp1.getY() + " / "
+                        + comp2.getY() + "," + comp2.getY() + ".");
+                return true;
+            }
+        }
+        Logger.debug("No match " + comp1.getX() + "-" + (comp1.getX() + comp1.getWidth()) + "," + comp1.getY() + " / " + comp2.getY() + ","
+                + comp2.getY() + ".");
+        return false;
+    }
+
+    /**
+     * Check if comp1 is on the same vertical level as comp2.
+     */
+    public static boolean areaAlignedVertically(Component comp1, Component comp2) {
+        int deltaY = comp1.getY() - comp2.getY();
+        if (-3 < deltaY && deltaY < 3) {
+            return true;
         }
         return false;
     }

@@ -6,15 +6,10 @@ import org.robotframework.formslibrary.util.ComponentType;
 import org.robotframework.formslibrary.util.ObjectUtil;
 import org.robotframework.swing.button.AbstractButtonOperator;
 
-public class ButtonOperator extends BaseComponentOperator implements AbstractButtonOperator {
+public class ButtonOperator extends AbstractComponentOperator implements AbstractButtonOperator {
 
     public ButtonOperator(String identifier) {
-        super(new ByNameChooser(identifier, ComponentType.PUSH_BUTTON, ComponentType.BUTTON));
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return getSource().isEnabled();
+        super(new ByNameChooser(identifier, ComponentType.ALL_BUTTON_TYPES));
     }
 
     @Override

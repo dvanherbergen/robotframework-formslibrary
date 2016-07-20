@@ -45,7 +45,7 @@ public class TextUtil {
         expected = expected.toLowerCase().trim();
 
         if (expected.endsWith("*")) {
-            return actual.startsWith(expected.substring(0, expected.length() - 2));
+            return actual.startsWith(expected.substring(0, expected.length() - 1));
         }
 
         return actual.equals(expected);
@@ -63,13 +63,13 @@ public class TextUtil {
         return builder.toString();
     }
 
-	public static String print(Set<String> options) {
-		StringBuilder builder = new StringBuilder();
-		for (String s : options) {
-			builder.append(" '");
-			builder.append(s);
-			builder.append("'");
-		}
-		return builder.toString();
-	}
+    public static String print(Set<String> options) {
+        StringBuilder builder = new StringBuilder();
+        for (String s : options) {
+            builder.append(" '");
+            builder.append(s);
+            builder.append("'");
+        }
+        return builder.toString();
+    }
 }

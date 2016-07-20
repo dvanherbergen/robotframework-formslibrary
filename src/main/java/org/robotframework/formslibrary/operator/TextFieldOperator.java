@@ -3,14 +3,19 @@ package org.robotframework.formslibrary.operator;
 import java.awt.Component;
 import java.awt.event.FocusEvent;
 
+import org.netbeans.jemmy.ComponentChooser;
 import org.robotframework.formslibrary.FormsLibraryException;
 import org.robotframework.formslibrary.util.ObjectUtil;
 import org.robotframework.formslibrary.util.TextUtil;
 
-public class TextFieldOperator extends BaseComponentOperator {
+public class TextFieldOperator extends AbstractComponentOperator {
 
     public TextFieldOperator(Component component) {
         super(component);
+    }
+
+    public TextFieldOperator(ComponentChooser chooser) {
+        super(chooser);
     }
 
     public void setValue(String value) {

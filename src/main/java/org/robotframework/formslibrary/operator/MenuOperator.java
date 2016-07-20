@@ -13,7 +13,7 @@ import org.robotframework.formslibrary.util.TextUtil;
 /**
  * Operator finds top level LWMenu item.
  */
-public class MenuOperator extends BaseComponentOperator {
+public class MenuOperator extends AbstractRootComponentOperator {
 
     public MenuOperator(String rootMenuLabel) {
         super(new ByNameChooser(rootMenuLabel, ComponentType.MENU));

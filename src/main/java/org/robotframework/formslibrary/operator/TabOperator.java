@@ -6,7 +6,7 @@ import org.robotframework.formslibrary.util.ComponentType;
 import org.robotframework.formslibrary.util.Logger;
 import org.robotframework.formslibrary.util.ObjectUtil;
 
-public class TabOperator extends BaseComponentOperator {
+public class TabOperator extends AbstractComponentOperator {
 
     public TabOperator() {
         super(new ByClassChooser(0, ComponentType.TAB_BAR));

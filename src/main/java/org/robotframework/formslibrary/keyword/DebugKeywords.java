@@ -3,7 +3,7 @@ package org.robotframework.formslibrary.keyword;
 import org.robotframework.formslibrary.operator.ContextOperator;
 import org.robotframework.formslibrary.util.ComponentType;
 import org.robotframework.formslibrary.util.ComponentUtil;
-import org.robotframework.formslibrary.util.Configuration;
+import org.robotframework.formslibrary.util.DebugUtil;
 import org.robotframework.javalib.annotation.ArgumentNames;
 import org.robotframework.javalib.annotation.RobotKeyword;
 import org.robotframework.javalib.annotation.RobotKeywords;
@@ -32,12 +32,12 @@ public class DebugKeywords {
     @RobotKeyword("Set a keyword execution delay for all formslibrary keywords.\n\n" + "| Set Delay | _delay in ms_ |\n")
     @ArgumentNames({ "delay" })
     public void setDelay(int delay) {
-        Configuration.setKeywordDelay(delay);
+        DebugUtil.setKeywordDelay(delay);
     }
 
     @RobotKeyword("Enable forms library debug output.\n\n" + "| Enable Debug|\n")
     public void enableDebug() {
-        Configuration.setDebugEnabled(true);
+        DebugUtil.setDebugEnabled(true);
     }
 
     @RobotKeyword("Get the current context.\n\n" + "| Get Current Context|\n")

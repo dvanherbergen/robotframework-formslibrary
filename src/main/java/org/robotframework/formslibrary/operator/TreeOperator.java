@@ -11,7 +11,7 @@ import org.robotframework.formslibrary.util.TextUtil;
 /**
  * Operator for handling DTree navigation
  */
-public class TreeOperator extends BaseComponentOperator {
+public class TreeOperator extends AbstractComponentOperator {
 
     public TreeOperator() {
         super(new ByClassChooser(0, ComponentType.TREE));

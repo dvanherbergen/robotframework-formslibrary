@@ -14,60 +14,30 @@ import org.robotframework.formslibrary.util.ComponentUtil;
 
 public class ContextOperator {
 
-    private boolean useRootContext;
-
-    /**
-     * Create operator for the currently selected context or the root context.
-     */
-    public ContextOperator(boolean useRootContext) {
-        this.useRootContext = useRootContext;
-    }
-
-    /**
-     * Create operator for the currently selected context.
-     */
-    public ContextOperator() {
-        this(false);
-    }
-
     public Container getSource() {
-        if (useRootContext) {
-            return (Container) FormsContext.getRootContext().getSource();
-        } else {
-            return (Container) FormsContext.getContext().getSource();
-        }
+        return (Container) FormsContext.getContext().getSource();
     }
 
-    public Component findComponent(ComponentChooser chooser) {
-        List<Component> result = findChildComponentsByChooser(getSource(), chooser);
-        if (result.isEmpty()) {
-            return null;
-        } else {
-            return result.get(0);
-        }
-    }
-
-    public List<Component> findAllComponents(ComponentChooser chooser) {
+    /**
+     * Finds all visible components matching the chooser in the current context.
+     */
+    public List<Component> findComponents(ComponentChooser chooser) {
         return findChildComponentsByChooser(getSource(), chooser);
     }
 
-    public List<Component> findAllComponents(String... classNames) {
-        return findAllComponents(new ByClassChooser(0, classNames));
-    }
-
-    public Component findComponent(String... classNames) {
-        return findComponent(new ByClassChooser(0, classNames));
-    }
-
     /**
-     * Find all childComponents that match a given chooser selection.
+     * Find all childComponents that match a given chooser selection. Components
+     * which are not visible are ignored.
      */
     private List<Component> findChildComponentsByChooser(Component component, ComponentChooser chooser) {
 
         List<Component> result = new ArrayList<Component>();
 
         if (chooser.checkComponent(component)) {
-            result.add(component);
+            if (component.isShowing()) {
+                // don't include components that are not visible in the UI
+                result.add(component);
+            }
         } else if (component instanceof Container) {
             Component[] childComponents = ((Container) component).getComponents();
             for (Component child : childComponents) {
@@ -79,24 +49,7 @@ public class ContextOperator {
     }
 
     public void listComponents(String... componentTypes) {
-        for (Component component : findAllComponents(new ByClassChooser(0, componentTypes))) {
-
-            String editable = "";
-            if (ComponentUtil.isEditable(component)) {
-                editable = " [editable] ";
-            }
-            String hidden = "";
-            if (!component.isShowing()) {
-                hidden = " [hidden] ";
-            }
-
-            String location = String.format("%1$-8s", component.getX() + "," + component.getY());
-            System.out.println(location + " : " + ComponentUtil.getFormattedComponentNames(component) + editable + hidden);
-        }
-    }
-
-    public void listTextFields() {
-        for (Component component : findTextFields()) {
+        for (Component component : findComponents(new ByClassChooser(-1, componentTypes))) {
 
             String editable = "";
             if (ComponentUtil.isEditable(component)) {
@@ -108,6 +61,25 @@ public class ContextOperator {
         }
     }
 
+    public void listTextFields(String... componentTypes) {
+        for (Component component : findComponents(new ByClassChooser(-1, ComponentType.ALL_TEXTFIELD_TYPES))) {
+
+            String editable = "";
+            if (ComponentUtil.isEditable(component)) {
+                editable = " [editable] ";
+            }
+
+            TextFieldOperator operator = TextFieldOperatorFactory.getOperator(component);
+            String value = " : " + operator.getValue();
+
+            String location = String.format("%1$-8s", component.getX() + "," + component.getY());
+            System.out.println(location + " : " + ComponentUtil.getFormattedComponentNames(component) + value + editable);
+        }
+    }
+
+    /**
+     * Print a full hierarchy of all components in the current context.
+     */
     public void listComponentHierarchy() {
         printHierarchyLevel(getSource(), 0);
     }
@@ -133,26 +105,8 @@ public class ContextOperator {
 
     }
 
-    private List<Component> findTextFields() {
-        List<Component> allFields = findAllComponents(
-                new ByClassChooser(-1, ComponentType.TEXT_FIELD, ComponentType.TEXT_AREA, ComponentType.SELECT_FIELD));
-        allFields = purgeHiddenFields(allFields);
-        allFields = purgeTableFields(allFields);
-
-        return allFields;
-    }
-
-    /**
-     * Remove all components from the list which are not showing.
-     */
-    private List<Component> purgeHiddenFields(List<Component> components) {
-        List<Component> result = new ArrayList<Component>();
-        for (Component component : components) {
-            if (component.isShowing()) {
-                result.add(component);
-            }
-        }
-        return result;
+    private List<Component> findNonTableTextFields() {
+        return purgeTableFields(findComponents(new ByClassChooser(-1, ComponentType.ALL_TEXTFIELD_TYPES)));
     }
 
     /**
@@ -190,7 +144,7 @@ public class ContextOperator {
 
     public Component findTextField(ByNameChooser chooser) {
 
-        for (Component component : findTextFields()) {
+        for (Component component : findNonTableTextFields()) {
             if (chooser.checkComponent(component)) {
                 return component;
             }

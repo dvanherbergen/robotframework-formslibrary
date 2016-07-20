@@ -5,7 +5,6 @@ import java.awt.Container;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.netbeans.jemmy.operators.ContainerOperator;
 import org.robotframework.formslibrary.FormsLibraryException;
 import org.robotframework.formslibrary.chooser.ByClassChooser;
 import org.robotframework.formslibrary.context.FormsContext;
@@ -13,15 +12,14 @@ import org.robotframework.formslibrary.util.ComponentType;
 import org.robotframework.formslibrary.util.Logger;
 import org.robotframework.formslibrary.util.ObjectUtil;
 import org.robotframework.formslibrary.util.TextUtil;
-import org.robotframework.swing.operator.ComponentWrapper;
 
 /**
  * Operator for oracle forms windows inside a JFrame.
  */
-public class WindowOperator extends ContainerOperator implements ComponentWrapper {
+public class WindowOperator extends AbstractRootComponentOperator {
 
     public WindowOperator() {
-        super(FrameOperator.newOperatorFor(0), new ByClassChooser(0, ComponentType.FORM_DESKTOP));
+        super(new ByClassChooser(0, ComponentType.FORM_DESKTOP));
     }
 
     public List<String> getWindowTitles() {

@@ -4,7 +4,7 @@ import org.robotframework.formslibrary.chooser.ByNameChooser;
 import org.robotframework.formslibrary.util.ComponentType;
 import org.robotframework.formslibrary.util.ObjectUtil;
 
-public class RadioOperator extends BaseComponentOperator {
+public class RadioOperator extends AbstractComponentOperator {
 
     public RadioOperator(String identifier) {
         super(new ByNameChooser(identifier, ComponentType.EXTENDED_CHECKBOX));

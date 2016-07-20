@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.robotframework.formslibrary.FormsLibraryException;
+import org.robotframework.formslibrary.util.ComponentUtil;
 import org.robotframework.formslibrary.util.ObjectUtil;
 import org.robotframework.formslibrary.util.TextUtil;
 
@@ -55,7 +56,7 @@ public class SelectOperator extends TextFieldOperator {
                 return currentSelection;
             }
 
-            simulateKeyPressed(arrowKey);
+            ComponentUtil.simulateKeyPressed(getSource(), arrowKey);
 
             String newSelection = getValue();
             options.add(newSelection);

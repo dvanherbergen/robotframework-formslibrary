@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.List;
 
 import org.robotframework.formslibrary.FormsLibraryException;
+import org.robotframework.formslibrary.chooser.ByClassChooser;
+import org.robotframework.formslibrary.chooser.ByRowChooser;
 import org.robotframework.formslibrary.util.ComponentComparator;
 import org.robotframework.formslibrary.util.ComponentType;
 import org.robotframework.formslibrary.util.ComponentUtil;
@@ -24,22 +26,33 @@ public class TableOperator extends ContextOperator {
 
         Logger.info("Locating row " + TextUtil.formatArray(columnValues));
 
-        // find all matching first columns
-        List<Component> keyColumns = findTextFieldsByValue(columnValues[0]);
-        if (keyColumns.isEmpty()) {
-            throw new FormsLibraryException("No column found with value " + columnValues[0]);
+        List<List<Component>> potentialColumnFieldMatches = new ArrayList<List<Component>>();
+
+        for (String keyValue : columnValues) {
+            List<Component> matches = findTextFieldsByValue(keyValue);
+            potentialColumnFieldMatches.add(matches);
+            Logger.debug("Found " + matches.size() + " potential matches for '" + keyValue + "'.");
         }
 
-        for (int i = 1; i < columnValues.length; i++) {
+        List<Component> keyColumns = potentialColumnFieldMatches.get(0);
+        if (keyColumns.isEmpty()) {
+            throw new FormsLibraryException("No column found with value '" + columnValues[0] + "'");
+        }
 
-            List<Component> nextColumns = findTextFieldsByValue(columnValues[i]);
+        // filter out all columns that don't have an adjacent column
+        for (int i = potentialColumnFieldMatches.size(); i > 1; i--) {
+
+            List<Component> rightColumns = potentialColumnFieldMatches.get(i - 1);
+            List<Component> leftColumns = potentialColumnFieldMatches.get(i - 2);
             List<Component> toRemove = new ArrayList<Component>();
-            for (Component col : keyColumns) {
-                if (!hasNextColumn(col, nextColumns)) {
+
+            for (Component col : leftColumns) {
+                if (!hasAdjacentColumn(col, rightColumns)) {
                     toRemove.add(col);
                 }
             }
-            keyColumns.removeAll(toRemove);
+            leftColumns.removeAll(toRemove);
+
         }
 
         if (keyColumns.size() == 0) {
@@ -48,7 +61,9 @@ public class TableOperator extends ContextOperator {
             Logger.info("Multiple rows found. Selecting first one.");
         }
 
-        return keyColumns.get(0);
+        Component firstField = keyColumns.get(0);
+        Logger.info("Found matching row @ " + firstField.getX() + ", " + firstField.getY() + ".");
+        return firstField;
 
     }
 
@@ -56,12 +71,8 @@ public class TableOperator extends ContextOperator {
      * Select a row by simulating a mouse click in the first field.
      */
     public void selectRow(String[] columnValues) {
-
         Component firstRowField = findRow(columnValues);
-
-        Logger.info("Found matching row @ x" + firstRowField.getX() + ", y" + firstRowField.getY());
         ComponentUtil.simulateMouseClick(firstRowField);
-
     }
 
     /**
@@ -70,14 +81,11 @@ public class TableOperator extends ContextOperator {
      */
     private List<Component> findRowCheckBoxes(Component keyField) {
 
-        List<Component> result = findAllComponents(ComponentType.CHECK_BOX);
+        List<Component> result = findComponents(new ByClassChooser(-1, ComponentType.CHECK_BOX));
         List<Component> rowCheckboxes = new ArrayList<Component>();
 
         for (Component box : result) {
-
-            // check if component is at same level of row
-            int deltaY = keyField.getY() - box.getY();
-            if (-5 < deltaY && deltaY < 5) {
+            if (ComponentUtil.areaAlignedVertically(keyField, box)) {
                 rowCheckboxes.add(box);
             }
         }
@@ -88,12 +96,13 @@ public class TableOperator extends ContextOperator {
 
     private List<Component> findTextFieldsByValue(String value) {
 
-        List<Component> allTextFields = findAllComponents(ComponentType.TEXT_FIELD);
+        List<Component> allTextFields = findComponents(new ByClassChooser(-1, ComponentType.ALL_TEXTFIELD_TYPES));
         List<Component> result = new ArrayList<Component>();
 
         for (Component textField : allTextFields) {
-            String text = ObjectUtil.getString(textField, "getText()");
-            if (TextUtil.matches(value, text)) {
+            TextFieldOperator operator = TextFieldOperatorFactory.getOperator(textField);
+            String text = operator.getValue();
+            if (TextUtil.matches(text, value)) {
                 result.add(textField);
             }
         }
@@ -101,17 +110,12 @@ public class TableOperator extends ContextOperator {
         return result;
     }
 
-    private boolean hasNextColumn(Component firstColumn, List<Component> otherColumns) {
+    private boolean hasAdjacentColumn(Component firstColumn, List<Component> otherColumns) {
 
         for (Component nextCol : otherColumns) {
-
-            int deltaY = firstColumn.getY() - nextCol.getY();
-            if (-5 < deltaY && deltaY < 5 && firstColumn.getX() < nextCol.getX()) {
-                // component is not located at same vertical position
-                // or component is not right of previous component
+            if (ComponentUtil.areAdjacent(firstColumn, nextCol)) {
                 return true;
             }
-
         }
         return false;
     }
@@ -137,6 +141,19 @@ public class TableOperator extends ContextOperator {
 
     public boolean getRowCheckboxState(int index, String[] columnValues) {
         return getCheckboxOperator(index, columnValues).isChecked();
+    }
+
+    public void setRowField(String identifier, String value, String[] columnValues) {
+
+        Component firstColumn = findRow(columnValues);
+        List<Component> results = findComponents(new ByRowChooser(firstColumn, identifier, ComponentType.ALL_TEXTFIELD_TYPES));
+
+        if (results.isEmpty()) {
+            throw new FormsLibraryException("No row field found with name '" + identifier + "'");
+        }
+
+        TextFieldOperator operator = TextFieldOperatorFactory.getOperator(results.get(0));
+        operator.setValue(value);
     }
 
 }

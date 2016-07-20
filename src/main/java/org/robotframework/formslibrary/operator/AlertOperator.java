@@ -6,7 +6,7 @@ import org.robotframework.formslibrary.chooser.ByClassChooser;
 import org.robotframework.formslibrary.util.ComponentType;
 import org.robotframework.formslibrary.util.ComponentUtil;
 
-public class AlertOperator extends BaseComponentOperator {
+public class AlertOperator extends AbstractRootComponentOperator {
 
     public AlertOperator(Component component) {
         super(component);

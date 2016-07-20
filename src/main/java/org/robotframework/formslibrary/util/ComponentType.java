@@ -22,4 +22,6 @@ public class ComponentType {
     public static final String TEXT_AREA = "oracle.forms.ui.FLWTextArea";
     public static final String WINDOW = "oracle.forms.ui.FWindow";
 
+    public static final String[] ALL_BUTTON_TYPES = new String[] { BUTTON, PUSH_BUTTON };
+    public static final String[] ALL_TEXTFIELD_TYPES = new String[] { ComponentType.TEXT_FIELD, ComponentType.TEXT_AREA, ComponentType.SELECT_FIELD };
 }

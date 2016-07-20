@@ -3,7 +3,7 @@ package org.robotframework.formslibrary.util;
 public class Logger {
 
     public static void debug(String message) {
-        if (Configuration.isDebugEnabled()) {
+        if (DebugUtil.isDebugEnabled()) {
             System.out.println("~ " + message);
         }
     }

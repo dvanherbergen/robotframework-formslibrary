@@ -1,11 +1,7 @@
 package org.robotframework.formslibrary.keyword;
 
-import java.awt.Component;
-
 import org.robotframework.formslibrary.FormsLibraryException;
 import org.robotframework.formslibrary.operator.AlertOperator;
-import org.robotframework.formslibrary.operator.ContextOperator;
-import org.robotframework.formslibrary.util.ComponentType;
 import org.robotframework.formslibrary.util.Logger;
 import org.robotframework.formslibrary.util.TextUtil;
 import org.robotframework.javalib.annotation.ArgumentNames;
@@ -33,12 +29,14 @@ public class AlertKeywords {
 
     @RobotKeyword("Verify no alert dialog is shown.")
     public void noAlertIsShown() {
-        Component alertPane = new ContextOperator(true).findComponent(ComponentType.ALERT_PANE);
-        if (alertPane != null) {
-            AlertOperator operator = new AlertOperator(alertPane);
+
+        AlertOperator operator = null;
+        try {
+            operator = new AlertOperator();
             String alertMessage = operator.getAlertMessage();
             throw new FormsLibraryException("Alert message '" + alertMessage + "' was not expected.");
+        } catch (org.netbeans.jemmy.TimeoutExpiredException e) {
+            Logger.info("No alert dialog found.");
         }
-        Logger.info("No alert dialog found.");
     }
 }
