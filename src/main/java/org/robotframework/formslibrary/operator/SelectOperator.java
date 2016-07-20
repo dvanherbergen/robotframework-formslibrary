@@ -56,6 +56,7 @@ public class SelectOperator extends TextFieldOperator {
                 return currentSelection;
             }
 
+            getSource().requestFocus();
             ComponentUtil.simulateKeyPressed(getSource(), arrowKey);
 
             String newSelection = getValue();

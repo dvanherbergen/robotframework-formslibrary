@@ -142,4 +142,16 @@ public class ObjectUtil {
         }
     }
 
+    public static Object invokeWithIntIntArg(Object object, String methodName, int value1, int value2) {
+
+        try {
+
+            Method m = object.getClass().getMethod(cleanPath(methodName), int.class, int.class);
+            return m.invoke(object, value1, value2);
+
+        } catch (Exception e) {
+            throw new FormsLibraryException("Could not invoke method " + methodName, e);
+        }
+    }
+
 }
