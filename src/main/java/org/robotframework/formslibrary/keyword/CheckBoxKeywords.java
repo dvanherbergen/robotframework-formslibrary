@@ -28,7 +28,7 @@ public class CheckBoxKeywords {
 
     @RobotKeyword("Uncheck checkbox.\n\nExample:\n| Uncheck Checkbox | _checkboxname_ | \n")
     @ArgumentNames({ "identifier" })
-    public void UnCheckCheckbox(String identifier) {
+    public void UncheckCheckbox(String identifier) {
         new CheckboxOperator(identifier).uncheck();
     }
 

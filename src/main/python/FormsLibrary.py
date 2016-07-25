@@ -20,6 +20,8 @@ import tempfile
 import threading
 import time
 import traceback
+import formslibrary_keywords
+
 IS_PYTHON3 = sys.version_info[0] >= 3
 if IS_PYTHON3:
     import socketserver as SocketServer
@@ -534,19 +536,22 @@ class FormsLibrary(object):
         # to do it we find minimal n which satisfies ((n)*(n-1))/2 >= TIMEOUT
         # solution is ceil(sqrt(TIMEOUT*2*4+1)/2+0.5)
         attempts = int(math.ceil(math.sqrt(FormsLibrary.TIMEOUT*2*4+1)/2+0.5))
+        overrided_keywords = ['startApplication', 'launchApplication', 'startApplicationInSeparateThread']  
+        
         if self.current:
             return FormsLibrary.KEYWORDS + [kw for
                                       kw in self.current.get_keyword_names(attempts=attempts)
-                                      if kw not in ['startApplication',
-                                                    'launchApplication',
-                                                    'startApplicationInSeparateThread']]
-        return FormsLibrary.KEYWORDS
+                                      if kw not in overrided_keywords]
+        return FormsLibrary.KEYWORDS + [kw for kw in formslibrary_keywords.keywords
+                                              if kw not in overrided_keywords]
+
 
     def get_keyword_arguments(self, name):
         if name in FormsLibrary.KEYWORDS:
             return self._get_args(name)
         if self.current:
             return self.current.get_keyword_arguments(name)
+        return formslibrary_keywords.keyword_arguments[name]
 
     def _get_args(self, method_name):
         spec = inspect.getargspec(getattr(self, method_name))
@@ -565,9 +570,14 @@ class FormsLibrary(object):
             return FormsLibrary.__doc__
         if name in FormsLibrary.KEYWORDS or name == '__init__':
             return getattr(self, name).__doc__
-        return self.current.get_keyword_documentation(name)
+        if self.current:
+        	return self.current.get_keyword_documentation(name)
+        return formslibrary_keywords.keyword_documentation[name]
 
     def run_keyword(self, name, arguments, kwargs):
         if name in FormsLibrary.KEYWORDS:
-            return getattr(self, name)(*arguments, **kwargs)
-        return self.current.run_keyword(name, arguments, kwargs)
+            return getattr(self, name)(*arguments, **kwargs)        
+        if self.current:
+        	return self.current.run_keyword(name, arguments, kwargs)
+        if name in formslibrary_keywords.keywords:
+        	raise Exception("To use this keyword, you need to connect to the application first.")
