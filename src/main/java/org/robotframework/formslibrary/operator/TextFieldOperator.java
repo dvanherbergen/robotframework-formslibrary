@@ -5,6 +5,7 @@ import java.awt.event.FocusEvent;
 
 import org.netbeans.jemmy.ComponentChooser;
 import org.robotframework.formslibrary.FormsLibraryException;
+import org.robotframework.formslibrary.util.Logger;
 import org.robotframework.formslibrary.util.ObjectUtil;
 import org.robotframework.formslibrary.util.TextUtil;
 
@@ -34,6 +35,7 @@ public class TextFieldOperator extends AbstractComponentOperator {
         if (!TextUtil.matches(getValue(), value)) {
             throw new FormsLibraryException("Field value '" + getValue() + "' does not match " + value);
         }
+        Logger.info("Value '" + getValue() + "' matches '" + value + "'.");
     }
 
 }

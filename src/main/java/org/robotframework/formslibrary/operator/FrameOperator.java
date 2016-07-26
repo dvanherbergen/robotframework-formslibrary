@@ -1,46 +1,75 @@
 package org.robotframework.formslibrary.operator;
 
 import java.awt.Component;
+import java.awt.Container;
+import java.awt.Frame;
+import java.awt.Window;
+import java.lang.ref.WeakReference;
+import java.util.Vector;
 
-import org.netbeans.jemmy.ComponentChooser;
-import org.netbeans.jemmy.operators.JFrameOperator;
-import org.netbeans.jemmy.util.RegExComparator;
+import org.netbeans.jemmy.operators.ContainerOperator;
+import org.robotframework.formslibrary.FormsLibraryException;
 import org.robotframework.formslibrary.util.ComponentUtil;
-import org.robotframework.swing.chooser.ByNameOrTitleFrameChooser;
-import org.robotframework.swing.common.Identifier;
 import org.robotframework.swing.operator.ComponentWrapper;
 
-public class FrameOperator extends JFrameOperator implements ComponentWrapper {
+import sun.awt.AppContext;
 
-    public static FrameOperator newOperatorFor(int index) {
-        return new FrameOperator(index);
+@SuppressWarnings("restriction")
+public class FrameOperator extends ContainerOperator implements ComponentWrapper {
+
+    private static final String ORACLE_FORMS_FRAME_TITLE = "Oracle Fusion Middleware Forms Services";
+
+    /**
+     * Create a new frame operator for a provided Frame.
+     */
+    public FrameOperator(Container frame) {
+        super(frame);
     }
 
-    private FrameOperator(int index) {
-        super(index);
+    /**
+     * Create a new default FrameOperator that targets the main
+     * javax.swing.JFrame window used by the Oracle Forms application.
+     */
+    public FrameOperator() {
+        this(findFrame(ORACLE_FORMS_FRAME_TITLE, true));
     }
 
-    public static FrameOperator newOperatorFor(String titleOrName) {
-        Identifier identifier = new Identifier(titleOrName);
-        if (identifier.isRegExp())
-            return new FrameOperator(createRegExpChooser(identifier.asString()));
-        return new FrameOperator(new ByNameOrTitleFrameChooser(titleOrName, "Frame"));
-    }
+    @SuppressWarnings("unchecked")
+    private static Frame findFrame(String title, boolean failIfNotFound) {
 
-    private static ComponentChooser createRegExpChooser(String title) {
-        return new JFrameFinder(new FrameByTitleFinder(title, new RegExComparator()));
-    }
-
-    private FrameOperator(ComponentChooser chooser) {
-        super(chooser);
-    }
-
-    private FrameOperator(String title) {
-        super(title);
+        Vector<WeakReference<Window>> windowList = (Vector<WeakReference<Window>>) AppContext.getAppContext().get(Window.class);
+        if (windowList != null) {
+            for (int i = 0; i < windowList.size(); i++) {
+                Window w = windowList.get(i).get();
+                if (w != null) {
+                    if (w instanceof Frame) {
+                        Frame f = (Frame) w;
+                        if (ORACLE_FORMS_FRAME_TITLE.equals(f.getTitle())) {
+                            return f;
+                        }
+                    }
+                }
+            }
+        }
+        if (failIfNotFound) {
+            throw new FormsLibraryException("Frame '" + ORACLE_FORMS_FRAME_TITLE
+                    + "' not found in AppContext. Try restarting the application or checking the context first with isContextInvalid");
+        }
+        return null;
     }
 
     public boolean containsComponent(Component component) {
         return ComponentUtil.containsComponent(getSource(), component);
+    }
+
+    /**
+     * Check if the Oracle Forms frame is part of the current AppContext. This
+     * will not be the case if Java Web Start downloaded a new version of the
+     * jars. That download causes the frame to be included in a different
+     * threads' appContext.
+     */
+    public static boolean isFrameInCurrentAppContext() {
+        return findFrame(ORACLE_FORMS_FRAME_TITLE, false) != null;
     }
 
 }

@@ -36,7 +36,7 @@ public class FormsContext {
         String contextClass = contextComponent.getClass().getName();
 
         // verify that the current window context is still part of the desktop
-        if (!FrameOperator.newOperatorFor(0).containsComponent(contextComponent)) {
+        if (!new FrameOperator().containsComponent(contextComponent)) {
             Logger.info("Context " + ComponentUtil.getFormattedComponentNames(contextComponent) + " is no longer part of desktop.");
             resetContext();
             return context;
@@ -55,7 +55,7 @@ public class FormsContext {
      * @return root context (the forms desktop window)
      */
     public static ComponentWrapper getRootContext() {
-        return FrameOperator.newOperatorFor(0);
+        return new FrameOperator();
     }
 
     /**

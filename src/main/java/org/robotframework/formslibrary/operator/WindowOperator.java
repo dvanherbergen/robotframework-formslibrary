@@ -54,7 +54,7 @@ public class WindowOperator extends AbstractRootComponentOperator {
                     String title = ObjectUtil.getString(child, "getLWWindow().getTitle()");
                     if (TextUtil.matches(title, windowTitle)) {
 
-                        FormsContext.setContext(new ExtendedFrameOperator((Container) frame));
+                        FormsContext.setContext(new FrameOperator((Container) frame));
                         frame.requestFocus();
                         Logger.info("Context set to window '" + title + "'");
                         return;

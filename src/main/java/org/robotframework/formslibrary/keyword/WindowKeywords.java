@@ -2,6 +2,7 @@ package org.robotframework.formslibrary.keyword;
 
 import java.util.List;
 
+import org.robotframework.formslibrary.operator.FrameOperator;
 import org.robotframework.formslibrary.operator.WindowOperator;
 import org.robotframework.formslibrary.util.Logger;
 import org.robotframework.javalib.annotation.ArgumentNames;
@@ -30,5 +31,10 @@ public class WindowKeywords {
     @RobotKeyword("Close all open windows except the one containing the system menu.\n\n\n\nExample:\n| Close Open Windows|\n")
     public void closeOpenWindows() {
         new WindowOperator().closeOpenWindows();
+    }
+
+    @RobotKeyword("When the application is started using Java Web Start, this can result in a newer version of the application being downloaded first, which results is an invalid context and requires an application restart.\n\n\n\nExample:\n| Is Context Invalid|\n")
+    public boolean isContextInvalid() {
+        return !FrameOperator.isFrameInCurrentAppContext();
     }
 }
