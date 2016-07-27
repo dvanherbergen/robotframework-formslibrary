@@ -17,7 +17,7 @@ import org.robotframework.formslibrary.FormsLibraryException;
  */
 public class ComponentUtil {
 
-    private static final Pattern GENERATED_NAME_PATTERN = Pattern.compile("[A-Z_]*[0-9]*");
+    private static final Pattern GENERATED_NAME_PATTERN = Pattern.compile("[A-Z_]{6,}[0-9]{1,3}");
 
     /**
      * Get component names in format 'name (alternative name)(alternative name)'

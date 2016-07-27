@@ -15,7 +15,8 @@ public class TextFieldKeywords {
         TextFieldOperatorFactory.getOperator(identifier).setValue(value);
     }
 
-    @RobotKeyword("Verify field content.\n\n" + "Example:\n" + "| Field Should Contain | _username_ | _jeff_ | \n")
+    @RobotKeyword("Verify field content. This check cannot be used for repeated table fields. For verifying a field in a table use Select Row instead.\n\n"
+            + "Example:\n" + "| Field Should Contain | _username_ | _jeff_ | \n")
     @ArgumentNames({ "identifier", "value" })
     public void verifyField(String identifier, String value) {
         TextFieldOperatorFactory.getOperator(identifier).verifyValue(value);

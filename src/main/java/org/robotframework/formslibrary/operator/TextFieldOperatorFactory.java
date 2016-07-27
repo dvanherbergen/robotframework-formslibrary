@@ -38,9 +38,7 @@ public class TextFieldOperatorFactory {
      */
     public static TextFieldOperator getOperator(String identifier) {
 
-        ContextOperator operator = new ContextOperator();
-        Component component = operator
-                .findTextField(new ByNameChooser(identifier, ComponentType.TEXT_FIELD, ComponentType.TEXT_AREA, ComponentType.SELECT_FIELD));
+        Component component = new ContextOperator().findTextField(new ByNameChooser(identifier, ComponentType.ALL_TEXTFIELD_TYPES));
         if (component != null) {
             return getOperator(component);
         }

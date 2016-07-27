@@ -1,6 +1,8 @@
 package org.robotframework.formslibrary.keyword;
 
+import org.robotframework.formslibrary.FormsLibraryException;
 import org.robotframework.formslibrary.operator.TableOperator;
+import org.robotframework.formslibrary.operator.VerticalScrollBarOperator;
 import org.robotframework.javalib.annotation.ArgumentNames;
 import org.robotframework.javalib.annotation.RobotKeyword;
 import org.robotframework.javalib.annotation.RobotKeywords;
@@ -12,6 +14,26 @@ public class TableKeywords {
     @ArgumentNames({ "*columnvalues" })
     public void selectRow(String... columnValues) {
         new TableOperator().selectRow(columnValues);
+    }
+
+    @RobotKeyword("Select a row in a result table by content. If the row is not visible, the down button in the scrollbar will be pressed up to 50 times in an attempt to try and locate the row. Specify the index (occurrence) of the scrollbar which should be used for scrolling."
+            + "Example:\n" + "| Scroll To Row | _scrollbarIndex_ | _market_ | _gas_ | \n")
+    @ArgumentNames({ "scrollbarIndex", "*columnvalues" })
+    public void scrollToRow(int scrollBarIndex, String... columnValues) {
+
+        VerticalScrollBarOperator scrollOperator = new VerticalScrollBarOperator(scrollBarIndex - 1);
+
+        TableOperator tableOperator = new TableOperator();
+
+        for (int i = 0; i < 50; i++) {
+            if (tableOperator.rowExists(columnValues)) {
+                tableOperator.selectRow(columnValues);
+                return;
+            } else {
+                scrollOperator.scrollDown(1);
+            }
+        }
+        throw new FormsLibraryException("Row could not be found.");
     }
 
     @RobotKeyword("Set a field value in a table row." + " The row is identified by values\n\n" + "Example:\n"
@@ -43,5 +65,9 @@ public class TableKeywords {
     @ArgumentNames({ "index", "*columnvalues" })
     public boolean getRowCheckbox(int index, String... columnValues) {
         return new TableOperator().getRowCheckboxState(index, columnValues);
+    }
+
+    public void selectRowButton() {
+        // TODO
     }
 }

@@ -75,6 +75,7 @@ public class ByNameChooser implements ComponentChooser {
 
         for (ComponentType type : allowedTypes) {
             if (type.matches(component)) {
+                Logger.debug("Checking component " + ComponentUtil.getFormattedComponentNames(component));
                 if (ComponentUtil.hasName(component, name)) {
                     Logger.info("Found " + component.getClass().getSimpleName() + " '" + ComponentUtil.getFormattedComponentNames(component) + "' ["
                             + currentIndex + "].");

@@ -24,7 +24,7 @@ public class TableOperator extends ContextOperator {
      */
     private Component findRow(String[] columnValues) {
 
-        Logger.info("Locating row " + TextUtil.concatenateArrayElements(columnValues));
+        Logger.debug("Locating row " + TextUtil.concatenateArrayElements(columnValues));
 
         List<List<Component>> potentialColumnFieldMatches = new ArrayList<List<Component>>();
 
@@ -154,6 +154,21 @@ public class TableOperator extends ContextOperator {
 
         TextFieldOperator operator = TextFieldOperatorFactory.getOperator(results.get(0));
         operator.setValue(value);
+    }
+
+    /**
+     * Check if a row exists with the given column values.
+     */
+    public boolean rowExists(String[] columnValues) {
+        try {
+            Component c = findRow(columnValues);
+            if (c != null) {
+                return true;
+            }
+        } catch (FormsLibraryException e) {
+            return false;
+        }
+        return false;
     }
 
 }
