@@ -64,6 +64,7 @@
 										<exclude>org/robotframework/swing/keyword/tab/*.class</exclude>
 										<exclude>org/robotframework/swing/keyword/checkbox/*.class</exclude>
 										<exclude>org/robotframework/swing/keyword/radiobutton/*.class</exclude>
+										<exclude>org/robotframework/swing/keyword/table/*.class</exclude>
 										<exclude>RemoteSwingLibrary.py</exclude>
 									</excludes>
 								</filter>

@@ -76,22 +76,22 @@ public class TableOperator extends ContextOperator {
     }
 
     /**
-     * Find all checkboxes located on the same vertical position as the table
-     * text fields.
+     * Find all components of a given type located on the same vertical position
+     * as the table text fields.
      */
-    private List<Component> findRowCheckBoxes(Component keyField) {
+    private List<Component> findRowComponents(Component keyField, ComponentType... allowedTypes) {
 
-        List<Component> result = findComponents(new ByComponentTypeChooser(-1, ComponentType.CHECK_BOX_WRAPPER));
-        List<Component> rowCheckboxes = new ArrayList<Component>();
+        List<Component> allComponents = findComponents(new ByComponentTypeChooser(-1, allowedTypes));
+        List<Component> componentsOnRow = new ArrayList<Component>();
 
-        for (Component box : result) {
-            if (ComponentUtil.areaAlignedVertically(keyField, box)) {
-                rowCheckboxes.add(box);
+        for (Component component : allComponents) {
+            if (ComponentUtil.areaAlignedVertically(keyField, component)) {
+                componentsOnRow.add(component);
             }
         }
 
-        Collections.sort(rowCheckboxes, new ComponentComparator());
-        return rowCheckboxes;
+        Collections.sort(componentsOnRow, new ComponentComparator());
+        return componentsOnRow;
     }
 
     private List<Component> findTextFieldsByValue(String value) {
@@ -122,7 +122,7 @@ public class TableOperator extends ContextOperator {
 
     private CheckboxOperator getCheckboxOperator(int index, String[] columnValues) {
 
-        List<Component> boxes = findRowCheckBoxes(findRow(columnValues));
+        List<Component> boxes = findRowComponents(findRow(columnValues), ComponentType.CHECK_BOX_WRAPPER);
 
         if (boxes.size() < index) {
             throw new FormsLibraryException("Only found " + boxes.size() + " checkboxes next to the row");
@@ -169,6 +169,18 @@ public class TableOperator extends ContextOperator {
             return false;
         }
         return false;
+    }
+
+    /**
+     * Push on the n'th button in a row identified by column values.
+     */
+    public void selectRowButton(int index, String[] columnValues) {
+
+        List<Component> buttons = findRowComponents(findRow(columnValues), ComponentType.ALL_BUTTON_TYPES);
+        if (buttons.size() < index) {
+            throw new FormsLibraryException("Only found " + buttons.size() + " buttons next to the row");
+        }
+        new ButtonOperator(buttons.get(index - 1)).push();
     }
 
 }

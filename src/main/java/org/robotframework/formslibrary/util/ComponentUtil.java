@@ -69,6 +69,13 @@ public class ComponentUtil {
             }
         }
 
+        if (ComponentType.TITLE_BAR.matches(component)) {
+            String title = ObjectUtil.getString(component, "getLWWindow().getTitle()");
+            if (title != null) {
+                componentNames.add(title);
+            }
+        }
+
         String accesibleText = getAccessibleText(component);
         if (accesibleText != null && !componentNames.contains(accesibleText) && !GENERATED_NAME_PATTERN.matcher(accesibleText).matches()) {
             componentNames.add(accesibleText);

@@ -1,6 +1,7 @@
 package org.robotframework.formslibrary.keyword;
 
 import org.robotframework.formslibrary.FormsLibraryException;
+import org.robotframework.formslibrary.context.ContextChangeMonitor;
 import org.robotframework.formslibrary.operator.TableOperator;
 import org.robotframework.formslibrary.operator.VerticalScrollBarOperator;
 import org.robotframework.javalib.annotation.ArgumentNames;
@@ -67,7 +68,14 @@ public class TableKeywords {
         return new TableOperator().getRowCheckboxState(index, columnValues);
     }
 
-    public void selectRowButton() {
-        // TODO
+    @RobotKeyword("Click on a button in a table row. The first button in a row is identified using index 1, the second one as 2, etc."
+            + " The row is identified by values\n\n" + "Example:\n"
+            + "| Select Row Button | _button index_ | _first col value_ | _second col value_ | \n")
+    @ArgumentNames({ "index", "*columnvalues" })
+    public void selectRowButton(int index, String... columnValues) {
+        ContextChangeMonitor monitor = new ContextChangeMonitor();
+        monitor.start();
+        new TableOperator().selectRowButton(index, columnValues);
+        monitor.stop();
     }
 }
