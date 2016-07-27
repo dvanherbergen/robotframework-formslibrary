@@ -23,7 +23,10 @@ public class ComponentType {
     public static final String WINDOW = "oracle.forms.ui.FWindow";
     public static final String LIST_VIEW = "oracle.forms.ui.ListView";
     public static final String STATUS_BAR = "oracle.ewt.statusBar.StatusBar";
+    public static final String SCROLL_BAR = "oracle.ewt.lwAWT.LWScrollbar";
+    public static final String SCROLL_BAR_BOX = "oracle.ewt.scrolling.scrollBox.EwtLWScrollbar";
 
     public static final String[] ALL_BUTTON_TYPES = new String[] { BUTTON, PUSH_BUTTON };
-    public static final String[] ALL_TEXTFIELD_TYPES = new String[] { ComponentType.TEXT_FIELD, ComponentType.TEXT_AREA, ComponentType.SELECT_FIELD };
+    public static final String[] ALL_TEXTFIELD_TYPES = new String[] { TEXT_FIELD, TEXT_AREA, SELECT_FIELD };
+    public static final String[] ALL_SCROLL_BAR_TYPES = new String[] { SCROLL_BAR, SCROLL_BAR_BOX };
 }

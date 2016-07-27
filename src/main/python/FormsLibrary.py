@@ -358,8 +358,8 @@ class FormsLibrary(object):
         To see the name of the connecting java agents run tests with --loglevel DEBUG.
 
         """
-        stdout = "remote_stdout_" + str(uuid.uuid4()) + '.txt'
-        stderr = "remote_stderr_" + str(uuid.uuid4()) + '.txt'
+        stdout = "remote_stdout.txt"
+        stderr = "remote_stderr.txt"
         logger.info('<a href="%s">Link to stdout</a>' % stdout, html=True)
         logger.info('<a href="%s">Link to stderr</a>' % stderr, html=True)
         REMOTE_AGENTS_LIST.set_received_to_old()
