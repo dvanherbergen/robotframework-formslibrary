@@ -39,9 +39,9 @@ public class TableKeywords {
 
     @RobotKeyword("Get the state (true/false) of a checkbox in a table row. The first checkbox in a row is identified using index 1, the second one as 2, etc."
             + " The row is identified by values\n\n" + "Example:\n"
-            + "| ${value}= | Get Row Checkbox Value | _checkbox index_ | _first col value_ | _second col value_ | \n")
+            + "| ${value}= | Get Row Checkbox | _checkbox index_ | _first col value_ | _second col value_ | \n")
     @ArgumentNames({ "index", "*columnvalues" })
-    public boolean getRowCheckboxValue(int index, String... columnValues) {
+    public boolean getRowCheckbox(int index, String... columnValues) {
         return new TableOperator().getRowCheckboxState(index, columnValues);
     }
 }

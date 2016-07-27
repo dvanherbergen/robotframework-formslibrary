@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.robotframework.formslibrary.FormsLibraryException;
-import org.robotframework.formslibrary.chooser.ByClassChooser;
+import org.robotframework.formslibrary.chooser.ByComponentTypeChooser;
 import org.robotframework.formslibrary.context.FormsContext;
 import org.robotframework.formslibrary.util.ComponentType;
 import org.robotframework.formslibrary.util.Logger;
@@ -18,10 +18,16 @@ import org.robotframework.formslibrary.util.TextUtil;
  */
 public class WindowOperator extends AbstractRootComponentOperator {
 
+    /**
+     * Initialize a window operator with the main oracle forms desktop window.
+     */
     public WindowOperator() {
-        super(new ByClassChooser(0, ComponentType.FORM_DESKTOP));
+        super(new ByComponentTypeChooser(0, ComponentType.FORM_DESKTOP));
     }
 
+    /**
+     * Retrieve a list of all window titles in the root context.
+     */
     public List<String> getWindowTitles() {
 
         List<String> frameTitles = new ArrayList<String>();
@@ -29,7 +35,7 @@ public class WindowOperator extends AbstractRootComponentOperator {
         for (Component frame : extendedFrames) {
             Component[] children = ((Container) frame).getComponents();
             for (Component child : children) {
-                if (child.getClass().getName().equals(ComponentType.TITLE_BAR)) {
+                if (ComponentType.TITLE_BAR.matches(child)) {
                     boolean visible = ObjectUtil.getBoolean(frame, "isVisible()");
                     String title = ObjectUtil.getString(child, "getLWWindow().getTitle()");
                     Logger.debug("Found window '" + title + "' [visible=" + visible + "]");
@@ -43,17 +49,22 @@ public class WindowOperator extends AbstractRootComponentOperator {
         return frameTitles;
     }
 
+    /**
+     * Change the current context to the window with the given title.
+     * 
+     * @param windowTitle
+     *            title of the window.
+     */
     public void setWindowAsContext(String windowTitle) {
 
         Component[] extendedFrames = ((Container) getSource()).getComponents();
         for (Component frame : extendedFrames) {
             Component[] children = ((Container) frame).getComponents();
             for (Component child : children) {
-                if (child.getClass().getName().equals(ComponentType.TITLE_BAR)) {
+                if (ComponentType.TITLE_BAR.matches(child)) {
 
                     String title = ObjectUtil.getString(child, "getLWWindow().getTitle()");
                     if (TextUtil.matches(title, windowTitle)) {
-
                         FormsContext.setContext(new FrameOperator((Container) frame));
                         frame.requestFocus();
                         Logger.info("Context set to window '" + title + "'");
@@ -66,6 +77,9 @@ public class WindowOperator extends AbstractRootComponentOperator {
         throw new FormsLibraryException("No window with title '" + windowTitle + "' found.");
     }
 
+    /**
+     * Close all open windows in the application except the main menu.
+     */
     public void closeOpenWindows() {
 
         // reset context before closing windows
@@ -77,7 +91,7 @@ public class WindowOperator extends AbstractRootComponentOperator {
         for (Component frame : extendedFrames) {
             Component[] children = ((Container) frame).getComponents();
             for (Component child : children) {
-                if (child.getClass().getName().equals(ComponentType.TITLE_BAR)) {
+                if (ComponentType.TITLE_BAR.matches(child)) {
                     if (ObjectUtil.getBoolean(frame, "isVisible()")) {
                         String title = ObjectUtil.getString(child, "getLWWindow().getTitle()");
                         if (!title.contains("Main Menu")) {
@@ -90,7 +104,7 @@ public class WindowOperator extends AbstractRootComponentOperator {
         }
 
         for (Component frame : framesToClose) {
-            ObjectUtil.invoke(frame, "close()");
+            ObjectUtil.invokeMethod(frame, "close()");
         }
     }
 

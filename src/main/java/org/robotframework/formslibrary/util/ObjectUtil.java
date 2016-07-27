@@ -5,34 +5,43 @@ import java.lang.reflect.Method;
 import org.robotframework.formslibrary.FormsLibraryException;
 
 /**
- * Adding frmall.jar to the java agent path prevents the application from
- * launching. As a workaround, we don't include the jar, but use reflection to
- * interact with the oracle forms objects.
+ * Adding frmall.jar (which contains all the Oracle Forms classes) to the java
+ * agent path prevents the application from launching. As a workaround, we don't
+ * include the jar, but use reflection to interact with the oracle forms
+ * objects.
  */
 public class ObjectUtil {
 
-    private static String cleanPath(String path) {
+    /**
+     * Remove brackets () from method path.
+     */
+    private static String cleanMethodPath(String methodPath) {
 
-        if (path == null || path.trim().length() == 0) {
+        if (methodPath == null || methodPath.trim().length() == 0) {
             return null;
         }
-
-        return path.replaceAll("\\(", "").replaceAll("\\)", "");
+        return methodPath.replaceAll("\\(", "").replaceAll("\\)", "");
     }
 
+    /**
+     * Invoke an object method that returns a boolean result.
+     */
     public static boolean getBoolean(Object object, String methodName) {
 
         try {
-            Method m = object.getClass().getMethod(cleanPath(methodName));
+            Method m = object.getClass().getMethod(cleanMethodPath(methodName));
             return (Boolean) m.invoke(object);
         } catch (Exception e) {
             throw new FormsLibraryException("Could not invoke method " + methodName, e);
         }
     }
 
+    /**
+     * Invoke an object method which should not return null.
+     */
     public static Object getNonNullResult(Object object, String methodName, String message) {
 
-        Object result = invoke(object, cleanPath(methodName));
+        Object result = invokeMethod(object, cleanMethodPath(methodName));
         if (result == null) {
             throw new FormsLibraryException(message + " - " + object.getClass().getName() + "." + methodName + " returned null. ");
         }
@@ -47,7 +56,7 @@ public class ObjectUtil {
      */
     public static String getString(Object object, String methodPath) {
 
-        String path = cleanPath(methodPath);
+        String path = cleanMethodPath(methodPath);
 
         if (path == null) {
             return null;
@@ -76,10 +85,13 @@ public class ObjectUtil {
         return null;
     }
 
-    public static Object invoke(Object object, String methodName) {
+    /**
+     * Invoke an object method.
+     */
+    public static Object invokeMethod(Object object, String methodName) {
 
         try {
-            Method m = object.getClass().getMethod(cleanPath(methodName));
+            Method m = object.getClass().getMethod(cleanMethodPath(methodName));
             return m.invoke(object);
         } catch (Exception e) {
             throw new FormsLibraryException("Could not invoke method " + methodName, e);
@@ -87,11 +99,14 @@ public class ObjectUtil {
 
     }
 
+    /**
+     * Invoke an object method with a boolean arg.
+     */
     public static Object invokeMethodWithBoolArg(Object object, String methodName, boolean value) {
 
         try {
 
-            Method m = object.getClass().getMethod(cleanPath(methodName), boolean.class);
+            Method m = object.getClass().getMethod(cleanMethodPath(methodName), boolean.class);
             return m.invoke(object, value);
 
         } catch (Exception e) {
@@ -99,11 +114,14 @@ public class ObjectUtil {
         }
     }
 
+    /**
+     * Invoke an object method with a string arg.
+     */
     public static void invokeMethodWithStringArg(Object object, String methodName, String value) {
 
         try {
 
-            Method m = object.getClass().getMethod(cleanPath(methodName), String.class);
+            Method m = object.getClass().getMethod(cleanMethodPath(methodName), String.class);
             m.invoke(object, value);
 
         } catch (Exception e) {
@@ -112,12 +130,15 @@ public class ObjectUtil {
 
     }
 
+    /**
+     * Invoke an object method with a specified argument type.
+     */
     public static Object invokeMethodWithTypedArg(Object object, String methodName, String argType, Object value) {
 
         try {
             Method[] methods = object.getClass().getDeclaredMethods();
             for (Method m : methods) {
-                if (m.getName().equals(cleanPath(methodName))) {
+                if (m.getName().equals(cleanMethodPath(methodName))) {
                     Class<?>[] pTypes = m.getParameterTypes();
                     if (pTypes != null && pTypes.length == 1 && (pTypes[0].toString().equals(argType) || pTypes[0].getName().equals(argType))) {
                         return m.invoke(object, value);
@@ -130,11 +151,14 @@ public class ObjectUtil {
         return null;
     }
 
-    public static Object invokeWithIntArg(Object object, String methodName, int value) {
+    /**
+     * Invoke an object method with an int arg.
+     */
+    public static Object invokeMethodWithIntArg(Object object, String methodName, int value) {
 
         try {
 
-            Method m = object.getClass().getMethod(cleanPath(methodName), int.class);
+            Method m = object.getClass().getMethod(cleanMethodPath(methodName), int.class);
             return m.invoke(object, value);
 
         } catch (Exception e) {
@@ -142,11 +166,14 @@ public class ObjectUtil {
         }
     }
 
-    public static Object invokeWithIntIntArg(Object object, String methodName, int value1, int value2) {
+    /**
+     * Invoke an object method with a two int arguments
+     */
+    public static Object invokeMethodWith2IntArgs(Object object, String methodName, int value1, int value2) {
 
         try {
 
-            Method m = object.getClass().getMethod(cleanPath(methodName), int.class, int.class);
+            Method m = object.getClass().getMethod(cleanMethodPath(methodName), int.class, int.class);
             return m.invoke(object, value1, value2);
 
         } catch (Exception e) {

@@ -11,13 +11,19 @@ import org.robotframework.formslibrary.util.ComponentUtil;
 import org.robotframework.formslibrary.util.ObjectUtil;
 import org.robotframework.formslibrary.util.TextUtil;
 
-public class SelectOperator extends TextFieldOperator {
-
-    public SelectOperator(Component component) {
-        super(component);
-    }
+/**
+ * Operator for working with drop down select fields.
+ */
+public class SelectFieldOperator extends TextFieldOperator {
 
     private Set<String> options = new HashSet<String>();
+
+    /**
+     * Initialize a SelectOperator for the given component.
+     */
+    public SelectFieldOperator(Component component) {
+        super(component);
+    }
 
     @Override
     public void setValue(String value) {
@@ -32,7 +38,7 @@ public class SelectOperator extends TextFieldOperator {
             selection = findSelection(value, KeyEvent.VK_UP);
         }
         if (selection == null) {
-            throw new FormsLibraryException("Could not find value '" + value + "' in the list : " + TextUtil.print(options));
+            throw new FormsLibraryException("Could not find value '" + value + "' in the list : " + TextUtil.concatenateSetValues(options));
         }
 
         getSource().dispatchEvent(new FocusEvent(getSource(), FocusEvent.FOCUS_LOST));

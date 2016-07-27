@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.robotframework.formslibrary.FormsLibraryException;
-import org.robotframework.formslibrary.chooser.ByClassChooser;
+import org.robotframework.formslibrary.chooser.ByComponentTypeChooser;
 import org.robotframework.formslibrary.chooser.ByRowChooser;
 import org.robotframework.formslibrary.util.ComponentComparator;
 import org.robotframework.formslibrary.util.ComponentType;
@@ -24,7 +24,7 @@ public class TableOperator extends ContextOperator {
      */
     private Component findRow(String[] columnValues) {
 
-        Logger.info("Locating row " + TextUtil.formatArray(columnValues));
+        Logger.info("Locating row " + TextUtil.concatenateArrayElements(columnValues));
 
         List<List<Component>> potentialColumnFieldMatches = new ArrayList<List<Component>>();
 
@@ -81,7 +81,7 @@ public class TableOperator extends ContextOperator {
      */
     private List<Component> findRowCheckBoxes(Component keyField) {
 
-        List<Component> result = findComponents(new ByClassChooser(-1, ComponentType.CHECK_BOX));
+        List<Component> result = findComponents(new ByComponentTypeChooser(-1, ComponentType.CHECK_BOX_WRAPPER));
         List<Component> rowCheckboxes = new ArrayList<Component>();
 
         for (Component box : result) {
@@ -96,7 +96,7 @@ public class TableOperator extends ContextOperator {
 
     private List<Component> findTextFieldsByValue(String value) {
 
-        List<Component> allTextFields = findComponents(new ByClassChooser(-1, ComponentType.ALL_TEXTFIELD_TYPES));
+        List<Component> allTextFields = findComponents(new ByComponentTypeChooser(-1, ComponentType.ALL_TEXTFIELD_TYPES));
         List<Component> result = new ArrayList<Component>();
 
         for (Component textField : allTextFields) {
@@ -128,7 +128,7 @@ public class TableOperator extends ContextOperator {
             throw new FormsLibraryException("Only found " + boxes.size() + " checkboxes next to the row");
         }
 
-        return new CheckboxOperator((Component) ObjectUtil.invoke(boxes.get(index - 1), "getLWCheckBox()"));
+        return new CheckboxOperator((Component) ObjectUtil.invokeMethod(boxes.get(index - 1), "getLWCheckBox()"));
     }
 
     public void selectRowCheckbox(int index, String[] columnValues) {

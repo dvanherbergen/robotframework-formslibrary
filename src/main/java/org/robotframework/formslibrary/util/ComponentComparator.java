@@ -4,8 +4,8 @@ import java.awt.Component;
 import java.util.Comparator;
 
 /**
- * Sort components by their location on the screen.
- *
+ * Comparator to sort components by their location on the screen. Sorting is
+ * done from top to bottom and left to right.
  */
 public class ComponentComparator implements Comparator<Component> {
 
@@ -25,7 +25,6 @@ public class ComponentComparator implements Comparator<Component> {
         } else {
             return 1;
         }
-
     }
 
 }

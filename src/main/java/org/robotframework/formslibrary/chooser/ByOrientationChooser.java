@@ -3,12 +3,10 @@ package org.robotframework.formslibrary.chooser;
 import java.awt.Component;
 
 import org.netbeans.jemmy.ComponentChooser;
-import org.robotframework.formslibrary.util.ComponentType;
-import org.robotframework.formslibrary.util.Logger;
 
 /**
- * Chooser to select components based on whether they have a horizontal or
- * vertical layout.
+ * Chooser to select Oracle Forms components based based on whether they have a
+ * horizontal or vertical orientation.
  */
 public class ByOrientationChooser implements ComponentChooser {
 
@@ -18,6 +16,13 @@ public class ByOrientationChooser implements ComponentChooser {
 
     private Orientation orientation;
 
+    /**
+     * Chooser based on component orientation.
+     * 
+     * @param orientation
+     *            ByOrientationChooser.Orientation.HORIZONTAL or
+     *            ByOrientationChooser.Orientation.VERTICAL
+     */
     public ByOrientationChooser(Orientation orientation) {
         this.orientation = orientation;
     }
@@ -25,12 +30,8 @@ public class ByOrientationChooser implements ComponentChooser {
     @Override
     public boolean checkComponent(Component component) {
 
-        if (component.getClass().getName().equals(ComponentType.SCROLL_BAR)) {
-            Logger.info("Found scrollbar " + component.getWidth() + " o " + component.getHeight());
-        }
-
         if (orientation == Orientation.VERTICAL) {
-            return component.getWidth() < component.getHeight();
+            return component.getWidth() <= component.getHeight();
         } else {
             return component.getWidth() > component.getHeight();
         }

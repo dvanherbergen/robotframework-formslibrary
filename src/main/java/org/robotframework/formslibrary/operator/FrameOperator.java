@@ -14,6 +14,9 @@ import org.robotframework.swing.operator.ComponentWrapper;
 
 import sun.awt.AppContext;
 
+/**
+ * Operator for working with the main Oracle Forms Window Frame.
+ */
 @SuppressWarnings("restriction")
 public class FrameOperator extends ContainerOperator implements ComponentWrapper {
 
@@ -58,14 +61,17 @@ public class FrameOperator extends ContainerOperator implements ComponentWrapper
         return null;
     }
 
+    /**
+     * Check if the main Oracle Forms Frame still contains the given component.
+     */
     public boolean containsComponent(Component component) {
         return ComponentUtil.containsComponent(getSource(), component);
     }
 
     /**
      * Check if the Oracle Forms frame is part of the current AppContext. This
-     * will not be the case if Java Web Start downloaded a new version of the
-     * jars. That download causes the frame to be included in a different
+     * will not be the case if Java Web Start has downloaded a new version of
+     * the jars. That download causes the frame to be included in a different
      * threads' appContext.
      */
     public static boolean isFrameInCurrentAppContext() {

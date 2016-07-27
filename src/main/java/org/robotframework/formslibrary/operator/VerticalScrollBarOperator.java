@@ -3,19 +3,35 @@ package org.robotframework.formslibrary.operator;
 import java.awt.Component;
 import java.awt.Container;
 
-import org.robotframework.formslibrary.chooser.ByClassChooser;
+import org.robotframework.formslibrary.chooser.ByComponentTypeChooser;
 import org.robotframework.formslibrary.chooser.ByOrientationChooser;
 import org.robotframework.formslibrary.chooser.CompositeChooser;
 import org.robotframework.formslibrary.util.ComponentType;
 import org.robotframework.formslibrary.util.ObjectUtil;
 
+/**
+ * Operator for working with ComponentType.SCROLL_BAR components.
+ */
 public class VerticalScrollBarOperator extends AbstractComponentOperator {
 
+    /**
+     * Initialize a VerticalScrollBarOperator with the n'th vertical scroll bar
+     * in the current context.
+     * 
+     * @param index
+     *            0 (first), 1 (second), ...
+     */
     public VerticalScrollBarOperator(int index) {
         super(new CompositeChooser(new ByOrientationChooser(ByOrientationChooser.Orientation.VERTICAL),
-                new ByClassChooser(index, ComponentType.ALL_SCROLL_BAR_TYPES)));
+                new ByComponentTypeChooser(index, ComponentType.ALL_SCROLL_BAR_TYPES)));
     }
 
+    /**
+     * Scroll up by pressing the up arrow button in the scroll bar.
+     * 
+     * @param count
+     *            number of times to press the button.
+     */
     public void scrollUp(int count) {
         Component[] buttons = ((Container) getSource()).getComponents();
         Component upButton = null;
@@ -25,10 +41,16 @@ public class VerticalScrollBarOperator extends AbstractComponentOperator {
             upButton = buttons[0];
         }
         for (int i = 0; i < count; i++) {
-            ObjectUtil.invoke(upButton, "simulatePush");
+            ObjectUtil.invokeMethod(upButton, "simulatePush");
         }
     }
 
+    /**
+     * Scroll down by pressing the down arrow button in the scroll bar.
+     * 
+     * @param count
+     *            number of times to press the button.
+     */
     public void scrollDown(int count) {
         Component[] buttons = ((Container) getSource()).getComponents();
         Component downButton = null;
@@ -38,7 +60,7 @@ public class VerticalScrollBarOperator extends AbstractComponentOperator {
             downButton = buttons[0];
         }
         for (int i = 0; i < count; i++) {
-            ObjectUtil.invoke(downButton, "simulatePush");
+            ObjectUtil.invokeMethod(downButton, "simulatePush");
         }
     }
 }

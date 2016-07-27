@@ -14,4 +14,9 @@ public class RadioKeywords {
         new RadioOperator(identifier).select();
     }
 
+    @RobotKeyword("Get Radio Button selection.\n\nExample:\n| Get Radio Button | _radio option_\n")
+    @ArgumentNames({ "identifier" })
+    public boolean getRadioButton(String identifier) {
+        return new RadioOperator(identifier).isSelected();
+    }
 }

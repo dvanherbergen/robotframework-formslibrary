@@ -3,19 +3,35 @@ package org.robotframework.formslibrary.operator;
 import java.awt.Component;
 import java.awt.Container;
 
-import org.robotframework.formslibrary.chooser.ByClassChooser;
+import org.robotframework.formslibrary.chooser.ByComponentTypeChooser;
 import org.robotframework.formslibrary.chooser.ByOrientationChooser;
 import org.robotframework.formslibrary.chooser.CompositeChooser;
 import org.robotframework.formslibrary.util.ComponentType;
 import org.robotframework.formslibrary.util.ObjectUtil;
 
+/**
+ * Operator for working with horizontal scroll bars.
+ */
 public class HorizontalScrollBarOperator extends AbstractComponentOperator {
 
+    /**
+     * Initialize a HorizontalScrollBarOperator with the n'th horizontal scroll
+     * bar in the current context.
+     * 
+     * @param index
+     *            0 (first), 1 (second), ...
+     */
     public HorizontalScrollBarOperator(int index) {
         super(new CompositeChooser(new ByOrientationChooser(ByOrientationChooser.Orientation.HORIZONTAL),
-                new ByClassChooser(index, ComponentType.ALL_SCROLL_BAR_TYPES)));
+                new ByComponentTypeChooser(index, ComponentType.ALL_SCROLL_BAR_TYPES)));
     }
 
+    /**
+     * Scroll left by pressing the left arrow button in the scroll bar.
+     * 
+     * @param count
+     *            number of times to press the button.
+     */
     public void scrollLeft(int count) {
         Component[] buttons = ((Container) getSource()).getComponents();
         Component leftButton = null;
@@ -25,10 +41,16 @@ public class HorizontalScrollBarOperator extends AbstractComponentOperator {
             leftButton = buttons[0];
         }
         for (int i = 0; i < count; i++) {
-            ObjectUtil.invoke(leftButton, "simulatePush");
+            ObjectUtil.invokeMethod(leftButton, "simulatePush");
         }
     }
 
+    /**
+     * Scroll right by pressing the right arrow button in the scroll bar.
+     * 
+     * @param count
+     *            number of times to press the button.
+     */
     public void scrollRight(int count) {
         Component[] buttons = ((Container) getSource()).getComponents();
         Component rightButton = null;
@@ -38,7 +60,7 @@ public class HorizontalScrollBarOperator extends AbstractComponentOperator {
             rightButton = buttons[0];
         }
         for (int i = 0; i < count; i++) {
-            ObjectUtil.invoke(rightButton, "simulatePush");
+            ObjectUtil.invokeMethod(rightButton, "simulatePush");
         }
     }
 }

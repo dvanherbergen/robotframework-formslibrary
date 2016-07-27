@@ -3,16 +3,25 @@ package org.robotframework.formslibrary.operator;
 import java.awt.Component;
 
 import org.robotframework.formslibrary.chooser.ByNameChooser;
-import org.robotframework.formslibrary.chooser.ByPrecedingLWLabelChooser;
+import org.robotframework.formslibrary.chooser.ByPrecedingLabelChooser;
 import org.robotframework.formslibrary.util.ComponentType;
 
+/**
+ * Operator factory for creating operators for select and text fields.
+ */
 public class TextFieldOperatorFactory {
 
+    /**
+     * Create an operator for the given component.
+     * 
+     * @return TextFieldOperator or SelectFieldOperator depending on the type of
+     *         component that was provided.
+     */
     public static TextFieldOperator getOperator(Component component) {
 
         if (component != null) {
-            if (component.getClass().getName().equals(ComponentType.SELECT_FIELD)) {
-                return new SelectOperator(component);
+            if (ComponentType.SELECT_FIELD.matches(component)) {
+                return new SelectFieldOperator(component);
             } else {
                 return new TextFieldOperator(component);
             }
@@ -21,6 +30,12 @@ public class TextFieldOperatorFactory {
         return null;
     }
 
+    /**
+     * Create a field operator for a component with the given name.
+     * 
+     * @return TextFieldOperator or SelectFieldOperator depending on the type of
+     *         component that was found.
+     */
     public static TextFieldOperator getOperator(String identifier) {
 
         ContextOperator operator = new ContextOperator();
@@ -30,7 +45,7 @@ public class TextFieldOperatorFactory {
             return getOperator(component);
         }
 
-        return new TextFieldOperator(new ByPrecedingLWLabelChooser(identifier));
+        return new TextFieldOperator(new ByPrecedingLabelChooser(identifier));
     }
 
 }

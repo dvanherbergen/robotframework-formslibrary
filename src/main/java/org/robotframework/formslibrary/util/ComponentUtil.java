@@ -12,10 +12,16 @@ import javax.accessibility.AccessibleContext;
 
 import org.robotframework.formslibrary.FormsLibraryException;
 
+/**
+ * Utility class for generic interactions with components.
+ */
 public class ComponentUtil {
 
     private static final Pattern GENERATED_NAME_PATTERN = Pattern.compile("[A-Z_]*[0-9]*");
 
+    /**
+     * Get component names in format 'name (alternative name)(alternative name)'
+     */
     public static String getFormattedComponentNames(Component component) {
 
         List<String> names = getComponentNames(component);
@@ -47,13 +53,16 @@ public class ComponentUtil {
         return false;
     }
 
+    /**
+     * Get a list of all valid names for a component. Names can be the label,
+     * accessible text, tooltip text or the default component name.
+     */
     private static List<String> getComponentNames(Component component) {
 
         List<String> componentNames = new ArrayList<String>();
-        String componentType = component.getClass().getName();
 
-        if (componentType.equals(ComponentType.PUSH_BUTTON) || componentType.equals(ComponentType.MENU)
-                || componentType.equals(ComponentType.EXTENDED_CHECKBOX)) {
+        if (ComponentType.PUSH_BUTTON.matches(component) || ComponentType.MENU.matches(component)
+                || ComponentType.EXTENDED_CHECKBOX.matches(component)) {
             String label = ObjectUtil.getString(component, "getLabel()");
             if (label != null) {
                 componentNames.add(label);
@@ -81,14 +90,19 @@ public class ComponentUtil {
         return componentNames;
     }
 
+    /**
+     * Get the tooltip text for a component.
+     * 
+     * @return text or null if no tooltip is available.
+     */
     private static String getToolTipText(Component component) {
 
         String text = null;
 
         try {
-            Object toolTip = ObjectUtil.invoke(component, "getToolTipValue()");
+            Object toolTip = ObjectUtil.invokeMethod(component, "getToolTipValue()");
             if (toolTip != null) {
-                text = (String) ObjectUtil.invokeWithIntArg(toolTip, "getToolTipProperty()", 409);
+                text = (String) ObjectUtil.invokeMethodWithIntArg(toolTip, "getToolTipProperty()", 409);
             }
         } catch (FormsLibraryException e) {
             return null;
@@ -101,6 +115,9 @@ public class ComponentUtil {
         return text;
     }
 
+    /**
+     * Get the accessible text description for a component.
+     */
     public static String getAccessibleText(Component component) {
 
         AccessibleContext c = component.getAccessibleContext();
@@ -113,12 +130,13 @@ public class ComponentUtil {
         return null;
     }
 
+    /**
+     * Check if the component is editable (in case of a text field).
+     */
     public static boolean isEditable(Component component) {
 
-        String componentType = component.getClass().getName();
         boolean editable = false;
-
-        if (componentType.equals(ComponentType.TEXT_FIELD) || componentType.equals(ComponentType.TEXT_AREA)) {
+        if (ComponentType.TEXT_FIELD.matches(component) || ComponentType.TEXT_AREA.matches(component)) {
             editable = ObjectUtil.getBoolean(component, "isEditable()");
         }
         return editable;
@@ -144,6 +162,9 @@ public class ComponentUtil {
         component.dispatchEvent(new KeyEvent(component, KeyEvent.KEY_RELEASED, 0, 2, key, KeyEvent.CHAR_UNDEFINED));
     }
 
+    /**
+     * Check if a component contains another component in its child components.
+     */
     public static boolean containsComponent(Component parent, Component component) {
         if (parent == component) {
             return true;
@@ -177,7 +198,7 @@ public class ComponentUtil {
     }
 
     /**
-     * Check if comp1 is on the same vertical level as comp2.
+     * Check if comp1 is on the same vertical level in the UI as comp2.
      */
     public static boolean areaAlignedVertically(Component comp1, Component comp2) {
         int deltaY = comp1.getY() - comp2.getY();

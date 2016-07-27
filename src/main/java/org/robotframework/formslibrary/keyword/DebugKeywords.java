@@ -1,5 +1,6 @@
 package org.robotframework.formslibrary.keyword;
 
+import org.robotframework.formslibrary.context.FormsContext;
 import org.robotframework.formslibrary.operator.ContextOperator;
 import org.robotframework.formslibrary.util.ComponentType;
 import org.robotframework.formslibrary.util.ComponentUtil;
@@ -18,9 +19,14 @@ public class DebugKeywords {
         new ContextOperator().listComponentHierarchy();
     }
 
+    @RobotKeyword("Prints all components (their types and their names) available in the application window.\n\n")
+    public void listAllComponents() {
+        new ContextOperator(FormsContext.getRootContext()).listComponentHierarchy();
+    }
+
     @RobotKeyword("Prints the name of all buttons found in the selected context.\n\n Example:\n | List Buttons|\n")
     public void listButtons() {
-        new ContextOperator().listComponents(ComponentType.BUTTON, ComponentType.PUSH_BUTTON, ComponentType.LW_CHECK_BOX,
+        new ContextOperator().listComponents(ComponentType.BUTTON, ComponentType.PUSH_BUTTON, ComponentType.CHECK_BOX,
                 ComponentType.EXTENDED_CHECKBOX);
     }
 

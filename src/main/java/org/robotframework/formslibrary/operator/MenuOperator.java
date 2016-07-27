@@ -11,10 +11,13 @@ import org.robotframework.formslibrary.util.ObjectUtil;
 import org.robotframework.formslibrary.util.TextUtil;
 
 /**
- * Operator finds top level LWMenu item.
+ * Operator for working with drop down application menus.
  */
 public class MenuOperator extends AbstractRootComponentOperator {
 
+    /**
+     * Initialize a MenuOperator for a menu entry with the given name.
+     */
     public MenuOperator(String rootMenuLabel) {
         super(new ByNameChooser(rootMenuLabel, ComponentType.MENU));
     }
@@ -38,7 +41,7 @@ public class MenuOperator extends AbstractRootComponentOperator {
             throw new FormsLibraryException("Could not find menu path '" + path + "'");
         } else {
             Logger.info("Selecting menu '" + path + "'");
-            ObjectUtil.invoke(menuItem, "activate()");
+            ObjectUtil.invokeMethod(menuItem, "activate()");
         }
     }
 

@@ -6,20 +6,45 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.netbeans.jemmy.ComponentChooser;
-import org.robotframework.formslibrary.chooser.ByClassChooser;
+import org.robotframework.formslibrary.chooser.ByComponentTypeChooser;
 import org.robotframework.formslibrary.chooser.ByNameChooser;
 import org.robotframework.formslibrary.context.FormsContext;
 import org.robotframework.formslibrary.util.ComponentType;
 import org.robotframework.formslibrary.util.ComponentUtil;
+import org.robotframework.formslibrary.util.Logger;
+import org.robotframework.swing.operator.ComponentWrapper;
 
+/**
+ * Operator for the current or given context. This operator allows searching for
+ * components in the context without resulting in an error if nothing is found.
+ */
 public class ContextOperator {
 
-    public Container getSource() {
-        return (Container) FormsContext.getContext().getSource();
+    private Container context;
+
+    /**
+     * Initialize a context operator for the current context.
+     */
+    public ContextOperator() {
+        this(FormsContext.getContext());
     }
 
     /**
-     * Finds all visible components matching the chooser in the current context.
+     * Initialize a context operator for the given context.
+     */
+    public ContextOperator(ComponentWrapper contextWrapper) {
+        this.context = (Container) contextWrapper.getSource();
+    }
+
+    /**
+     * @return Component representing the context.
+     */
+    public Container getSource() {
+        return context;
+    }
+
+    /**
+     * Finds all visible components matching the chooser in the context.
      */
     public List<Component> findComponents(ComponentChooser chooser) {
         return findChildComponentsByChooser(getSource(), chooser);
@@ -48,8 +73,12 @@ public class ContextOperator {
         return result;
     }
 
-    public void listComponents(String... componentTypes) {
-        for (Component component : findComponents(new ByClassChooser(-1, componentTypes))) {
+    /**
+     * Print a list of all components in the current context, which match the
+     * given types.
+     */
+    public void listComponents(ComponentType... componentTypes) {
+        for (Component component : findComponents(new ByComponentTypeChooser(-1, componentTypes))) {
 
             String editable = "";
             if (ComponentUtil.isEditable(component)) {
@@ -57,12 +86,15 @@ public class ContextOperator {
             }
 
             String location = String.format("%1$-8s", component.getX() + "," + component.getY());
-            System.out.println(location + " : " + ComponentUtil.getFormattedComponentNames(component) + editable);
+            Logger.info(location + " : " + ComponentUtil.getFormattedComponentNames(component) + editable);
         }
     }
 
-    public void listTextFields(String... componentTypes) {
-        for (Component component : findComponents(new ByClassChooser(-1, ComponentType.ALL_TEXTFIELD_TYPES))) {
+    /**
+     * Print all the text fields in the current context.
+     */
+    public void listTextFields() {
+        for (Component component : findComponents(new ByComponentTypeChooser(-1, ComponentType.ALL_TEXTFIELD_TYPES))) {
 
             String editable = "";
             if (ComponentUtil.isEditable(component)) {
@@ -73,7 +105,7 @@ public class ContextOperator {
             String value = " : " + operator.getValue();
 
             String location = String.format("%1$-8s", component.getX() + "," + component.getY());
-            System.out.println(location + " : " + ComponentUtil.getFormattedComponentNames(component) + value + editable);
+            Logger.info(location + " : " + ComponentUtil.getFormattedComponentNames(component) + value + editable);
         }
     }
 
@@ -92,7 +124,7 @@ public class ContextOperator {
         }
         String formattedName = String.format("%1$-" + (2 * (level + 1)) + "s", "L" + level) + component.getClass().getName() + "  -  "
                 + ComponentUtil.getFormattedComponentNames(component) + editable;
-        System.out.println(formattedName);
+        Logger.info(formattedName);
 
         if (component instanceof Container) {
             Component[] childComponents = ((Container) component).getComponents();
@@ -106,7 +138,7 @@ public class ContextOperator {
     }
 
     private List<Component> findNonTableTextFields() {
-        return purgeTableFields(findComponents(new ByClassChooser(-1, ComponentType.ALL_TEXTFIELD_TYPES)));
+        return purgeTableFields(findComponents(new ByComponentTypeChooser(-1, ComponentType.ALL_TEXTFIELD_TYPES)));
     }
 
     /**
@@ -142,6 +174,10 @@ public class ContextOperator {
         return result;
     }
 
+    /**
+     * Find a specific text field by name in the current context. Text fields
+     * which are arranged in a table layout are ignored.
+     */
     public Component findTextField(ByNameChooser chooser) {
 
         for (Component component : findNonTableTextFields()) {

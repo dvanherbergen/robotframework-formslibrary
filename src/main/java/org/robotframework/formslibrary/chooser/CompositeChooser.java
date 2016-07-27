@@ -5,13 +5,19 @@ import java.awt.Component;
 import org.netbeans.jemmy.ComponentChooser;
 
 /**
- * Composite chooser. All embedded choosers must match in order for the
- * component to be selected.
+ * Composite chooser. Allows to combine multiple choosers in an 'AND' fashion:
+ * all embedded choosers must match in order for the component to be selected.
  */
 public class CompositeChooser implements ComponentChooser {
 
     private ComponentChooser[] choosers;
 
+    /**
+     * Create new combination chooser.
+     * 
+     * @param choosers
+     *            one or more choosers.
+     */
     public CompositeChooser(ComponentChooser... choosers) {
         this.choosers = choosers;
     }
@@ -24,7 +30,6 @@ public class CompositeChooser implements ComponentChooser {
                 return false;
             }
         }
-
         return true;
     }
 
@@ -32,7 +37,9 @@ public class CompositeChooser implements ComponentChooser {
     public String getDescription() {
         StringBuilder builder = new StringBuilder();
         for (ComponentChooser c : choosers) {
-            builder.append(" ");
+            if (builder.length() > 0) {
+                builder.append(" / ");
+            }
             builder.append(c.getDescription());
         }
         return builder.toString();

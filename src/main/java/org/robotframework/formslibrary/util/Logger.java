@@ -1,5 +1,9 @@
 package org.robotframework.formslibrary.util;
 
+/**
+ * Very, very simple logger implementation which allows debug logging to be
+ * disabled.
+ */
 public class Logger {
 
     public static void debug(String message) {

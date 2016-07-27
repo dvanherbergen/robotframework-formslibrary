@@ -17,7 +17,7 @@ public class TextFieldKeywords {
 
     @RobotKeyword("Verify field content.\n\n" + "Example:\n" + "| Field Should Contain | _username_ | _jeff_ | \n")
     @ArgumentNames({ "identifier", "value" })
-    public void fieldShouldContain(String identifier, String value) {
+    public void verifyField(String identifier, String value) {
         TextFieldOperatorFactory.getOperator(identifier).verifyValue(value);
     }
 

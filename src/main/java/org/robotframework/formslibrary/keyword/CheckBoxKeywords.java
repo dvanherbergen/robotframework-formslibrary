@@ -20,15 +20,21 @@ public class CheckBoxKeywords {
         new CheckboxOperator(identifier).verifyNotChecked();
     }
 
+    @RobotKeyword("Get checkbox value (true is checked, false is unchecked)")
+    @ArgumentNames({ "identifier" })
+    public boolean getCheckbox(String identifier) {
+        return new CheckboxOperator(identifier).isChecked();
+    }
+
     @RobotKeyword("Check checkbox.\n\nExample:\n| Check Checkbox | _checkboxname_ | \n")
     @ArgumentNames({ "identifier" })
-    public void CheckCheckbox(String identifier) {
+    public void selectCheckbox(String identifier) {
         new CheckboxOperator(identifier).check();
     }
 
     @RobotKeyword("Uncheck checkbox.\n\nExample:\n| Uncheck Checkbox | _checkboxname_ | \n")
     @ArgumentNames({ "identifier" })
-    public void UncheckCheckbox(String identifier) {
+    public void deselectCheckbox(String identifier) {
         new CheckboxOperator(identifier).uncheck();
     }
 

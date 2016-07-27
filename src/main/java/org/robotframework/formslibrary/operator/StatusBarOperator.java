@@ -1,7 +1,7 @@
 package org.robotframework.formslibrary.operator;
 
 import org.robotframework.formslibrary.FormsLibraryException;
-import org.robotframework.formslibrary.chooser.ByClassChooser;
+import org.robotframework.formslibrary.chooser.ByComponentTypeChooser;
 import org.robotframework.formslibrary.util.ComponentType;
 import org.robotframework.formslibrary.util.Logger;
 import org.robotframework.formslibrary.util.ObjectUtil;
@@ -12,16 +12,22 @@ import org.robotframework.formslibrary.util.TextUtil;
  */
 public class StatusBarOperator extends AbstractRootComponentOperator {
 
+    /**
+     * Create a new operator for the default status bar.
+     */
     public StatusBarOperator() {
-        super(new ByClassChooser(0, ComponentType.STATUS_BAR));
+        super(new ByComponentTypeChooser(0, ComponentType.STATUS_BAR));
     }
 
+    /**
+     * @return the main message displayed in the status bar.
+     */
     public String getMessage() {
 
-        Object[] statusBarItems = (Object[]) ObjectUtil.invoke(getSource(), "getItems()");
+        Object[] statusBarItems = (Object[]) ObjectUtil.invokeMethod(getSource(), "getItems()");
         String result = "";
         for (int i = 0; i < statusBarItems.length; i++) {
-            if (statusBarItems[i].getClass().getName().equals("oracle.ewt.statusBar.StatusBarTextItem")) {
+            if (ComponentType.STATUS_BAR_TEXT_ITEM.matches(statusBarItems[i])) {
                 result = ObjectUtil.getString(statusBarItems[i], "getText()");
                 Logger.info("Found status message '" + result + "'");
                 break;
@@ -30,6 +36,9 @@ public class StatusBarOperator extends AbstractRootComponentOperator {
         return result;
     }
 
+    /**
+     * Verify that the given value is displayed in the status bar.
+     */
     public void verifyValue(String value) {
         String message = getMessage();
         if (!TextUtil.matches(message, value)) {

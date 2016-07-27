@@ -8,16 +8,23 @@ import org.robotframework.formslibrary.util.Logger;
 import org.robotframework.formslibrary.util.ObjectUtil;
 
 /**
- * Select the first component following an LWLabel with the expected text.
- *
+ * Chooser that selects the first component following a Label component with a
+ * given text. Hidden components are ignored. This chooser can be used to find
+ * text fields following a label field.
  */
-public class ByPrecedingLWLabelChooser implements ComponentChooser {
+public class ByPrecedingLabelChooser implements ComponentChooser {
 
     private String text;
 
     private boolean selectNextComponent = false;
 
-    public ByPrecedingLWLabelChooser(String text) {
+    /**
+     * Create new chooser for a component following a label.
+     * 
+     * @param text
+     *            label value.
+     */
+    public ByPrecedingLabelChooser(String text) {
         this.text = text;
     }
 
@@ -30,7 +37,7 @@ public class ByPrecedingLWLabelChooser implements ComponentChooser {
             return true;
         }
 
-        if (component.getClass().getName().equals(ComponentType.LABEL)) {
+        if (ComponentType.LABEL.matches(component)) {
             String label = ObjectUtil.getString(component, "getText()");
             if (label != null) {
                 label = label.replaceAll(":", "").trim();
@@ -49,7 +56,6 @@ public class ByPrecedingLWLabelChooser implements ComponentChooser {
 
     @Override
     public String getDescription() {
-
         return text;
     }
 

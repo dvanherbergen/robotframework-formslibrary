@@ -14,9 +14,9 @@ public class StatusBarKeywords {
     }
 
     @RobotKeyword("Verify that the status bar at the bottom of the screen contains certain content.\n\n" + "Example:\n"
-            + "| Status Message Should Contain | _No Record Found_ | \n")
+            + "| Verify Status Message | _No Record Found_ | \n")
     @ArgumentNames({ "value" })
-    public void statusMessageShouldContain(String value) {
+    public void verifyStatusMessage(String value) {
         new StatusBarOperator().verifyValue(value);
     }
 }

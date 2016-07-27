@@ -33,8 +33,8 @@ public class WindowKeywords {
         new WindowOperator().closeOpenWindows();
     }
 
-    @RobotKeyword("When the application is started using Java Web Start, this can result in a newer version of the application being downloaded first, which results is an invalid context and requires an application restart.\n\n\n\nExample:\n| Is Context Invalid|\n")
-    public boolean isContextInvalid() {
-        return !FrameOperator.isFrameInCurrentAppContext();
+    @RobotKeyword("When the application is started using Java Web Start, this can result in a newer version of the application being downloaded first, which results is an invalid context and requires an application restart.\n\n\n\nExample:\n| Verify Context|\n")
+    public boolean verifyContext() {
+        return FrameOperator.isFrameInCurrentAppContext();
     }
 }

@@ -1,32 +1,55 @@
 package org.robotframework.formslibrary.util;
 
-public class ComponentType {
+/**
+ * Enum for all the different Oracle Forms Components supported by FormsLibrary.
+ */
+public enum ComponentType {
 
-    public static final String CHECK_BOX = "oracle.forms.ui.VCheckbox";
-    public static final String LW_CHECK_BOX = "oracle.ewt.lwAWT.LWCheckbox";
-    public static final String TEXT_FIELD = "oracle.forms.ui.VTextField";
-    public static final String ALERT_PANE = "oracle.ewt.alert.AlertPane";
-    public static final String LABEL = "oracle.ewt.lwAWT.LWLabel";
-    public static final String BUTTON = "oracle.forms.ui.VButton";
-    public static final String PUSH_BUTTON = "oracle.ewt.button.PushButton";
-    public static final String MENU = "oracle.ewt.lwAWT.lwMenu.LWMenu";
-    public static final String EXTENDED_CHECKBOX = "oracle.forms.ui.ExtendedCheckbox";
-    public static final String EXTENDED_FRAME = "oracle.forms.ui.ExtendedFrame";
-    public static final String JFRAME = "javax.swing.JFrame";
-    public static final String TITLE_BAR = "oracle.ewt.lwAWT.lwWindow.laf.TitleBar";
-    public static final String FORM_DESKTOP = "oracle.forms.ui.FormDesktopContainer";
-    public static final String TAB_BAR = "oracle.ewt.tabBar.TabBar";
-    public static final String SELECT_FIELD = "oracle.forms.ui.VPopList";
-    public static final String TREE = "oracle.ewt.dTree.DTree";
-    public static final String TREE_ITEM = "oracle.ewt.dTree.DTreeItem";
-    public static final String TEXT_AREA = "oracle.forms.ui.FLWTextArea";
-    public static final String WINDOW = "oracle.forms.ui.FWindow";
-    public static final String LIST_VIEW = "oracle.forms.ui.ListView";
-    public static final String STATUS_BAR = "oracle.ewt.statusBar.StatusBar";
-    public static final String SCROLL_BAR = "oracle.ewt.lwAWT.LWScrollbar";
-    public static final String SCROLL_BAR_BOX = "oracle.ewt.scrolling.scrollBox.EwtLWScrollbar";
+    // @formatter:off
+    CHECK_BOX_WRAPPER("oracle.forms.ui.VCheckbox"),
+    CHECK_BOX("oracle.ewt.lwAWT.LWCheckbox"),
+    TEXT_FIELD("oracle.forms.ui.VTextField"),
+    ALERT_PANE("oracle.ewt.alert.AlertPane"),
+    LABEL("oracle.ewt.lwAWT.LWLabel"),
+    BUTTON("oracle.forms.ui.VButton"),
+    PUSH_BUTTON("oracle.ewt.button.PushButton"),
+    MENU("oracle.ewt.lwAWT.lwMenu.LWMenu"),
+    EXTENDED_CHECKBOX("oracle.forms.ui.ExtendedCheckbox"),
+    EXTENDED_FRAME("oracle.forms.ui.ExtendedFrame"),
+    JFRAME("javax.swing.JFrame"),
+    TITLE_BAR("oracle.ewt.lwAWT.lwWindow.laf.TitleBar"),
+    FORM_DESKTOP("oracle.forms.ui.FormDesktopContainer"),
+    TAB_BAR("oracle.ewt.tabBar.TabBar"),
+    SELECT_FIELD("oracle.forms.ui.VPopList"),
+    TREE("oracle.ewt.dTree.DTree"),
+    TREE_ITEM("oracle.ewt.dTree.DTreeItem"),
+    TEXT_AREA("oracle.forms.ui.FLWTextArea"),
+    WINDOW("oracle.forms.ui.FWindow"),
+    LIST_VIEW("oracle.forms.ui.ListView"),
+    STATUS_BAR("oracle.ewt.statusBar.StatusBar"),
+    STATUS_BAR_TEXT_ITEM("oracle.ewt.statusBar.StatusBarTextItem"),
+    SCROLL_BAR("oracle.ewt.lwAWT.LWScrollbar"),
+    SCROLL_BAR_BOX("oracle.ewt.scrolling.scrollBox.EwtLWScrollbar");
+    // @formatter:on
 
-    public static final String[] ALL_BUTTON_TYPES = new String[] { BUTTON, PUSH_BUTTON };
-    public static final String[] ALL_TEXTFIELD_TYPES = new String[] { TEXT_FIELD, TEXT_AREA, SELECT_FIELD };
-    public static final String[] ALL_SCROLL_BAR_TYPES = new String[] { SCROLL_BAR, SCROLL_BAR_BOX };
+    public static final ComponentType[] ALL_BUTTON_TYPES = new ComponentType[] { BUTTON, PUSH_BUTTON };
+    public static final ComponentType[] ALL_TEXTFIELD_TYPES = new ComponentType[] { TEXT_FIELD, TEXT_AREA, SELECT_FIELD };
+    public static final ComponentType[] ALL_SCROLL_BAR_TYPES = new ComponentType[] { SCROLL_BAR, SCROLL_BAR_BOX };
+
+    private String className;
+
+    private ComponentType(String className) {
+        this.className = className;
+    }
+
+    public String toString() {
+        return className;
+    }
+
+    /**
+     * Check if a given object matches this component type.
+     */
+    public boolean matches(Object o) {
+        return className.equals(o.getClass().getName());
+    }
 }

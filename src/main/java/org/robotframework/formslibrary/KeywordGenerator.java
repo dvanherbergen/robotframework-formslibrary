@@ -8,7 +8,11 @@ import java.util.Arrays;
 import org.robotframework.javalib.library.AnnotationLibrary;
 
 /**
- * Based on SwingLibraryKeywords from wojtek.
+ * KeywordGenerator based on SwingLibraryKeywords from wojtek. The
+ * KeywordGenerator creates a static Python file containing all the
+ * documentation for the FormsLibrary keywords. When LibDoc is used to generate
+ * documentation from FormsLibrary.py, FormsLibrary.py uses the generated file
+ * as input.
  */
 public class KeywordGenerator {
 
@@ -16,7 +20,7 @@ public class KeywordGenerator {
 
     public static void main(String[] args) {
         KeywordGenerator generator = new KeywordGenerator();
-        String target = "keywords.txt";
+        String target = "keywords.py";
         if (args.length == 1) {
             target = args[0];
         }

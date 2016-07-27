@@ -9,6 +9,7 @@ This library assumes that the oracle forms applications is started directly usin
 
 
 ## TODO
+* Add more wildcards in TextUtil.matches
 * Attach to running process instead of launch new one
 * test screenshot (using wxpython, it takes screenshot of active desktop)
 * add sample test case
@@ -17,3 +18,6 @@ This library assumes that the oracle forms applications is started directly usin
 
 This library has been created to support a specific oracle forms application, but should work on other Oracle Forms applications too. It is free for anyone to use and modify. Pull requests are welcome.
 Free support is not available.
+
+## Code Formatting
+All code is formatted with the eclipse code formatter template with a custom line wrapping width of 150 characters and the formatter on/off tags enabled.

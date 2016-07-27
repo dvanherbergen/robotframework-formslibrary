@@ -10,12 +10,18 @@ import org.robotframework.formslibrary.util.Logger;
 import org.robotframework.swing.context.Context;
 import org.robotframework.swing.operator.ComponentWrapper;
 
+/**
+ * FormsContext holds the currently selected context (Container component) in
+ * which all new components are searched. A context can be the root context (the
+ * main swing window) or an oracle forms window/dialog.
+ */
 public class FormsContext {
 
     private static ComponentWrapper context;
 
     public static void setContext(ComponentWrapper operator) {
         context = operator;
+        // TODO remove swing library context dependency if possible
         Context.setContext(context);
     }
 
@@ -33,7 +39,6 @@ public class FormsContext {
         }
 
         Component contextComponent = Context.getContext().getSource();
-        String contextClass = contextComponent.getClass().getName();
 
         // verify that the current window context is still part of the desktop
         if (!new FrameOperator().containsComponent(contextComponent)) {
@@ -43,9 +48,9 @@ public class FormsContext {
         }
 
         // verify the type of context
-        if (!contextClass.equals(ComponentType.JFRAME) && !contextClass.equals(ComponentType.EXTENDED_FRAME)
-                && !contextClass.equals(ComponentType.WINDOW)) {
-            throw new FormsLibraryException("Invalid context selected: " + contextClass);
+        if (!ComponentType.JFRAME.matches(contextComponent) && !ComponentType.EXTENDED_FRAME.matches(contextComponent)
+                && !ComponentType.WINDOW.matches(contextComponent)) {
+            throw new FormsLibraryException("Invalid context selected: " + contextComponent.getClass().getSimpleName());
         }
 
         return context;
