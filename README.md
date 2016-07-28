@@ -1,4 +1,5 @@
 # forms-library
+
 A robotframework library for testing Oracle Forms applications.
 This library started as an extension of robot framework [remoteswinglibrary](https://github.com/robotframework/remoteswinglibrary) to include support for oracle forms.
 
@@ -9,8 +10,9 @@ This library assumes that the oracle forms applications is started directly usin
 
 
 ## TODO
-* Add more wildcards in TextUtil.matches
-* Attach to running process instead of launch new one
+
+* Support more wildcards (datetime, regex, ...) in TextUtil.matches
+* (Attach to running process instead of launch new one) -> may not be needed as we can run one process per test suite.
 * test screenshot (using wxpython, it takes screenshot of active desktop)
 * add sample test case
 
@@ -20,4 +22,5 @@ This library has been created to support a specific oracle forms application, bu
 Free support is not available.
 
 ## Code Formatting
+
 All code is formatted with the eclipse code formatter template with a custom line wrapping width of 150 characters and the formatter on/off tags enabled.

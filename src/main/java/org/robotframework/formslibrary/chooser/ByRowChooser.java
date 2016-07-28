@@ -30,7 +30,7 @@ public class ByRowChooser implements ComponentChooser {
         for (ComponentType type : allowedTypes) {
             if (type.matches(component)) {
                 if (ComponentUtil.hasName(component, name)) {
-                    if (ComponentUtil.areaAlignedVertically(nearbyComponent, component)) {
+                    if (ComponentUtil.areAlignedVertically(nearbyComponent, component)) {
                         Logger.info(
                                 "Found " + component.getClass().getSimpleName() + " '" + ComponentUtil.getFormattedComponentNames(component) + "'");
                         return true;

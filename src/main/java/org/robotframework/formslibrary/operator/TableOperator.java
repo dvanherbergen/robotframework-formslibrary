@@ -85,7 +85,7 @@ public class TableOperator extends ContextOperator {
         List<Component> componentsOnRow = new ArrayList<Component>();
 
         for (Component component : allComponents) {
-            if (ComponentUtil.areaAlignedVertically(keyField, component)) {
+            if (ComponentUtil.areAlignedVertically(keyField, component)) {
                 componentsOnRow.add(component);
             }
         }

@@ -191,7 +191,7 @@ public class ComponentUtil {
      */
     public static boolean areAdjacent(Component comp1, Component comp2) {
 
-        if (areaAlignedVertically(comp1, comp2)) {
+        if (areAlignedVertically(comp1, comp2)) {
             int deltaX = comp2.getX() - (comp1.getX() + comp1.getWidth());
             if (-3 < deltaX && deltaX < 15) {
                 Logger.info("Found adjacent field " + comp1.getX() + "-" + (comp1.getX() + comp1.getWidth()) + "," + comp1.getY() + " / "
@@ -207,7 +207,7 @@ public class ComponentUtil {
     /**
      * Check if comp1 is on the same vertical level in the UI as comp2.
      */
-    public static boolean areaAlignedVertically(Component comp1, Component comp2) {
+    public static boolean areAlignedVertically(Component comp1, Component comp2) {
         int deltaY = comp1.getY() - comp2.getY();
         if (-3 < deltaY && deltaY < 3) {
             return true;
