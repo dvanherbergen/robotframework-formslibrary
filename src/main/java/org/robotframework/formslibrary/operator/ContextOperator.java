@@ -2,13 +2,16 @@ package org.robotframework.formslibrary.operator;
 
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.netbeans.jemmy.ComponentChooser;
 import org.robotframework.formslibrary.chooser.ByComponentTypeChooser;
 import org.robotframework.formslibrary.chooser.ByNameChooser;
 import org.robotframework.formslibrary.context.FormsContext;
+import org.robotframework.formslibrary.util.ComponentComparator;
 import org.robotframework.formslibrary.util.ComponentType;
 import org.robotframework.formslibrary.util.ComponentUtil;
 import org.robotframework.formslibrary.util.Logger;
@@ -51,6 +54,15 @@ public class ContextOperator {
     }
 
     /**
+     * Finds all visible components matching the chooser in the context.
+     */
+    private List<Component> findAndSortComponents(ComponentChooser chooser) {
+        List<Component> results = findChildComponentsByChooser(getSource(), chooser);
+        Collections.sort(results, new ComponentComparator());
+        return results;
+    }
+
+    /**
      * Find all childComponents that match a given chooser selection. Components
      * which are not visible are ignored.
      */
@@ -78,23 +90,26 @@ public class ContextOperator {
      * given types.
      */
     public void listComponents(ComponentType... componentTypes) {
-        for (Component component : findComponents(new ByComponentTypeChooser(-1, componentTypes))) {
+        for (Component component : findAndSortComponents(new ByComponentTypeChooser(-1, componentTypes))) {
 
             String editable = "";
             if (ComponentUtil.isEditable(component)) {
                 editable = " [editable] ";
             }
-
-            String location = String.format("%1$-8s", component.getX() + "," + component.getY());
-            Logger.info(location + " : " + ComponentUtil.getFormattedComponentNames(component) + editable);
+            Logger.info(getFormattedLocation(component) + " : " + ComponentUtil.getFormattedComponentNames(component) + editable);
         }
+    }
+
+    private String getFormattedLocation(Component component) {
+        Point location = ComponentUtil.getLocationInWindow(component);
+        return String.format("%1$-8s", location.x + "," + location.y);
     }
 
     /**
      * Print all the text fields in the current context.
      */
     public void listTextFields() {
-        for (Component component : findComponents(new ByComponentTypeChooser(-1, ComponentType.ALL_TEXTFIELD_TYPES))) {
+        for (Component component : findAndSortComponents(new ByComponentTypeChooser(-1, ComponentType.ALL_TEXTFIELD_TYPES))) {
 
             String editable = "";
             if (ComponentUtil.isEditable(component)) {
@@ -103,9 +118,7 @@ public class ContextOperator {
 
             TextFieldOperator operator = TextFieldOperatorFactory.getOperator(component);
             String value = " : " + operator.getValue();
-
-            String location = String.format("%1$-8s", component.getX() + "," + component.getY());
-            Logger.info(location + " : " + ComponentUtil.getFormattedComponentNames(component) + value + editable);
+            Logger.info(getFormattedLocation(component) + " : " + ComponentUtil.getFormattedComponentNames(component) + value + editable);
         }
     }
 
@@ -122,8 +135,8 @@ public class ContextOperator {
         if (ComponentUtil.isEditable(component)) {
             editable = " [editable] ";
         }
-        String formattedName = String.format("%1$-" + (2 * (level + 1)) + "s", "L" + level) + component.getClass().getName() + "  -  "
-                + ComponentUtil.getFormattedComponentNames(component) + editable;
+        String formattedName = String.format("%1$-" + (10 + (2 * (level + 1))) + "s", "L" + level + " [" + getFormattedLocation(component) + "]")
+                + component.getClass().getName() + "  -  " + ComponentUtil.getFormattedComponentNames(component) + editable;
         Logger.info(formattedName);
 
         if (component instanceof Container) {
@@ -154,10 +167,14 @@ public class ContextOperator {
                 if (component == otherComponent) {
                     continue;
                 }
-                if (component.getX() == otherComponent.getX()) {
+
+                Point loc1 = ComponentUtil.getLocationInWindow(component);
+                Point loc2 = ComponentUtil.getLocationInWindow(otherComponent);
+
+                if (loc1.x == loc2.x) {
 
                     // only take other fields that are really close into account
-                    int yDelta = component.getY() - otherComponent.getY();
+                    int yDelta = loc1.y - loc2.y;
                     if (-35 < yDelta && yDelta < 35) {
                         String name = "" + ComponentUtil.getAccessibleText(component);
                         if (("" + ComponentUtil.getAccessibleText(otherComponent)).equals(name)) {

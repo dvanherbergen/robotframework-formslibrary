@@ -1,6 +1,7 @@
 package org.robotframework.formslibrary.util;
 
 import java.awt.Component;
+import java.awt.Point;
 import java.util.Comparator;
 
 /**
@@ -12,12 +13,15 @@ public class ComponentComparator implements Comparator<Component> {
     @Override
     public int compare(Component c1, Component c2) {
 
-        if (c1.getY() < c2.getY()) {
+        Point loc1 = ComponentUtil.getLocationInWindow(c1);
+        Point loc2 = ComponentUtil.getLocationInWindow(c2);
+
+        if (loc1.y < loc2.y) {
             return -1;
-        } else if (c1.getY() == c2.getY()) {
-            if (c1.getX() < c2.getX()) {
+        } else if (loc1.y == loc2.y) {
+            if (loc1.x < loc2.x) {
                 return -1;
-            } else if (c1.getX() == c2.getX()) {
+            } else if (loc1.x == loc2.x) {
                 return 0;
             } else {
                 return 1;

@@ -1,6 +1,7 @@
 package org.robotframework.formslibrary.operator;
 
 import java.awt.Component;
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -62,7 +63,8 @@ public class TableOperator extends ContextOperator {
         }
 
         Component firstField = keyColumns.get(0);
-        Logger.info("Found matching row @ " + firstField.getX() + ", " + firstField.getY() + ".");
+        Point loc = ComponentUtil.getLocationInWindow(firstField);
+        Logger.info("Found matching row @ " + loc.x + ", " + loc.y + ".");
         return firstField;
 
     }
@@ -154,6 +156,7 @@ public class TableOperator extends ContextOperator {
 
         TextFieldOperator operator = TextFieldOperatorFactory.getOperator(results.get(0));
         operator.setValue(value);
+        Logger.info("Set field value to '" + value + "'.");
     }
 
     /**

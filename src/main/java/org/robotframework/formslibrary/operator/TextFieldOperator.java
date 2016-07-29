@@ -37,6 +37,7 @@ public class TextFieldOperator extends AbstractComponentOperator {
         getSource().dispatchEvent(new FocusEvent(getSource(), FocusEvent.FOCUS_GAINED));
         ObjectUtil.invokeMethodWithStringArg(getSource(), "setText()", value);
         getSource().dispatchEvent(new FocusEvent(getSource(), FocusEvent.FOCUS_LOST));
+        Logger.info("Set field value to '" + value + "'.");
     }
 
     /**

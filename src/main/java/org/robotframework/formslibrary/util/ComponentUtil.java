@@ -2,11 +2,11 @@ package org.robotframework.formslibrary.util;
 
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import javax.accessibility.AccessibleContext;
 
@@ -16,8 +16,6 @@ import org.robotframework.formslibrary.FormsLibraryException;
  * Utility class for generic interactions with components.
  */
 public class ComponentUtil {
-
-    private static final Pattern GENERATED_NAME_PATTERN = Pattern.compile("[A-Z_]{6,}[0-9]{1,3}");
 
     /**
      * Get component names in format 'name (alternative name)(alternative name)'
@@ -65,36 +63,55 @@ public class ComponentUtil {
                 || ComponentType.EXTENDED_CHECKBOX.matches(component)) {
             String label = ObjectUtil.getString(component, "getLabel()");
             if (label != null) {
-                componentNames.add(label);
+                componentNames.add(label.trim());
             }
         }
 
         if (ComponentType.TITLE_BAR.matches(component)) {
             String title = ObjectUtil.getString(component, "getLWWindow().getTitle()");
             if (title != null) {
-                componentNames.add(title);
+                componentNames.add(title.trim());
             }
         }
 
         String accesibleText = getAccessibleText(component);
-        if (accesibleText != null && !componentNames.contains(accesibleText) && !GENERATED_NAME_PATTERN.matcher(accesibleText).matches()) {
-            componentNames.add(accesibleText);
+        if (accesibleText != null && !componentNames.contains(accesibleText)) {
+            if (!accesibleText.replaceAll("_", "").toLowerCase().startsWith(component.getClass().getSimpleName().toLowerCase())) {
+                componentNames.add(accesibleText.trim());
+            }
         }
 
         String tooltip = getToolTipText(component);
         if (tooltip != null && !componentNames.contains(tooltip)) {
-            componentNames.add(tooltip);
+            componentNames.add(tooltip.trim());
         }
 
-        String defaultName = component.getName();
         if (componentNames.isEmpty()) {
             // add a blank string so we can select using blank names
             componentNames.add("");
-            // add the default name
-            componentNames.add(defaultName);
+            // add default name
+            componentNames.add(component.getName());
         }
 
         return componentNames;
+    }
+
+    /**
+     * Return the location of the component relative to the active window.
+     */
+    public static Point getLocationInWindow(Component component) {
+
+        int x = component.getX();
+        int y = component.getY();
+
+        Component parent = component.getParent();
+        while (parent != null && !ComponentType.EXTENDED_FRAME.matches(parent) && !ComponentType.FORM_DESKTOP.matches(parent)) {
+            x = x + parent.getX();
+            y = y + parent.getY();
+            parent = parent.getParent();
+        }
+
+        return new Point(x, y);
     }
 
     /**
@@ -191,16 +208,18 @@ public class ComponentUtil {
      */
     public static boolean areAdjacent(Component comp1, Component comp2) {
 
-        if (areAlignedVertically(comp1, comp2)) {
-            int deltaX = comp2.getX() - (comp1.getX() + comp1.getWidth());
+        Point point1 = getLocationInWindow(comp1);
+        Point point2 = getLocationInWindow(comp2);
+
+        if (areAlignedVertically(point1, point2)) {
+            int deltaX = point2.x - (point1.x + comp1.getWidth());
             if (-3 < deltaX && deltaX < 15) {
-                Logger.info("Found adjacent field " + comp1.getX() + "-" + (comp1.getX() + comp1.getWidth()) + "," + comp1.getY() + " / "
-                        + comp2.getY() + "," + comp2.getY() + ".");
+                Logger.info("Found adjacent field " + point1.x + "-" + (point1.x + comp1.getWidth()) + "," + point1.y + " / " + point2.x + ","
+                        + point2.y + ".");
                 return true;
             }
         }
-        Logger.debug("No match " + comp1.getX() + "-" + (comp1.getX() + comp1.getWidth()) + "," + comp1.getY() + " / " + comp2.getY() + ","
-                + comp2.getY() + ".");
+        Logger.debug("No match " + point1.x + "-" + (point1.x + comp1.getWidth()) + "," + point1.y + " / " + point2.x + "," + point2.y + ".");
         return false;
     }
 
@@ -208,7 +227,15 @@ public class ComponentUtil {
      * Check if comp1 is on the same vertical level in the UI as comp2.
      */
     public static boolean areAlignedVertically(Component comp1, Component comp2) {
-        int deltaY = comp1.getY() - comp2.getY();
+        return areAlignedVertically(getLocationInWindow(comp1), getLocationInWindow(comp2));
+    }
+
+    /**
+     * Check if point 1 is on the same vertical level in the UI as point 2.
+     */
+    private static boolean areAlignedVertically(Point p1, Point p2) {
+
+        int deltaY = p1.y - p2.y;
         if (-3 < deltaY && deltaY < 3) {
             return true;
         }
