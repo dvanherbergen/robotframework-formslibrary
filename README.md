@@ -1,4 +1,4 @@
-# forms-library
+# robotframework-formslibrary
 
 A robotframework library for testing Oracle Forms applications.
 This library started as an extension of robot framework [remoteswinglibrary](https://github.com/robotframework/remoteswinglibrary) to include support for oracle forms.
