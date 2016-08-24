@@ -43,11 +43,11 @@ public class TableKeywords {
     public void setRowField(String identifier, String value, String... columnValues) {
         new TableOperator().setRowField(identifier, value, columnValues);
     }
-    
-    @RobotKeyword("Get a field value in a table row." + " The row is identified by values\n\n" + "Example:\n"
+
+    @RobotKeyword("Get a text field value in a table row." + " The field is identified by name. The row is identified by values\n\n" + "Example:\n"
             + "| Get Row Field | _field name_ || _first col value_ | _second col value_ | \n")
     @ArgumentNames({ "identifier", "*columnvalues" })
-    public void getRowField(String identifier, String... columnValues) {
+    public String getRowField(String identifier, String... columnValues) {
         return new TableOperator().getRowField(identifier, columnValues);
     }
 
