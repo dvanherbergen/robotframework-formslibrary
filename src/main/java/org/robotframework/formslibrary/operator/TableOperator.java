@@ -159,6 +159,21 @@ public class TableOperator extends ContextOperator {
         Logger.info("Set field value to '" + value + "'.");
     }
 
+    public String getRowField(String identifier, String[] columnValues) {
+    	
+    	Component firstColumn = findRow(columnValues);
+        List<Component> results = findComponents(new ByRowChooser(firstColumn, identifier, ComponentType.ALL_TEXTFIELD_TYPES));
+
+        if (results.isEmpty()) {
+            throw new FormsLibraryException("No row field found with name '" + identifier + "'");
+        }
+
+        TextFieldOperator operator = TextFieldOperatorFactory.getOperator(results.get(0));
+        String value = operator.getValue();
+        Logger.info("Found field value '" + value + "'.");
+    	return value;
+    }
+    
     /**
      * Check if a row exists with the given column values.
      */
