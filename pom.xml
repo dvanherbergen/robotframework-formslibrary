@@ -104,12 +104,12 @@
 		<!-- The next dependency is not needed to build the application. It is 
 			only included here to provide easy access to the oracle forms classes in 
 			eclipse. -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>oracle</groupId>
 			<artifactId>frmall</artifactId>
 			<version>11.1.2.2</version>
 			<scope>provided</scope>
-		</dependency>
+		</dependency> -->
 	</dependencies>
 
 </project>
