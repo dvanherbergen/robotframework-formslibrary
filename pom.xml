@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.robotframework</groupId>
 	<artifactId>formslibrary</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 
 	<name>robotframework-formslibrary</name>
 	<description>A Robot Framework library for Oracle Forms UI testing</description>
