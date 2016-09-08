@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<keywordspec generated="20160908 09:07:47" type="library" name="FileLibrary" format="ROBOT">
+<version></version>
+<scope>global</scope>
+<namedargs>yes</namedargs>
+<doc>FileLibrary is a Robot Framework test library for generating test data files.
+Built in variables: now</doc>
+<kw name="Concatenate Files">
+<arguments>
+<arg>targetFile</arg>
+<arg>*sourceFiles</arg>
+</arguments>
+<doc>Concatenate multiple files into a single file.</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Connect">
+<arguments>
+<arg>driver</arg>
+<arg>url</arg>
+<arg>user</arg>
+<arg>password</arg>
+</arguments>
+<doc>Connect to database using the specified arguments</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Disconnect">
+<arguments>
+</arguments>
+<doc>Close SQL session</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Execute SQL">
+<arguments>
+<arg>sql</arg>
+</arguments>
+<doc>Execute SQL statement(s). Specify either an SQL to execute or the path to a .sql file.</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Generate File">
+<arguments>
+<arg>templateFile</arg>
+<arg>outputFile</arg>
+</arguments>
+<doc>Generate a file from template.</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Get Template Data">
+<arguments>
+<arg>attribute</arg>
+</arguments>
+<doc>Get a specific value from the template data context.</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Log Template Data">
+<arguments>
+<arg>outputFilePath=</arg>
+</arguments>
+<doc>Print all content of the template data as JSON. When an optional file name argument is supplied, the template context is saved as a JSON File.</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Reset Template Data">
+<arguments>
+<arg>initialize=</arg>
+</arguments>
+<doc>Clear the template data. All existing data. When the optional argument True is given; the cleared template data will be preloaded with test variables.</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Set Query Time Out">
+<arguments>
+<arg>seconds</arg>
+</arguments>
+<doc>Set query timeout. Default timeout is 30 seconds.</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Set Template Data">
+<arguments>
+<arg>attribute</arg>
+<arg>value</arg>
+</arguments>
+<doc>Set a variable in the template context.</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Set Template Data From CSV">
+<arguments>
+<arg>attribute</arg>
+<arg>csvFilePath</arg>
+</arguments>
+<doc>Load template data from CSV.</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Set Template Data From SQL">
+<arguments>
+<arg>attribute</arg>
+<arg>sql</arg>
+</arguments>
+<doc>Load template data from SQL results. Specify either an SQL to execute or the path to a .sql file.
+
+Example uses:
+
+
+Usage:
+| Set Template Data From SQL | _attributePath_ | _sql_ |
+| Set Template Data From SQL | _attributePath_ | _sqlFile_ |
+Example usage:
+
+| Set Template Data From SQL | soup | soup-select.sql |
+| Set Template Data From SQL | soup | select brand, type, color from soups where id = 1 |
+| Set Template Data From SQL | soup.ingredients[] | select i.name from ingredients i, soup_ingredients si where i.id = si.ingredient_id and si.soup_id = 1 |
+| Set Template Data From SQL | soup.ingredients[].suppliers | select s.name from suppliers s, ingredient_suppliers is where s.id = is.supplier_id and is.ingredient_name = ${soup.ingredients[].name}  |
+| Set Template Data From SQL | soup.ingredients[].suppliers[].contact | select c.phone from supplier_contact c where c.supplier_name = ${soup.ingredients[].suppliers[].name} |
+
+
+The examples shown above could result in the following template data structure:
+
+| { "soup": {
+|      "brand" : "Campbells",
+|      "type" : "Tomato",
+|      "color" : "red",
+|      "ingredients" : [
+|          {
+|             "name" : "tomato",
+|             "suppliers" : [
+|                { 
+|                   "name" : "the best tomato company" 
+|                   "contact" : {
+|                      "phone" : "555-555.555"
+|                   }
+|                },
+|                { 
+|                   "name" : "the second best tomato company",
+|                   "contact" : {
+|                      "phone" : "666-666.666"
+|                   }
+|                }
+|             ]
+|          },
+|          {
+|             "name" : "potato",
+|             "suppliers" : [
+|                { "name" : "the only potato company" }
+|             ]            
+|          },
+|          {
+|             "name" : "water",
+|             "suppliers" : []            
+|          },
+|          {
+|             "name" : "pepper",
+|             "suppliers" : [
+|                { "name" : "the sweet pepper company" },
+|                { "name" : "the spicy pepper company" }
+|             ]               
+|          }
+|       ]
+|    }
+| }</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Stop File Library Process">
+<arguments>
+</arguments>
+<doc>Stop remote library.</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Verify Files Are Equal">
+<arguments>
+<arg>file1</arg>
+<arg>file2</arg>
+</arguments>
+<doc>Compare the content of two files.</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Verify SQL Result">
+<arguments>
+<arg>sql</arg>
+<arg>*values</arg>
+</arguments>
+<doc>Execute a SQL statement or .sql file and verify that returned values match the expected values.</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Zip Files">
+<arguments>
+<arg>targetFile</arg>
+<arg>*sourceFiles</arg>
+</arguments>
+<doc>Compress multiple files into a single zip file.</doc>
+<tags>
+</tags>
+</kw>
+</keywordspec>

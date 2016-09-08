@@ -79,6 +79,7 @@
 				<version>1.1.1</version>
 				<executions>
 					<execution>
+						<id>key-gen</id>
 						<phase>compile</phase>
 						<goals>
 							<goal>java</goal>
@@ -90,9 +91,41 @@
 							</arguments>
 						</configuration>
 					</execution>
+					<execution>
+						<id>xml-doc</id>
+						<phase>install</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>python</executable>
+							<arguments>
+								<argument>-m</argument>
+								<argument>robot.libdoc</argument>
+								<argument>FileLibrary</argument>
+								<argument>${project.basedir}/doc/formslibrary.xml</argument>
+							</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>html-doc</id>
+						<phase>install</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>python</executable>
+							<arguments>
+								<argument>-m</argument>
+								<argument>robot.libdoc</argument>
+								<argument>FileLibrary</argument>
+								<argument>${project.basedir}/doc/formslibrary.html</argument>
+							</arguments>
+						</configuration>
+					</execution>
 				</executions>
-			</plugin>		
-		</plugins>		
+			</plugin>
+		</plugins>
 	</build>
 
 	<dependencies>
@@ -104,12 +137,8 @@
 		<!-- The next dependency is not needed to build the application. It is 
 			only included here to provide easy access to the oracle forms classes in 
 			eclipse. -->
-		<!-- <dependency>
-			<groupId>oracle</groupId>
-			<artifactId>frmall</artifactId>
-			<version>11.1.2.2</version>
-			<scope>provided</scope>
-		</dependency> -->
+		<!-- <dependency> <groupId>oracle</groupId> <artifactId>frmall</artifactId> 
+			<version>11.1.2.2</version> <scope>provided</scope> </dependency> -->
 	</dependencies>
 
 </project>
