@@ -12,9 +12,7 @@ This library assumes that the oracle forms applications is started directly usin
 ## TODO
 * Add keyword to retrieve child entry names of navigation pane entry 
 * Support more wildcards (datetime, regex, ...) in TextUtil.matches
-* (Attach to running process instead of launch new one) -> may not be needed as we can run one process per test suite.
 * test screenshot (using wxpython, it takes screenshot of active desktop) -> replace with awt screenshot?
-* add sample test case
 
 ## Support
 

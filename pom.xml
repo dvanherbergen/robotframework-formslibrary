@@ -102,7 +102,7 @@
 							<arguments>
 								<argument>-m</argument>
 								<argument>robot.libdoc</argument>
-								<argument>FileLibrary</argument>
+								<argument>FormsLibrary</argument>
 								<argument>${project.basedir}/doc/formslibrary.xml</argument>
 							</arguments>
 						</configuration>
@@ -118,7 +118,7 @@
 							<arguments>
 								<argument>-m</argument>
 								<argument>robot.libdoc</argument>
-								<argument>FileLibrary</argument>
+								<argument>FormsLibrary</argument>
 								<argument>${project.basedir}/doc/formslibrary.html</argument>
 							</arguments>
 						</configuration>
@@ -137,8 +137,12 @@
 		<!-- The next dependency is not needed to build the application. It is 
 			only included here to provide easy access to the oracle forms classes in 
 			eclipse. -->
-		<!-- <dependency> <groupId>oracle</groupId> <artifactId>frmall</artifactId> 
-			<version>11.1.2.2</version> <scope>provided</scope> </dependency> -->
+		<!-- <dependency>
+			<groupId>oracle</groupId>
+			<artifactId>frmall</artifactId>
+			<version>11.1.2.2</version>
+			<scope>provided</scope>
+		</dependency> -->
 	</dependencies>
 
 </project>
