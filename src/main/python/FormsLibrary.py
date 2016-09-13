@@ -41,6 +41,8 @@ from robot.running.testlibraries import TestLibrary
 from robot.libraries.BuiltIn import BuiltIn, run_keyword_variant
 from robot.utils import timestr_to_secs, get_link_path
 from robotbackgroundlogger import BackgroundLogger
+from robot.api import logger as defaultLogger
+
 logger = BackgroundLogger()
 
 try:
@@ -575,9 +577,15 @@ class FormsLibrary(object):
         return formslibrary_keywords.keyword_documentation[name]
 
     def run_keyword(self, name, arguments, kwargs):
-        if name in FormsLibrary.KEYWORDS:
-            return getattr(self, name)(*arguments, **kwargs)        
-        if self.current:
-        	return self.current.run_keyword(name, arguments, kwargs)
-        if name in formslibrary_keywords.keywords:
-        	raise Exception("To use this keyword, you need to connect to the application first.")
+		if name == 'captureWindow' or name == 'captureActiveWindow':
+			path = self.current.run_keyword(name, arguments, kwargs)
+			defaultLogger.info(path, html=True)
+			logger.info('<a href="%s"><img src="%s" width="800px"></a>' % (path, path), html=True)
+			logger.info("<a href=\"%s\">Screenshot</a> saved." % (path), html=True)
+			return path
+		if name in FormsLibrary.KEYWORDS:
+			return getattr(self, name)(*arguments, **kwargs)        
+		if self.current:
+			return self.current.run_keyword(name, arguments, kwargs)
+		if name in formslibrary_keywords.keywords:
+			raise Exception("To use this keyword, you need to connect to the application first.")

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<keywordspec generated="20160912 13:09:21" type="library" name="FormsLibrary" format="ROBOT">
+<keywordspec generated="20160913 13:39:19" type="library" name="FormsLibrary" format="ROBOT">
 <version></version>
 <scope>global</scope>
 <namedargs>yes</namedargs>
@@ -91,6 +91,22 @@
         using the Start Application -keyword. The given alias is stored to identify the
         started application in FormsLibrary.
         Subsequent keywords will be passed on to this application.</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Capture Active Window">
+<arguments>
+<arg>targetDirectory=</arg>
+</arguments>
+<doc>Take a full size screen capture of the active dialog in Oracle Forms.</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Capture Window">
+<arguments>
+<arg>targetDirectory=</arg>
+</arguments>
+<doc>Take a screen capture of the Oracle Forms main window. The size of the screenshot is limited to the display resolution.</doc>
 <tags>
 </tags>
 </kw>
@@ -316,6 +332,15 @@ Example:
 <arguments>
 </arguments>
 <doc> log and return java properties and environment information from the current java application.</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Resize Window">
+<arguments>
+<arg>width</arg>
+<arg>height</arg>
+</arguments>
+<doc>Set the size of the Oracle Forms main window. Maximum allowed size may be limited by the underlying OS.</doc>
 <tags>
 </tags>
 </kw>

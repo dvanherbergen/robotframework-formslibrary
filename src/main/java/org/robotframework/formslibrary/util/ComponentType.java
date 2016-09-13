@@ -5,7 +5,7 @@ package org.robotframework.formslibrary.util;
  */
 public enum ComponentType {
 
-    // @formatter:off
+	// @formatter:off
     CHECK_BOX_WRAPPER("oracle.forms.ui.VCheckbox"),
     CHECK_BOX("oracle.ewt.lwAWT.LWCheckbox"),
     TEXT_FIELD("oracle.forms.ui.VTextField"),
@@ -29,27 +29,29 @@ public enum ComponentType {
     STATUS_BAR("oracle.ewt.statusBar.StatusBar"),
     STATUS_BAR_TEXT_ITEM("oracle.ewt.statusBar.StatusBarTextItem"),
     SCROLL_BAR("oracle.ewt.lwAWT.LWScrollbar"),
-    SCROLL_BAR_BOX("oracle.ewt.scrolling.scrollBox.EwtLWScrollbar");
+    SCROLL_BAR_BOX("oracle.ewt.scrolling.scrollBox.EwtLWScrollbar"), 
+    ORACLE_MAIN("oracle.forms.engine.Main");
+	
     // @formatter:on
 
-    public static final ComponentType[] ALL_BUTTON_TYPES = new ComponentType[] { BUTTON, PUSH_BUTTON };
-    public static final ComponentType[] ALL_TEXTFIELD_TYPES = new ComponentType[] { TEXT_FIELD, TEXT_AREA, SELECT_FIELD };
-    public static final ComponentType[] ALL_SCROLL_BAR_TYPES = new ComponentType[] { SCROLL_BAR, SCROLL_BAR_BOX };
+	public static final ComponentType[] ALL_BUTTON_TYPES = new ComponentType[] { BUTTON, PUSH_BUTTON };
+	public static final ComponentType[] ALL_TEXTFIELD_TYPES = new ComponentType[] { TEXT_FIELD, TEXT_AREA, SELECT_FIELD };
+	public static final ComponentType[] ALL_SCROLL_BAR_TYPES = new ComponentType[] { SCROLL_BAR, SCROLL_BAR_BOX };
 
-    private String className;
+	private String className;
 
-    private ComponentType(String className) {
-        this.className = className;
-    }
+	private ComponentType(String className) {
+		this.className = className;
+	}
 
-    public String toString() {
-        return className;
-    }
+	public String toString() {
+		return className;
+	}
 
-    /**
-     * Check if a given object matches this component type.
-     */
-    public boolean matches(Object o) {
-        return className.equals(o.getClass().getName());
-    }
+	/**
+	 * Check if a given object matches this component type.
+	 */
+	public boolean matches(Object o) {
+		return className.equals(o.getClass().getName());
+	}
 }
