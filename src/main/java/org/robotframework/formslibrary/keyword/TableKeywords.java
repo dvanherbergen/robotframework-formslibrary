@@ -1,9 +1,17 @@
 package org.robotframework.formslibrary.keyword;
 
+import java.awt.Component;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.robotframework.formslibrary.FormsLibraryException;
+import org.robotframework.formslibrary.chooser.ByNameChooser;
 import org.robotframework.formslibrary.context.ContextChangeMonitor;
+import org.robotframework.formslibrary.operator.ContextOperator;
 import org.robotframework.formslibrary.operator.TableOperator;
+import org.robotframework.formslibrary.operator.TextFieldOperatorFactory;
 import org.robotframework.formslibrary.operator.VerticalScrollBarOperator;
+import org.robotframework.formslibrary.util.ComponentType;
 import org.robotframework.javalib.annotation.ArgumentNames;
 import org.robotframework.javalib.annotation.RobotKeyword;
 import org.robotframework.javalib.annotation.RobotKeywords;
@@ -84,5 +92,54 @@ public class TableKeywords {
 		monitor.start();
 		new TableOperator().selectRowButton(index, columnValues);
 		monitor.stop();
+	}
+
+	// @formatter:off
+	@RobotKeyword("Get all values for certain columns in a table. Returns an array[row][column]. \n"+
+	"\n Example usage:\n" +
+	"| @{table}= | Get Table Fields | _col1_ | _col3_ | \n" +
+	"| Log Many | @{Table} | | | \n" +
+	"| Log | ${Table[3][1]} | | | \n" )
+	// @formatter:on
+	@ArgumentNames({ "*columnnames" })
+	public List<List<String>> getTableFields(String[] identifiers) {
+
+		List<List<String>> result = new ArrayList<List<String>>();
+
+		for (int i = 0; i < identifiers.length; i++) {
+
+			List<Component> columnFields = new ContextOperator()
+					.findTableFields(new ByNameChooser(identifiers[i], ComponentType.ALL_TEXTFIELD_TYPES));
+
+			if (i == 0) {
+				// first column, so we need to create the rows
+				for (Component c : columnFields) {
+
+					String value = TextFieldOperatorFactory.getOperator(c).getValue();
+					if (value == null || value.length() == 0) {
+						break;
+					}
+					List<String> row = new ArrayList<String>();
+					row.add(value);
+					result.add(row);
+				}
+			} else {
+				int j = 0;
+				for (Component c : columnFields) {
+					if (result.size() > j) {
+						List<String> row = result.get(j++);
+						if (row != null) {
+							String value = TextFieldOperatorFactory.getOperator(c).getValue();
+							if (value == null || value.length() == 0) {
+								value = "";
+							}
+							row.add(value);
+						}
+					}
+				}
+			}
+		}
+
+		return result;
 	}
 }

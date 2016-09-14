@@ -154,6 +154,14 @@ public class ContextOperator {
 		return purgeTableFields(findComponents(new ByComponentTypeChooser(-1, ComponentType.ALL_TEXTFIELD_TYPES)));
 	}
 
+	private List<Component> findTableTextFields() {
+		List<Component> result = findComponents(new ByComponentTypeChooser(-1, ComponentType.ALL_TEXTFIELD_TYPES));
+		List<Component> nonTableTextFieds = findNonTableTextFields();
+		result.removeAll(nonTableTextFieds);
+		Collections.sort(result, new ComponentComparator());
+		return result;
+	}
+
 	/**
 	 * Remove all fields from the list which are organized in a table layout
 	 * (same name + same X coordinates)
@@ -204,6 +212,23 @@ public class ContextOperator {
 		}
 
 		return null;
+	}
+
+	/**
+	 * Find a table text field by name in the current context. Only fields in a
+	 * table layout are included.
+	 */
+	public List<Component> findTableFields(ByNameChooser chooser) {
+
+		List<Component> results = new ArrayList<Component>();
+
+		for (Component component : findTableTextFields()) {
+			if (chooser.checkComponent(component)) {
+				results.add(component);
+			}
+		}
+
+		return results;
 	}
 
 	/**

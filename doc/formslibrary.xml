@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<keywordspec generated="20160913 13:39:19" type="library" name="FormsLibrary" format="ROBOT">
+<keywordspec generated="20160914 11:07:04" type="library" name="FormsLibrary" format="ROBOT">
 <version></version>
 <scope>global</scope>
 <namedargs>yes</namedargs>
@@ -273,6 +273,19 @@ Example:
 
  Example:
  | Get Status Message |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Get Table Fields">
+<arguments>
+<arg>*columnnames</arg>
+</arguments>
+<doc>Get all values for certain columns in a table. Returns an array[row][column]. 
+
+ Example usage:
+| @{table}= | Get Table Fields | _col1_ | _col3_ | 
+| Log Many | @{Table} | | | 
+| Log | ${Table[3][1]} | | |</doc>
 <tags>
 </tags>
 </kw>
