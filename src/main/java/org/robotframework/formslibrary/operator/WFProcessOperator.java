@@ -4,7 +4,10 @@ import java.awt.Component;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.robotframework.formslibrary.FormsLibraryException;
 import org.robotframework.formslibrary.chooser.ByComponentTypeChooser;
 import org.robotframework.formslibrary.util.ComponentType;
 import org.robotframework.formslibrary.util.ComponentUtil;
@@ -124,15 +127,42 @@ public class WFProcessOperator extends AbstractRootComponentOperator {
 		}
 	}
 
-	private Object getActivityWithID(String id) {
+	private Object getActivityWithID(String identifier) {
 		Vector<Object> activities = getProcessActivities();
+		Map<String, Integer> nameCount = new HashMap<String, Integer>();
 		for (Object object : activities) {
 			Object actID = ObjectUtil.getField(object, "instanceID");
-			if (actID.toString().equals(id)) {
+			String dispName = (String) ObjectUtil.getField(object, "dispName");
+			Integer count = nameCount.get(dispName);
+			count = count == null ? 1 : count++;
+			nameCount.put(dispName, count);
+			String name = parseName(identifier);
+			int index = parseIndex(identifier);
+			if (actID.toString().equals(identifier) || (count.equals(index) && dispName.trim().matches(name))) {
 				return object;
 			}
 		}
-		return null;
+		throw new FormsLibraryException("No activity with identifier '" + identifier + "' could be resolved");
+	}
+
+	private static final Pattern INDEXED_NAME_PATTERN = Pattern.compile("(.*)(\\[)([0-9]*)(\\])");
+
+	private int parseIndex(String identifier) {
+		Matcher m = INDEXED_NAME_PATTERN.matcher(identifier);
+		if (m.matches()) {
+			return Integer.valueOf(m.group(3));
+		} else {
+			return 1;
+		}
+	}
+
+	private String parseName(String identifier) {
+		Matcher m = INDEXED_NAME_PATTERN.matcher(identifier);
+		if (m.matches()) {
+			return m.group(1);
+		} else {
+			return identifier.trim();
+		}
 	}
 
 }
