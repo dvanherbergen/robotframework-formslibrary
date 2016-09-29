@@ -11,6 +11,7 @@ public enum ComponentType {
     TEXT_FIELD("oracle.forms.ui.VTextField"),
     ALERT_PANE("oracle.ewt.alert.AlertPane"),
     LABEL("oracle.ewt.lwAWT.LWLabel"),
+    DIALOG("oracle.apps.fnd.wf.LWCommonDialog"),
     BUTTON("oracle.forms.ui.VButton"),
     PUSH_BUTTON("oracle.ewt.button.PushButton"),
     MENU("oracle.ewt.lwAWT.lwMenu.LWMenu"),
@@ -30,11 +31,13 @@ public enum ComponentType {
     STATUS_BAR_TEXT_ITEM("oracle.ewt.statusBar.StatusBarTextItem"),
     SCROLL_BAR("oracle.ewt.lwAWT.LWScrollbar"),
     SCROLL_BAR_BOX("oracle.ewt.scrolling.scrollBox.EwtLWScrollbar"), 
-    ORACLE_MAIN("oracle.forms.engine.Main");
+    ORACLE_MAIN("oracle.forms.engine.Main"),
+    WFPROCESS("oracle.apps.fnd.wf.WFProcess"),
+    LW_BUTTON("oracle.ewt.lwAWT.LWButton");
 	
     // @formatter:on
 
-	public static final ComponentType[] ALL_BUTTON_TYPES = new ComponentType[] { BUTTON, PUSH_BUTTON };
+	public static final ComponentType[] ALL_BUTTON_TYPES = new ComponentType[] { BUTTON, PUSH_BUTTON, LW_BUTTON };
 	public static final ComponentType[] ALL_TEXTFIELD_TYPES = new ComponentType[] { TEXT_FIELD, TEXT_AREA, SELECT_FIELD };
 	public static final ComponentType[] ALL_SCROLL_BAR_TYPES = new ComponentType[] { SCROLL_BAR, SCROLL_BAR_BOX };
 

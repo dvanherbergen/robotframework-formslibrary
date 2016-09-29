@@ -2,7 +2,7 @@ package org.robotframework.formslibrary.context;
 
 import java.util.List;
 
-import org.robotframework.formslibrary.operator.WindowOperator;
+import org.robotframework.formslibrary.operator.LWWindowOperator;
 import org.robotframework.formslibrary.util.Logger;
 
 /**
@@ -12,39 +12,45 @@ import org.robotframework.formslibrary.util.Logger;
  */
 public class ContextChangeMonitor {
 
-    private List<String> initialOpenWindows;
+	private List<String> initialOpenLWWindows;
 
-    /**
-     * Start monitoring for window changes.
-     */
-    public void start() {
-        initialOpenWindows = new WindowOperator().getWindowTitles();
-    }
+	/**
+	 * Start monitoring for window changes.
+	 */
+	public void start() {
+		if (FormsContext.isFormsServicesApp()) {
+			initialOpenLWWindows = new LWWindowOperator().getWindowTitles();
+		} else {
 
-    /**
-     * Stop monitoring for window changes and change the context if needed. When
-     * a new window is detected, it will be automatically set as the new
-     * context. When the current context window was closed, the context will be
-     * reset to the root context.
-     */
-    public void stop() {
-        List<String> newOpenWindows = new WindowOperator().getWindowTitles();
+		}
+	}
 
-        // check if a window was closed
-        if (newOpenWindows.size() < initialOpenWindows.size()) {
-            FormsContext.resetContext();
-            return;
-        }
+	/**
+	 * Stop monitoring for window changes and change the context if needed. When
+	 * a new window is detected, it will be automatically set as the new
+	 * context. When the current context window was closed, the context will be
+	 * reset to the root context.
+	 */
+	public void stop() {
+		if (FormsContext.isFormsServicesApp()) {
+			List<String> newOpenWindows = new LWWindowOperator().getWindowTitles();
 
-        // check for new windows
-        for (String name : newOpenWindows) {
-            if (!initialOpenWindows.contains(name)) {
-                // there is a new window open
-                Logger.info("Found new window '" + name + "', autosetting context to new window.");
-                new WindowOperator().setWindowAsContext(name);
-                return;
-            }
-        }
+			// check if a window was closed
+			if (newOpenWindows.size() < initialOpenLWWindows.size()) {
+				FormsContext.resetContext();
+				return;
+			}
 
-    }
+			// check for new windows
+			for (String name : newOpenWindows) {
+				if (!initialOpenLWWindows.contains(name)) {
+					// there is a new window open
+					Logger.info("Found new window '" + name + "', autosetting context to new window.");
+					new LWWindowOperator().setWindowAsContext(name);
+					return;
+				}
+			}
+		}
+
+	}
 }

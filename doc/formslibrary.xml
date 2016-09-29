@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<keywordspec generated="20160914 11:07:04" type="library" name="FormsLibrary" format="ROBOT">
+<keywordspec generated="20160929 13:51:44" type="library" name="FormsLibrary" format="ROBOT">
 <version></version>
 <scope>global</scope>
 <namedargs>yes</namedargs>
@@ -110,6 +110,14 @@
 <tags>
 </tags>
 </kw>
+<kw name="Capture Workflow View">
+<arguments>
+<arg>targetDirectory=</arg>
+</arguments>
+<doc>Take a screen capture of the Oracle Workflow view.</doc>
+<tags>
+</tags>
+</kw>
 <kw name="Click Button">
 <arguments>
 <arg>identifier</arg>
@@ -119,6 +127,14 @@
 
   If the button opens a new window and detectWindowChange=true, the context will be set to the new window automatically. Similarly if the button closes a window, the context will be reset to the root context. DetectWindowChange defaults to true. Example:
  | Click Button | _OK_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Click Button Async">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Asynchronously Pushes button</doc>
 <tags>
 </tags>
 </kw>
@@ -231,6 +247,18 @@ Example:
 <tags>
 </tags>
 </kw>
+<kw name="Get Label">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Get label content.
+
+Example:
+| 
+| ${textFieldValue}= | Get Field | _username_ |</doc>
+<tags>
+</tags>
+</kw>
 <kw name="Get Radio Button">
 <arguments>
 <arg>identifier</arg>
@@ -293,6 +321,27 @@ Example:
 <arguments>
 </arguments>
 <doc>Prints all components (their types and their names) available in the application window.</doc>
+<tags>
+</tags>
+</kw>
+<kw name="List All Process Activities">
+<arguments>
+</arguments>
+<doc>List All Process Activites</doc>
+<tags>
+</tags>
+</kw>
+<kw name="List All Process Activities Info">
+<arguments>
+</arguments>
+<doc>List All Process Activites with all properties</doc>
+<tags>
+</tags>
+</kw>
+<kw name="List All Windows">
+<arguments>
+</arguments>
+<doc>Prints windows</doc>
 <tags>
 </tags>
 </kw>
@@ -415,6 +464,13 @@ Example:
 <tags>
 </tags>
 </kw>
+<kw name="Select Base Process Activity">
+<arguments>
+</arguments>
+<doc>Selects the base process activity.</doc>
+<tags>
+</tags>
+</kw>
 <kw name="Select Checkbox">
 <arguments>
 <arg>identifier</arg>
@@ -423,6 +479,14 @@ Example:
 
 Example:
 | Select Checkbox | _checkboxname_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Select Forms Dialog">
+<arguments>
+<arg>identifier</arg>
+</arguments>
+<doc>Select Forms Dialog as current context and sets focus to it. |</doc>
 <tags>
 </tags>
 </kw>
@@ -447,6 +511,14 @@ Example:
 
  Example:
  | Select Menu | _Help &gt; About This Application_ |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Select Process Activity">
+<arguments>
+<arg>id</arg>
+</arguments>
+<doc>Select process activity with ID from the Process flow and make it the selected activity.</doc>
 <tags>
 </tags>
 </kw>

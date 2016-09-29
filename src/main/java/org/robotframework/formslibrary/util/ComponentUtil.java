@@ -65,7 +65,7 @@ public class ComponentUtil {
 		List<String> componentNames = new ArrayList<String>();
 
 		if (ComponentType.PUSH_BUTTON.matches(component) || ComponentType.MENU.matches(component)
-				|| ComponentType.EXTENDED_CHECKBOX.matches(component)) {
+				|| ComponentType.EXTENDED_CHECKBOX.matches(component) || ComponentType.LW_BUTTON.matches(component)) {
 			String label = ObjectUtil.getString(component, "getLabel()");
 			if (label != null) {
 				componentNames.add(label.trim());
@@ -94,9 +94,9 @@ public class ComponentUtil {
 		if (componentNames.isEmpty()) {
 			// add a blank string so we can select using blank names
 			componentNames.add("");
-			// add default name
-			componentNames.add(component.getName());
 		}
+		// add default name
+		componentNames.add(component.getName());
 
 		return componentNames;
 	}
@@ -255,13 +255,24 @@ public class ComponentUtil {
 
 		File targetFile = getNextAvailableFile(targetDirectory, "screenshot", "png");
 
+		Logger.info("Creating screenshot file " + targetFile.getAbsolutePath());
+
 		Rectangle rect = component.getBounds();
+
+		try {
+			targetFile.mkdirs();
+			targetFile.createNewFile();
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new FormsLibraryException("Error creating file " + targetFile.getAbsolutePath());
+		}
 
 		try {
 			BufferedImage captureImage = new BufferedImage(rect.width, rect.height, BufferedImage.TYPE_INT_ARGB);
 			component.paint(captureImage.getGraphics());
 			ImageIO.write(captureImage, "png", targetFile);
 		} catch (IOException e) {
+			e.printStackTrace();
 			throw new FormsLibraryException(e);
 		}
 
@@ -274,18 +285,39 @@ public class ComponentUtil {
 
 	private static File getNextAvailableFile(String directory, String basename, String extension) {
 
-		if (directory != null && directory.length() != 0 && !directory.endsWith("/") && !directory.endsWith("\\")) {
-			directory = directory + "/";
+		String basepath = getBasePath(directory);
+		if (!basepath.endsWith(System.getProperty("file.separator"))) {
+			basepath += System.getProperty("file.separator");
 		}
-
 		for (int i = 1; i < 1000000; i++) {
 
-			File file = new File(directory + basename + "-" + i + "." + extension);
+			File file = new File(basepath + basename + "-" + i + "." + extension);
 			if (!file.exists()) {
 				return file;
 			}
 		}
 
 		throw new FormsLibraryException("No more available screenshot names. Maybe it is time to clean up your system?");
+	}
+
+	private static String getBasePath(String directory) {
+		String outputDir = System.getProperty("robot.output_dir");
+		if (directory == null || directory.length() == 0) {
+			return outputDir;
+		} else if (new File(directory).isAbsolute()) {
+			return directory;
+		} else {
+			return outputDir + System.getProperty("file.separator") + directory;
+		}
+	}
+
+	public static String getValue(Component component) {
+		if (ComponentType.LABEL.matches(component)) {
+			String value = ObjectUtil.getString(component, "getText()");
+			if (value != null) {
+				return " -> " + value;
+			}
+		}
+		return "";
 	}
 }

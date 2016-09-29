@@ -16,12 +16,12 @@ import org.robotframework.formslibrary.util.TextUtil;
 /**
  * Operator for oracle forms windows inside a JFrame.
  */
-public class WindowOperator extends AbstractRootComponentOperator {
+public class LWWindowOperator extends AbstractRootComponentOperator {
 
 	/**
 	 * Initialize a window operator with the main oracle forms desktop window.
 	 */
-	public WindowOperator() {
+	public LWWindowOperator() {
 		super(new ByComponentTypeChooser(0, ComponentType.FORM_DESKTOP));
 	}
 

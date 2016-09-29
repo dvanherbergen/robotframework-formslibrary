@@ -337,7 +337,7 @@ class FormsLibrary(object):
         policy for each java command call.
         """
         os.environ['JAVA_TOOL_OPTIONS'] = self._agent_command
-        logger.debug("Set JAVA_TOOL_OPTIONS='%s'" % self._agent_command)
+        logger.info("Set JAVA_TOOL_OPTIONS='%s'" % self._agent_command)
         with tempfile.NamedTemporaryFile(prefix='grant_all_', suffix='.policy', delete=False) as t:
             text = b"""
                 grant {
@@ -346,8 +346,11 @@ class FormsLibrary(object):
                 """
             t.write(text)
         java_policy = '-Djava.security.policy="%s"' % t.name
-        os.environ['_JAVA_OPTIONS'] = java_policy
-        logger.debug("Set _JAVA_OPTIONS='%s'" % java_policy)
+        variables = BuiltIn().get_variables()
+        output_dir = variables['${OUTPUTDIR}']
+        robot_output_dir = ' -Drobot.output_dir="%s"' % output_dir
+        os.environ['_JAVA_OPTIONS'] = java_policy + robot_output_dir
+        logger.info("Set _JAVA_OPTIONS='%s'" % os.environ['_JAVA_OPTIONS'])
 
 
     def start_application(self, alias, command, timeout=60, name_contains=None):
@@ -364,9 +367,13 @@ class FormsLibrary(object):
         stderr = "remote_stderr.txt"
         logger.info('<a href="%s">Link to stdout</a>' % stdout, html=True)
         logger.info('<a href="%s">Link to stderr</a>' % stderr, html=True)
+
+
+
+        print("starting process ", command )
         REMOTE_AGENTS_LIST.set_received_to_old()
         with self._agent_java_tool_options():
-            self.PROCESS.start_process(command, alias=alias, shell=True,
+            self.PROCESS.start_process(command, alias=alias, shell=True, 
                                        stdout=self._output(stdout),
                                        stderr=self._output(stderr))
         try:
@@ -577,7 +584,7 @@ class FormsLibrary(object):
         return formslibrary_keywords.keyword_documentation[name]
 
     def run_keyword(self, name, arguments, kwargs):
-		if name == 'captureWindow' or name == 'captureActiveWindow':
+		if unicode(name).startswith(u"capture"):
 			path = self.current.run_keyword(name, arguments, kwargs)
 			defaultLogger.info(path, html=True)
 			logger.info('<a href="%s"><img src="%s" width="800px"></a>' % (path, path), html=True)

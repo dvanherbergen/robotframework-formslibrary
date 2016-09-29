@@ -23,6 +23,7 @@ import sun.awt.AppContext;
 public class FrameOperator extends ContainerOperator implements ComponentWrapper {
 
 	private static final String ORACLE_FORMS_FRAME_TITLE = "Oracle Fusion Middleware Forms Services";
+	private static final String WORKFLOW_FRAME_TITLE = "Workflow";
 
 	/**
 	 * Create a new frame operator for a provided Frame.
@@ -36,11 +37,11 @@ public class FrameOperator extends ContainerOperator implements ComponentWrapper
 	 * javax.swing.JFrame window used by the Oracle Forms application.
 	 */
 	public FrameOperator() {
-		this(findFrame(ORACLE_FORMS_FRAME_TITLE, true));
+		this(findRootFrame(true));
 	}
 
 	@SuppressWarnings("unchecked")
-	private static Frame findFrame(String title, boolean failIfNotFound) {
+	private static Frame findFrame(String title) {
 
 		Vector<WeakReference<Window>> windowList = (Vector<WeakReference<Window>>) AppContext.getAppContext().get(Window.class);
 		if (windowList != null) {
@@ -49,15 +50,29 @@ public class FrameOperator extends ContainerOperator implements ComponentWrapper
 				if (w != null) {
 					if (w instanceof Frame) {
 						Frame f = (Frame) w;
-						if (ORACLE_FORMS_FRAME_TITLE.equals(f.getTitle())) {
+						if (title.equals(f.getTitle())) {
 							return f;
 						}
 					}
 				}
 			}
 		}
+
+		return null;
+	}
+
+	private static Frame findRootFrame(boolean failIfNotFound) {
+		Frame oracleFormsFrame = findFrame(ORACLE_FORMS_FRAME_TITLE);
+		if (oracleFormsFrame != null) {
+			return oracleFormsFrame;
+		}
+		Frame workflowFrame = findFrame(WORKFLOW_FRAME_TITLE);
+		if (workflowFrame != null) {
+			return workflowFrame;
+		}
+
 		if (failIfNotFound) {
-			throw new FormsLibraryException("Frame '" + ORACLE_FORMS_FRAME_TITLE
+			throw new FormsLibraryException("Frame '" + ORACLE_FORMS_FRAME_TITLE + " or " + WORKFLOW_FRAME_TITLE
 					+ "' not found in AppContext. Try restarting the application or checking the context first with isContextInvalid");
 		}
 		return null;
@@ -77,7 +92,7 @@ public class FrameOperator extends ContainerOperator implements ComponentWrapper
 	 * threads' appContext.
 	 */
 	public static boolean isFrameInCurrentAppContext() {
-		return findFrame(ORACLE_FORMS_FRAME_TITLE, false) != null;
+		return findFrame(ORACLE_FORMS_FRAME_TITLE) != null || findFrame(WORKFLOW_FRAME_TITLE) != null;
 	}
 
 	public void setWindowSize(int width, int height) {

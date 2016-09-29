@@ -136,7 +136,8 @@ public class ContextOperator {
 			editable = " [editable] ";
 		}
 		String formattedName = String.format("%1$-" + (10 + (2 * (level + 1))) + "s", "L" + level + " [" + getFormattedLocation(component) + "]")
-				+ component.getClass().getName() + "  -  " + ComponentUtil.getFormattedComponentNames(component) + editable;
+				+ component.getClass().getName() + "  -  " + ComponentUtil.getFormattedComponentNames(component) + editable
+				+ ComponentUtil.getValue(component);
 		Logger.info(formattedName);
 
 		if (component instanceof Container) {
