@@ -8,6 +8,7 @@ public enum ComponentType {
 	// @formatter:off
     CHECK_BOX_WRAPPER("oracle.forms.ui.VCheckbox"),
     CHECK_BOX("oracle.ewt.lwAWT.LWCheckbox"),
+    LWList("oracle.ewt.lwAWT.LWList"),
     TEXT_FIELD("oracle.forms.ui.VTextField"),
     ALERT_PANE("oracle.ewt.alert.AlertPane"),
     LABEL("oracle.ewt.lwAWT.LWLabel"),

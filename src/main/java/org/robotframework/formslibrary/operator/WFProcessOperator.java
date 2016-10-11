@@ -134,7 +134,7 @@ public class WFProcessOperator extends AbstractRootComponentOperator {
 			Object actID = ObjectUtil.getField(object, "instanceID");
 			String dispName = (String) ObjectUtil.getField(object, "dispName");
 			Integer count = nameCount.get(dispName);
-			count = count == null ? 1 : count++;
+			count = count == null ? 1 : ++count;
 			nameCount.put(dispName, count);
 			String name = parseName(identifier);
 			int index = parseIndex(identifier);

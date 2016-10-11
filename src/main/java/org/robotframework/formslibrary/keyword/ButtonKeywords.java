@@ -36,7 +36,10 @@ public class ButtonKeywords {
 	@RobotKeyword("Asynchronously Pushes button")
 	@ArgumentNames({ "identifier" })
 	public void clickButtonAsync(String identifier) {
+		ContextChangeMonitor monitor = new ContextChangeMonitor();
+		monitor.start();
 		new ButtonOperator(identifier).pushAsync();
+
 	}
 
 	@RobotKeyword("Verify if a button is disabled. Example:\n |  Verify Button Is Disabled | _OK_ |\n")

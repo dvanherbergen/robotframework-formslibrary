@@ -64,7 +64,7 @@ public class ComponentUtil {
 
 		List<String> componentNames = new ArrayList<String>();
 
-		if (ComponentType.PUSH_BUTTON.matches(component) || ComponentType.MENU.matches(component)
+		if (ComponentType.PUSH_BUTTON.matches(component) || ComponentType.MENU.matches(component) || ComponentType.CHECK_BOX.matches(component)
 				|| ComponentType.EXTENDED_CHECKBOX.matches(component) || ComponentType.LW_BUTTON.matches(component)) {
 			String label = ObjectUtil.getString(component, "getLabel()");
 			if (label != null) {

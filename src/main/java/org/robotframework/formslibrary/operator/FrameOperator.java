@@ -32,12 +32,24 @@ public class FrameOperator extends ContainerOperator implements ComponentWrapper
 		super(frame);
 	}
 
+	public FrameOperator(String identifier) {
+		super(findFrameIfNotNull(identifier));
+	}
+
 	/**
 	 * Create a new default FrameOperator that targets the main
 	 * javax.swing.JFrame window used by the Oracle Forms application.
 	 */
 	public FrameOperator() {
 		this(findRootFrame(true));
+	}
+
+	private static Frame findFrameIfNotNull(String title) {
+		if (title == null || title.isEmpty()) {
+			return findRootFrame(true);
+		} else {
+			return findFrame(title);
+		}
 	}
 
 	@SuppressWarnings("unchecked")

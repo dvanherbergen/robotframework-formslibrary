@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<keywordspec generated="20160929 16:24:13" type="library" name="FormsLibrary" format="ROBOT">
+<keywordspec generated="20161011 17:31:57" type="library" name="FormsLibrary" format="ROBOT">
 <version></version>
 <scope>global</scope>
 <namedargs>yes</namedargs>
@@ -487,6 +487,29 @@ Example:
 <arg>identifier</arg>
 </arguments>
 <doc>Select Forms Dialog as current context and sets focus to it. |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Select Forms Window">
+<arguments>
+<arg>identifier=</arg>
+</arguments>
+<doc>Select Window as current context and sets focus to it. if no identifier is passed the main window is selected. |</doc>
+<tags>
+</tags>
+</kw>
+<kw name="Select List Item">
+<arguments>
+<arg>listIdentifier</arg>
+<arg>valueIdentifier</arg>
+</arguments>
+<doc>Select List Item .
+
+Example:
+| Select List Item | _1_ | _1_ | 
+| Select List Item | _listname_ | 1 | 
+
+| Select List Item | _listname_ | _value_ |</doc>
 <tags>
 </tags>
 </kw>
