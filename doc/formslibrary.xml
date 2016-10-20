@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<keywordspec generated="20161020 11:11:50" type="library" name="FormsLibrary" format="ROBOT">
+<keywordspec generated="20161020 14:30:49" type="library" name="FormsLibrary" format="ROBOT">
 <version></version>
 <scope>global</scope>
 <namedargs>yes</namedargs>
@@ -745,8 +745,9 @@ Example:
 <kw name="Verify Button Is Disabled">
 <arguments>
 <arg>identifier</arg>
+<arg>fail=</arg>
 </arguments>
-<doc>Verify if a button is disabled. Example:
+<doc>Verify if a button is disabled. If fail argument is set to false this test will not fail Example:
  |  Verify Button Is Disabled | _OK_ |</doc>
 <tags>
 </tags>
@@ -754,8 +755,9 @@ Example:
 <kw name="Verify Button Is Enabled">
 <arguments>
 <arg>identifier</arg>
+<arg>fail=</arg>
 </arguments>
-<doc>Verify if a button is enabled. Example:
+<doc>Verify if a button is enabled. If fail argument is set to false this test will not fail. Example:
  |  Verify Button Is Enabled | _OK_ |</doc>
 <tags>
 </tags>

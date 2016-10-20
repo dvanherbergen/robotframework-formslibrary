@@ -42,23 +42,37 @@ public class ButtonKeywords {
 
 	}
 
-	@RobotKeyword("Verify if a button is disabled. Example:\n |  Verify Button Is Disabled | _OK_ |\n")
-	@ArgumentNames({ "identifier" })
-	public void verifyButtonIsDisabled(String identifier) {
-		if (new ButtonOperator(identifier).isEnabled()) {
+	@RobotKeyword("Verify if a button is disabled. If fail argument is set to false this test will not fail Example:\n |  Verify Button Is Disabled | _OK_ |\n")
+	@ArgumentNames({ "identifier", "fail=" })
+	public boolean verifyButtonIsDisabled(String identifier, boolean fail) {
+		boolean enabled = new ButtonOperator(identifier).isEnabled();
+		if (fail && enabled) {
 			throw new FormsLibraryException("Button is enabled.");
 		} else {
-			Logger.info("Button is disabled.");
+			Logger.info("Button is " + (enabled ? "enabled" : "disabled"));
+			return !enabled;
 		}
 	}
 
-	@RobotKeyword("Verify if a button is enabled. Example:\n |  Verify Button Is Enabled | _OK_ |\n")
-	@ArgumentNames({ "identifier" })
-	public void verifyButtonIsEnabled(String identifier) {
-		if (!new ButtonOperator(identifier).isEnabled()) {
+	@RobotKeywordOverload
+	public boolean verifyButtonIsDisabled(String identifier) {
+		return verifyButtonIsDisabled(identifier, true);
+	}
+
+	@RobotKeyword("Verify if a button is enabled. If fail argument is set to false this test will not fail. Example:\n |  Verify Button Is Enabled | _OK_ |\n")
+	@ArgumentNames({ "identifier", "fail=" })
+	public boolean verifyButtonIsEnabled(String identifier, boolean fail) {
+		boolean enabled = new ButtonOperator(identifier).isEnabled();
+		if (fail && !enabled) {
 			throw new FormsLibraryException("Button is disabled.");
 		} else {
-			Logger.info("Button is enabled.");
+			Logger.info("Button is " + (enabled ? "enabled" : "disabled"));
+			return enabled;
 		}
+	}
+
+	@RobotKeywordOverload
+	public boolean verifyButtonIsEnabled(String identifier) {
+		return verifyButtonIsEnabled(identifier, true);
 	}
 }
