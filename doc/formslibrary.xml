@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<keywordspec generated="20161011 17:31:57" type="library" name="FormsLibrary" format="ROBOT">
+<keywordspec generated="20161020 11:11:50" type="library" name="FormsLibrary" format="ROBOT">
 <version></version>
 <scope>global</scope>
 <namedargs>yes</namedargs>
@@ -639,6 +639,21 @@ Example:
 <tags>
 </tags>
 </kw>
+<kw name="Set Field At Index">
+<arguments>
+<arg>columnName</arg>
+<arg>rowIndex</arg>
+<arg>columnValue</arg>
+</arguments>
+<doc>Set a field value in a table row. The column is identified by it
+s name, the row is identified by the index, index starts at 1
+
+Example:
+| Set Field At Index | _column name_ | _row index_ | _value_ | 
+| Set Field At Index | _ naam _ || _ 2 _ | _value_ |</doc>
+<tags>
+</tags>
+</kw>
 <kw name="Set Java Tool Options">
 <arguments>
 </arguments>
@@ -665,7 +680,7 @@ Example:
 <doc>Set a field value in a table row. The row is identified by values
 
 Example:
-| Set Row Field | _field name_ || _field value_ | _first col value_ | _second col value_ |</doc>
+| Set Row Field | _field name_ | _field value_ | _first col value_ | _second col value_ |</doc>
 <tags>
 </tags>
 </kw>

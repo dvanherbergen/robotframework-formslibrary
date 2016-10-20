@@ -46,10 +46,18 @@ public class TableKeywords {
 	}
 
 	@RobotKeyword("Set a field value in a table row." + " The row is identified by values\n\n" + "Example:\n"
-			+ "| Set Row Field | _field name_ || _field value_ | _first col value_ | _second col value_ | \n")
+			+ "| Set Row Field | _field name_ | _field value_ | _first col value_ | _second col value_ | \n")
 	@ArgumentNames({ "identifier", "value", "*columnvalues" })
 	public void setRowField(String identifier, String value, String... columnValues) {
 		new TableOperator().setRowField(identifier, value, columnValues);
+	}
+
+	@RobotKeyword("Set a field value in a table row."
+			+ " The column is identified by it's name, the row is identified by the index, index starts at 1\n\n" + "Example:\n"
+			+ "| Set Field At Index | _column name_ | _row index_ | _value_ | \n" + "| Set Field At Index | _ naam _ || _ 2 _ | _value_ | \n")
+	@ArgumentNames({ "columnName", "rowIndex", "columnValue" })
+	public void setFieldAtIndex(String columnName, int rowIndex, String columnValue) {
+		new TableOperator().setFieldAtIndex(columnName, rowIndex, columnValue);
 	}
 
 	@RobotKeyword("Get a text field value in a table row." + " The field is identified by name. The row is identified by values\n\n" + "Example:\n"
