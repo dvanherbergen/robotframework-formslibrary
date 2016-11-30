@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.robotframework.formslibrary.operator.ContextOperator;
 import org.robotframework.formslibrary.operator.FrameOperator;
-import org.robotframework.formslibrary.operator.OracleEngineOperator;
 import org.robotframework.formslibrary.operator.LWWindowOperator;
+import org.robotframework.formslibrary.operator.OracleEngineOperator;
 import org.robotframework.formslibrary.util.Logger;
 import org.robotframework.javalib.annotation.ArgumentNames;
 import org.robotframework.javalib.annotation.RobotKeyword;
@@ -68,4 +68,5 @@ public class LWWindowKeywords {
 	public void resizeWindow(int width, int height) {
 		new FrameOperator().setWindowSize(width, height);
 	}
+
 }

@@ -215,4 +215,39 @@ public class ObjectUtil {
 
 	}
 
+	public static Object getFieldIfExists(Object object, String name) {
+		if (name.indexOf(".") == -1) {
+			Field field = getFieldIfExists(object.getClass(), name);
+			if (field == null) {
+				return null;
+			}
+			field.setAccessible(true);
+			try {
+				return field.get(object);
+			} catch (IllegalArgumentException | IllegalAccessException e) {
+				throw new FormsLibraryException("Unable to access the field " + name + " from object " + object);
+			}
+
+		}
+		String[] parts = name.split("\\.", 2);
+		return getFieldIfExists(getFieldIfExists(object, parts[0]), parts[1]);
+
+	}
+
+	private static Field getFieldIfExists(Class<?> clazz, String fieldName) {
+		Class<?> tmpClass = clazz;
+		do {
+			for (Field field : tmpClass.getDeclaredFields()) {
+				String candidateName = field.getName();
+				if (!candidateName.equals(fieldName)) {
+					continue;
+				}
+				field.setAccessible(true);
+				return field;
+			}
+			tmpClass = tmpClass.getSuperclass();
+		} while (tmpClass != null);
+		return null;
+	}
+
 }

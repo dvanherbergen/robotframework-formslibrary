@@ -5,7 +5,9 @@ import java.awt.Container;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.netbeans.jemmy.ComponentChooser;
 import org.robotframework.formslibrary.chooser.ByComponentTypeChooser;
@@ -178,15 +180,18 @@ public class ContextOperator {
 				}
 
 				Point loc1 = ComponentUtil.getLocationInWindow(component);
+				int height = component.getHeight();
 				Point loc2 = ComponentUtil.getLocationInWindow(otherComponent);
 
 				if (loc1.x == loc2.x) {
 
 					// only take other fields that are really close into account
 					int yDelta = loc1.y - loc2.y;
-					if (-35 < yDelta && yDelta < 35) {
-						String name = "" + ComponentUtil.getAccessibleText(component);
-						if (("" + ComponentUtil.getAccessibleText(otherComponent)).equals(name)) {
+
+					if (Math.abs(yDelta) - height < 2) {
+						String compName = "" + ComponentUtil.getAccessibleText(component);
+						String otherCompName = "" + ComponentUtil.getAccessibleText(otherComponent);
+						if (!"null".equals(compName) && otherCompName.equals(compName)) {
 							isTableCell = true;
 							break;
 						}
@@ -238,4 +243,41 @@ public class ContextOperator {
 	public String capture(String targetDirectory) {
 		return ComponentUtil.captureToFile(targetDirectory, getSource());
 	}
+
+	public void initMissingComponentNames() {
+		initMissingComponentNames(getSource());
+	}
+
+	private void initMissingComponentNames(Component component) {
+		String name = component.getName();
+		if (name == null) {
+			generateName(component);
+		}
+		if (component instanceof Container) {
+			Component[] childComponents = ((Container) component).getComponents();
+			for (Component child : childComponents) {
+				initMissingComponentNames(child);
+			}
+		}
+	}
+
+	private static Map<String, Integer> nameCounter = new HashMap<String, Integer>();
+
+	private void generateName(Component component) {
+		String className = getBaseClassName(component.getClass());
+		Integer count = nameCounter.get(className);
+		if (count == null) {
+			count = 0;
+		}
+		count++;
+		nameCounter.put(className, count);
+		component.setName("_" + className + count.intValue());
+
+	}
+
+	protected final String getBaseClassName(Class<?> clazz) {
+		String str = clazz.getName();
+		return str.substring(str.lastIndexOf('.') + 1);
+	}
+
 }

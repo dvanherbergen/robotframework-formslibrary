@@ -2,6 +2,8 @@ package org.robotframework.formslibrary.operator;
 
 import java.awt.Component;
 
+import javax.swing.AbstractButton;
+
 import org.robotframework.formslibrary.FormsLibraryException;
 import org.robotframework.formslibrary.chooser.ByNameChooser;
 import org.robotframework.formslibrary.util.ComponentType;
@@ -43,7 +45,11 @@ public class ButtonOperator extends AbstractComponentOperator {
 	}
 
 	private void doPush() {
-		ObjectUtil.invokeMethod(getSource(), "simulatePush()");
+		if (getSource() instanceof AbstractButton) {
+			((AbstractButton) getSource()).doClick();
+		} else {
+			ObjectUtil.invokeMethod(getSource(), "simulatePush()");
+		}
 
 	}
 

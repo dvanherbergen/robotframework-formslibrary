@@ -3,13 +3,10 @@ package org.robotframework.formslibrary.context;
 import java.awt.Component;
 import java.awt.Window;
 
-import javax.swing.JFrame;
-
-import org.robotframework.formslibrary.FormsLibraryException;
 import org.robotframework.formslibrary.operator.FrameOperator;
-import org.robotframework.formslibrary.util.ComponentType;
 import org.robotframework.formslibrary.util.ComponentUtil;
 import org.robotframework.formslibrary.util.Logger;
+import org.robotframework.formslibrary.util.ObjectUtil;
 import org.robotframework.swing.context.Context;
 import org.robotframework.swing.operator.ComponentWrapper;
 
@@ -55,10 +52,13 @@ public class FormsContext {
 			}
 
 			// verify the type of context
-			if (!ComponentType.JFRAME.matches(contextComponent) && !ComponentType.EXTENDED_FRAME.matches(contextComponent)
-					&& !ComponentType.WINDOW.matches(contextComponent)) {
-				throw new FormsLibraryException("Invalid context selected: " + contextComponent.getClass().getSimpleName());
-			}
+			// if (!ComponentType.JFRAME.matches(contextComponent) &&
+			// !ComponentType.EXTENDED_FRAME.matches(contextComponent)
+			// && !ComponentType.WINDOW.matches(contextComponent) &&
+			// !ComponentType.BUFFERED_FRAME.matches(contextComponent)) {
+			// throw new FormsLibraryException("Invalid context selected: " +
+			// contextComponent.getClass().getSimpleName());
+			// }
 		}
 
 		return context;
@@ -77,7 +77,8 @@ public class FormsContext {
 	public static void listWindows() {
 		Window[] windows = Window.getWindows();
 		for (Window window : windows) {
-			Logger.info("Window  - " + window.getName() + " - " + window.getClass().getName());
+			Logger.info(
+					"Window  - " + window.getName() + " - " + window.getClass().getName() + " title=" + ObjectUtil.getFieldIfExists(window, "title"));
 		}
 	}
 
@@ -91,8 +92,9 @@ public class FormsContext {
 	private static boolean checkFormServicesApp() {
 		Window[] windows = Window.getWindows();
 		for (Window window : windows) {
-			if (window.getClass().getName().equals("javax.swing.JFrame")) {
-				if (((JFrame) window).getTitle().equals(FORMS_TITLE)) {
+			Object title = ObjectUtil.getFieldIfExists(window, "title");
+			if (title != null && title instanceof String) {
+				if (((String) title).equals(FORMS_TITLE)) {
 					return true;
 				}
 			}

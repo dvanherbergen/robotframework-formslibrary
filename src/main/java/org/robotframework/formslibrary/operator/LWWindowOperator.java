@@ -5,6 +5,7 @@ import java.awt.Container;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.netbeans.jemmy.ComponentChooser;
 import org.robotframework.formslibrary.FormsLibraryException;
 import org.robotframework.formslibrary.chooser.ByComponentTypeChooser;
 import org.robotframework.formslibrary.context.FormsContext;
@@ -23,6 +24,10 @@ public class LWWindowOperator extends AbstractRootComponentOperator {
 	 */
 	public LWWindowOperator() {
 		super(new ByComponentTypeChooser(0, ComponentType.FORM_DESKTOP));
+	}
+
+	public LWWindowOperator(ComponentChooser chooser) {
+		super(chooser);
 	}
 
 	/**

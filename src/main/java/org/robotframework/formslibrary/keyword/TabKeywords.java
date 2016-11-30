@@ -8,10 +8,10 @@ import org.robotframework.javalib.annotation.RobotKeywords;
 @RobotKeywords
 public class TabKeywords {
 
-    @RobotKeyword("Select a tab by name.\n\n Example:\n | Select Tab | _name_ | \n")
-    @ArgumentNames({ "tabname" })
-    public void selectTab(String name) {
-        new TabOperator().select(name);
-    }
+	@RobotKeyword("Select a tab by name.\n\n Example:\n | Select Forms Tab | _name_ | \n")
+	@ArgumentNames({ "tabname" })
+	public void selectFormsTab(String name) {
+		new TabOperator().select(name);
+	}
 
 }

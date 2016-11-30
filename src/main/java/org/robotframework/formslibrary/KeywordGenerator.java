@@ -16,7 +16,13 @@ import org.robotframework.javalib.library.AnnotationLibrary;
  */
 public class KeywordGenerator {
 
-	private final AnnotationLibrary annotationLibrary = new AnnotationLibrary("org/robotframework/formslibrary/keyword/**/*.class");
+	private final AnnotationLibrary annotationLibrary;
+
+	public KeywordGenerator() {
+		annotationLibrary = new AnnotationLibrary();
+		annotationLibrary.addKeywordPattern("org/robotframework/formslibrary/keyword/**/*.class");
+		// annotationLibrary.addKeywordPattern("org/robotframework/swing/keyword/**/*.class");
+	}
 
 	public static void main(String[] args) {
 		KeywordGenerator generator = new KeywordGenerator();

@@ -64,6 +64,13 @@ public class ComponentUtil {
 
 		List<String> componentNames = new ArrayList<String>();
 
+		if (ComponentType.JBUTTON.matches(component) || ComponentType.JRADIO_BUTTON.matches(component)) {
+			String text = ObjectUtil.getString(component, "getText()");
+			if (text != null) {
+				componentNames.add(text.trim());
+			}
+		}
+
 		if (ComponentType.PUSH_BUTTON.matches(component) || ComponentType.MENU.matches(component) || ComponentType.CHECK_BOX.matches(component)
 				|| ComponentType.EXTENDED_CHECKBOX.matches(component) || ComponentType.LW_BUTTON.matches(component)) {
 			String label = ObjectUtil.getString(component, "getLabel()");
@@ -312,7 +319,8 @@ public class ComponentUtil {
 	}
 
 	public static String getValue(Component component) {
-		if (ComponentType.LABEL.matches(component)) {
+		if (ComponentType.LABEL.matches(component) || ComponentType.JLABEL.matches(component) || ComponentType.JTEXT_FIELD.matches(component)
+				|| ComponentType.TEXT_FIELD.matches(component) || ComponentType.JNUMBER_FIELD.matches(component)) {
 			String value = ObjectUtil.getString(component, "getText()");
 			if (value != null) {
 				return " -> " + value;

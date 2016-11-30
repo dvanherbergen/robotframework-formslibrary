@@ -19,6 +19,11 @@ public class DebugKeywords {
 		new ContextOperator().listComponentHierarchy();
 	}
 
+	@RobotKeyword("Initializes all the missing Component Names in the selected context.\n\n")
+	public void initMissingComponentNames() {
+		new ContextOperator().initMissingComponentNames();
+	}
+
 	@RobotKeyword("Prints all components (their types and their names) available in the application window.\n\n")
 	public void listAllComponents() {
 		new ContextOperator(FormsContext.getRootContext()).listComponentHierarchy();
@@ -32,7 +37,7 @@ public class DebugKeywords {
 	@RobotKeyword("Prints the name of all buttons found in the selected context.\n\n Example:\n | List Buttons|\n")
 	public void listButtons() {
 		new ContextOperator().listComponents(ComponentType.BUTTON, ComponentType.PUSH_BUTTON, ComponentType.LW_BUTTON, ComponentType.CHECK_BOX,
-				ComponentType.EXTENDED_CHECKBOX);
+				ComponentType.EXTENDED_CHECKBOX, ComponentType.JBUTTON);
 	}
 
 	@RobotKeyword("Prints the name of all text and dropdown fields found in the selected context.\n\n Example:\n | List Fields|\n")
@@ -55,4 +60,5 @@ public class DebugKeywords {
 	public String getContext() {
 		return ComponentUtil.getFormattedComponentNames(new ContextOperator().getSource());
 	}
+
 }

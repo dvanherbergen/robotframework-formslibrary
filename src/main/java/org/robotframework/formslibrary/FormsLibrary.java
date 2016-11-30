@@ -8,11 +8,11 @@ import org.robotframework.swing.SwingLibrary;
  */
 public class FormsLibrary extends SwingLibrary {
 
-    // TODO stop extending SwingLibrary, only include classes that are really
-    // needed?
+	// TODO stop extending SwingLibrary, only include classes that are really
+	// needed?
 
-    public FormsLibrary() {
-        super("org/robotframework/formslibrary/keyword/*.class");
-    }
+	public FormsLibrary() {
+		super("org/robotframework/formslibrary/keyword/*.class");
+	}
 
 }

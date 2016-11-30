@@ -39,7 +39,7 @@ public class ButtonKeywords {
 		ContextChangeMonitor monitor = new ContextChangeMonitor();
 		monitor.start();
 		new ButtonOperator(identifier).pushAsync();
-
+		monitor.stop();
 	}
 
 	@RobotKeyword("Verify if a button is disabled. If fail argument is set to false this test will not fail Example:\n |  Verify Button Is Disabled | _OK_ |\n")

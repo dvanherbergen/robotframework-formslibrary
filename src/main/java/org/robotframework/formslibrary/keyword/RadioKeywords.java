@@ -8,15 +8,15 @@ import org.robotframework.javalib.annotation.RobotKeywords;
 @RobotKeywords
 public class RadioKeywords {
 
-    @RobotKeyword("Select Radio Button.\n\nExample:\n| Select Radio Button | _radio option_\n")
-    @ArgumentNames({ "identifier" })
-    public void selectRadioButton(String identifier) {
-        new RadioOperator(identifier).select();
-    }
+	@RobotKeyword("Select Radio Button.\n\nExample:\n| Select Radio Button | _radio option_\n")
+	@ArgumentNames({ "identifier" })
+	public void selectFormsRadioButton(String identifier) {
+		new RadioOperator(identifier).select();
+	}
 
-    @RobotKeyword("Get Radio Button selection.\n\nExample:\n| Get Radio Button | _radio option_\n")
-    @ArgumentNames({ "identifier" })
-    public boolean getRadioButton(String identifier) {
-        return new RadioOperator(identifier).isSelected();
-    }
+	@RobotKeyword("Get Radio Button selection.\n\nExample:\n| Get Radio Button | _radio option_\n")
+	@ArgumentNames({ "identifier" })
+	public boolean getFormsRadioButton(String identifier) {
+		return new RadioOperator(identifier).isSelected();
+	}
 }

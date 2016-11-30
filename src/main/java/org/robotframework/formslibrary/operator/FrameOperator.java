@@ -108,10 +108,20 @@ public class FrameOperator extends ContainerOperator implements ComponentWrapper
 	}
 
 	public void setWindowSize(int width, int height) {
-		JFrame f = (JFrame) getSource();
-		f.setExtendedState(f.getExtendedState() | JFrame.NORMAL);
-		f.setResizable(true);
-		f.setSize(width, height);
+		Component source = getSource();
+
+		if (source instanceof JFrame) {
+			JFrame f = (JFrame) getSource();
+			f.setExtendedState(f.getExtendedState() | JFrame.NORMAL);
+			f.setResizable(true);
+			f.setSize(width, height);
+		} else if (source instanceof Frame) {
+			Frame f = (Frame) getSource();
+			f.setExtendedState(f.getExtendedState() | Frame.NORMAL);
+			f.setResizable(true);
+			f.setSize(width, height);
+		}
+
 	}
 
 }
