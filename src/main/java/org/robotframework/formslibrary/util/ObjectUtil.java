@@ -2,6 +2,8 @@ package org.robotframework.formslibrary.util;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.robotframework.formslibrary.FormsLibraryException;
 
@@ -213,6 +215,15 @@ public class ObjectUtil {
 		String[] parts = name.split("\\.", 2);
 		return getField(getField(object, parts[0]), parts[1]);
 
+	}
+
+	public static List<String> getFieldNames(Object object) {
+		List<String> result = new ArrayList<String>();
+		Field[] declaredFields = object.getClass().getDeclaredFields();
+		for (Field field : declaredFields) {
+			result.add(field.getName());
+		}
+		return result;
 	}
 
 	public static Object getFieldIfExists(Object object, String name) {

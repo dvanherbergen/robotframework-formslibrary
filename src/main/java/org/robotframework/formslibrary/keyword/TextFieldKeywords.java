@@ -1,6 +1,7 @@
 package org.robotframework.formslibrary.keyword;
 
 import org.robotframework.formslibrary.operator.TextFieldOperatorFactory;
+import org.robotframework.formslibrary.util.Logger;
 import org.robotframework.javalib.annotation.ArgumentNames;
 import org.robotframework.javalib.annotation.RobotKeyword;
 import org.robotframework.javalib.annotation.RobotKeywords;
@@ -8,24 +9,24 @@ import org.robotframework.javalib.annotation.RobotKeywords;
 @RobotKeywords
 public class TextFieldKeywords {
 
-    @RobotKeyword("Locate a field by name and set it to the given value. ':' in the field labels are ignored.\n\n" + "Example:\n"
-            + "| Set Field | _username_ | _jeff_ | \n")
-    @ArgumentNames({ "identifier", "value" })
-    public void setField(String identifier, String value) {
-        TextFieldOperatorFactory.getOperator(identifier).setValue(value);
-    }
+	@RobotKeyword("Locate a field by name and set it to the given value. ':' in the field labels are ignored.\n\n" + "Example:\n"
+			+ "| Set Field | _username_ | _jeff_ | \n")
+	@ArgumentNames({ "identifier", "value" })
+	public void setField(String identifier, String value) {
+		TextFieldOperatorFactory.getOperator(identifier).setValue(value);
+	}
 
-    @RobotKeyword("Verify field content. This check cannot be used for repeated table fields. For verifying a field in a table use Select Row instead.\n\n"
-            + "Example:\n" + "| Field Should Contain | _username_ | _jeff_ | \n")
-    @ArgumentNames({ "identifier", "value" })
-    public void verifyField(String identifier, String value) {
-        TextFieldOperatorFactory.getOperator(identifier).verifyValue(value);
-    }
+	@RobotKeyword("Verify field content. This check cannot be used for repeated table fields. For verifying a field in a table use Select Row instead.\n\n"
+			+ "Example:\n" + "| Field Should Contain | _username_ | _jeff_ | \n")
+	@ArgumentNames({ "identifier", "value" })
+	public void verifyField(String identifier, String value) {
+		TextFieldOperatorFactory.getOperator(identifier).verifyValue(value);
+	}
 
-    @RobotKeyword("Get field content.\n\n" + "Example:\n" + "| \n" + "| ${textFieldValue}= | Get Field | _username_ | \n")
-    @ArgumentNames({ "identifier" })
-    public String getField(String identifier) {
-        return TextFieldOperatorFactory.getOperator(identifier).getValue();
-    }
+	@RobotKeyword("Get field content.\n\n" + "Example:\n" + "| \n" + "| ${textFieldValue}= | Get Field | _username_ | \n")
+	@ArgumentNames({ "identifier" })
+	public String getField(String identifier) {
+		return TextFieldOperatorFactory.getOperator(identifier).getValue();
+	}
 
 }

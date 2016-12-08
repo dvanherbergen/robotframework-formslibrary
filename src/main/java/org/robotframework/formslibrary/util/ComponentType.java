@@ -23,6 +23,7 @@ public enum ComponentType {
     JFRAME("javax.swing.JFrame"),
     TITLE_BAR("oracle.ewt.lwAWT.lwWindow.laf.TitleBar"),
     FORM_DESKTOP("oracle.forms.ui.FormDesktopContainer"),
+    MECOMS_VALUES("fcs.validationgraph.bean.MECOMSValues"),
     TAB_BAR("oracle.ewt.tabBar.TabBar"),
     SELECT_FIELD("oracle.forms.ui.VPopList"),
     TREE("oracle.ewt.dTree.DTree"),

@@ -1,6 +1,7 @@
 package org.robotframework.formslibrary.context;
 
 import java.awt.Component;
+import java.awt.Dialog;
 import java.awt.Window;
 
 import org.robotframework.formslibrary.operator.FrameOperator;
@@ -45,7 +46,7 @@ public class FormsContext {
 
 			// verify that the current window context is still part of the
 			// desktop
-			if (!new FrameOperator().containsComponent(contextComponent)) {
+			if (!new FrameOperator().containsComponent(contextComponent) && !isActiveDialog(context)) {
 				Logger.info("Context " + ComponentUtil.getFormattedComponentNames(contextComponent) + " is no longer part of desktop.");
 				resetContext();
 				return context;
@@ -62,6 +63,19 @@ public class FormsContext {
 		}
 
 		return context;
+	}
+
+	private static boolean isActiveDialog(ComponentWrapper context) {
+		Component source = context.getSource();
+		if (source instanceof Dialog) {
+			Window[] windows = Window.getWindows();
+			for (Window window : windows) {
+				if (window == source) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	/**
