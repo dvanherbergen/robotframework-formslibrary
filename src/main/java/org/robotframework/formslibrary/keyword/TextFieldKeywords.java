@@ -38,4 +38,13 @@ public class TextFieldKeywords {
 		return TextFieldOperatorFactory.getOperator(identifier).getValue();
 	}
 
+	@RobotKeyword("Locate a field by a label on the same height to the left of the text field. ':' in the field labels are ignored.\n"
+			+ "Should only be used for fields which do not have a link with the label\n\n" + "Example:\n"
+			+ "| Get Field Next To Label | _username_ | | \n")
+	@ArgumentNames({ "identifier" })
+	public String getFieldNextToLabel(String identifier) {
+		LabelOperator label = new LabelOperator(identifier);
+		return TextFieldOperatorFactory.getOperator(label).getValue();
+	}
+
 }

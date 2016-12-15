@@ -64,8 +64,9 @@ public class TextFieldOperatorFactory {
 		Component textFieldToTheLeft;
 		try {
 			Stream<Component> textFieldsToTheLeft = textFields.stream()
-					.filter(p -> ComponentUtil.getLocationInWindow(p).getY() == labelLocation.getY());
-			textFieldToTheLeft = textFieldsToTheLeft.min((x, y) -> Integer.compare(x.getX(), y.getY())).orElse(null);
+					.filter(p -> ComponentUtil.getLocationInWindow(p).getY() == labelLocation.getY()
+							&& ComponentUtil.getLocationInWindow(p).getX() > labelLocation.getX());
+			textFieldToTheLeft = textFieldsToTheLeft.min((x, y) -> Integer.compare(x.getX(), y.getX())).orElse(null);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new FormsLibraryException("Error in finding text field", e);

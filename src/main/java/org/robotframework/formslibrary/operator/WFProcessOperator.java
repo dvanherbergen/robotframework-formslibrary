@@ -19,8 +19,11 @@ import org.robotframework.formslibrary.util.ObjectUtil;
  */
 public class WFProcessOperator extends AbstractRootComponentOperator {
 
-	String[] ALL_PROCESS_ACTIVITY_FIELDS = { "instanceID", "dispName", "activityStatus", "beginDate", "endDate", "activityResultCode", "iconGeometry",
-			"function", "itemType", "description", "userComment", "activityResultCode", "assignedUser", "startFlag", "name" };
+	String[] ALL_PROCESS_ACTIVITY_FIELDS = { "instanceID", "dispName", "activityStatus", "activityStatusDisp", "activityStatusResult", "beginDate",
+			"endDate", "dueDate", "activityResultCode", "iconGeometry", "function", "itemTypeDisp", "description", "userComment",
+			"activityResultCode", "assignedUser", "startFlag", "name", "activityTypeDisp", "message", "resultTypeDisp", "resultType", "cost", "rerun",
+			"errorProc", "activityUsageResult", "timeout", "roleName", "errorName", "errorMessage", "errorStack", "notificationID", "notRecipient",
+			"notStatus", "notBeginDate", "notEndDate", "notDueDate" };
 
 	/**
 	 * Initialize a window operator with the main oracle forms desktop window.

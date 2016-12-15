@@ -29,7 +29,7 @@ public class LabelOperator extends AbstractComponentOperator {
 	 *            label.
 	 */
 	public LabelOperator(String identifier) {
-		super(new ByNameChooser(identifier, ComponentType.LABEL));
+		super(new ByNameChooser(identifier, ComponentType.LABEL, ComponentType.JRADIO_BUTTON, ComponentType.JLABEL));
 	}
 
 	/**

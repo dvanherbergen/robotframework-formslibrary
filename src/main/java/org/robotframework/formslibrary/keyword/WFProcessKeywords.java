@@ -28,7 +28,7 @@ public class WFProcessKeywords {
 		new WFProcessOperator().listAllProcessActivitiesInfo();
 	}
 
-	@RobotKeyword("Get Process Attributes for the selected activity with all properties\n")
+	@RobotKeyword("Get Process Attributes. Returns a dictionary. This is the same result as clicking the attribute button.\n")
 	public Object getProcessAttributes() {
 		return new WFProcessOperator().getProcessAttributes();
 	}
