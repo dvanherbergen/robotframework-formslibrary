@@ -40,13 +40,15 @@ public enum ComponentType {
     LW_BUTTON("oracle.ewt.lwAWT.LWButton"),
     JRADIO_BUTTON("javax.swing.JRadioButton"),
     JTEXT_FIELD("javax.swing.JTextField"),
+    LWTEXT_FIELD("oracle.ewt.lwAWT.lwText.LWTextField"),
     JNUMBER_FIELD("fcs.validationgraph.util.JNumberField"),
 	JBUTTON("javax.swing.JButton");
 	
     // @formatter:on
 
 	public static final ComponentType[] ALL_BUTTON_TYPES = new ComponentType[] { BUTTON, PUSH_BUTTON, LW_BUTTON, JBUTTON, JRADIO_BUTTON };
-	public static final ComponentType[] ALL_TEXTFIELD_TYPES = new ComponentType[] { TEXT_FIELD, TEXT_AREA, SELECT_FIELD, JNUMBER_FIELD, JTEXT_FIELD };
+	public static final ComponentType[] ALL_TEXTFIELD_TYPES = new ComponentType[] { TEXT_FIELD, TEXT_AREA, SELECT_FIELD, JNUMBER_FIELD, JTEXT_FIELD,
+			LWTEXT_FIELD };
 	public static final ComponentType[] ALL_SCROLL_BAR_TYPES = new ComponentType[] { SCROLL_BAR, SCROLL_BAR_BOX };
 
 	private String className;

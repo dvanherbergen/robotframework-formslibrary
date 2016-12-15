@@ -64,7 +64,8 @@ public class ComponentUtil {
 
 		List<String> componentNames = new ArrayList<String>();
 
-		if (ComponentType.JBUTTON.matches(component) || ComponentType.JRADIO_BUTTON.matches(component)) {
+		if (ComponentType.JBUTTON.matches(component) || ComponentType.JRADIO_BUTTON.matches(component) || ComponentType.LABEL.matches(component)
+				|| ComponentType.JLABEL.matches(component)) {
 			String text = ObjectUtil.getString(component, "getText()");
 			if (text != null) {
 				componentNames.add(text.trim());
@@ -172,7 +173,8 @@ public class ComponentUtil {
 	public static boolean isEditable(Component component) {
 
 		boolean editable = false;
-		if (ComponentType.TEXT_FIELD.matches(component) || ComponentType.TEXT_AREA.matches(component)) {
+		if (ComponentType.TEXT_FIELD.matches(component) || ComponentType.TEXT_AREA.matches(component)
+				|| ComponentType.LWTEXT_FIELD.matches(component)) {
 			editable = ObjectUtil.getBoolean(component, "isEditable()");
 		}
 		return editable;
@@ -319,8 +321,8 @@ public class ComponentUtil {
 	}
 
 	public static String getValue(Component component) {
-		if (ComponentType.LABEL.matches(component) || ComponentType.JLABEL.matches(component) || ComponentType.JTEXT_FIELD.matches(component)
-				|| ComponentType.TEXT_FIELD.matches(component) || ComponentType.JNUMBER_FIELD.matches(component)) {
+		if (ComponentType.JTEXT_FIELD.matches(component) || ComponentType.TEXT_FIELD.matches(component)
+				|| ComponentType.JNUMBER_FIELD.matches(component) || ComponentType.LWTEXT_FIELD.matches(component)) {
 			String value = ObjectUtil.getString(component, "getText()");
 			if (value != null) {
 				return " -> " + value;

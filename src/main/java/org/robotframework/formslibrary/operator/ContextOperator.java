@@ -153,7 +153,7 @@ public class ContextOperator {
 
 	}
 
-	private List<Component> findNonTableTextFields() {
+	public List<Component> findNonTableTextFields() {
 		return purgeTableFields(findComponents(new ByComponentTypeChooser(-1, ComponentType.ALL_TEXTFIELD_TYPES)));
 	}
 

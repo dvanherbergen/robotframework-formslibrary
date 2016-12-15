@@ -128,6 +128,9 @@ public class WFProcessOperator extends AbstractRootComponentOperator {
 	}
 
 	private Object getActivityWithID(String identifier) {
+		if (identifier == null || identifier.isEmpty()) {
+			throw new FormsLibraryException("Attribute identifier is required");
+		}
 		Vector<Object> activities = getProcessActivities();
 		Map<String, Integer> nameCount = new HashMap<String, Integer>();
 		for (Object object : activities) {
@@ -163,6 +166,34 @@ public class WFProcessOperator extends AbstractRootComponentOperator {
 		} else {
 			return identifier.trim();
 		}
+	}
+
+	public Object getProcessActivityProperties(String id) {
+		Object activity = getActivityWithID(id);
+
+		Map<String, Object> activityInfo = getProcessActivityInfo(activity);
+		return activityInfo;
+	}
+
+	private Object getItem() {
+		Component wfProcess = getSource();
+		Object monitor = ObjectUtil.getField(wfProcess, "theMonitor");
+		return ObjectUtil.getField(monitor, "item");
+
+	}
+
+	public Object getProcessAttributes() {
+		return getItemAttributes(getItem());
+	}
+
+	private Map<String, String> getItemAttributes(Object item) {
+		@SuppressWarnings("rawtypes")
+		Vector rows = (Vector) ObjectUtil.getField(item, "rows");
+		Map<String, String> propMap = new HashMap<String, String>();
+		for (Object prop : rows) {
+			propMap.put((String) ObjectUtil.getField(prop, "dispName"), (String) ObjectUtil.getField(prop, "value"));
+		}
+		return propMap;
 	}
 
 }
