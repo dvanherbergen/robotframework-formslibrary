@@ -249,6 +249,12 @@ public class ContextOperator {
 	}
 
 	private void initMissingComponentNames(Component component) {
+		// Start witn empty counters
+		nameCounters = new HashMap<String, Integer>();
+		doInitMissingComponentNames(component);
+	}
+
+	private void doInitMissingComponentNames(Component component) {
 		String name = component.getName();
 		if (name == null) {
 			generateName(component);
@@ -256,21 +262,21 @@ public class ContextOperator {
 		if (component instanceof Container) {
 			Component[] childComponents = ((Container) component).getComponents();
 			for (Component child : childComponents) {
-				initMissingComponentNames(child);
+				doInitMissingComponentNames(child);
 			}
 		}
 	}
 
-	private static Map<String, Integer> nameCounter = new HashMap<String, Integer>();
+	private static Map<String, Integer> nameCounters = new HashMap<String, Integer>();
 
 	private void generateName(Component component) {
 		String className = getBaseClassName(component.getClass());
-		Integer count = nameCounter.get(className);
+		Integer count = nameCounters.get(className);
 		if (count == null) {
 			count = 0;
 		}
 		count++;
-		nameCounter.put(className, count);
+		nameCounters.put(className, count);
 		component.setName("_" + className + count.intValue());
 
 	}
