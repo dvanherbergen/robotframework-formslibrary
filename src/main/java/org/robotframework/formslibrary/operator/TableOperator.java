@@ -78,6 +78,11 @@ public class TableOperator extends ContextOperator {
 		ComponentUtil.simulateMouseClick(firstRowField);
 	}
 
+	public void doubleClickRow(String[] columnValues) {
+		Component firstRowField = findRow(columnValues);
+		ComponentUtil.simulateMouseDoubleClick(firstRowField);
+	}
+
 	/**
 	 * Find all components of a given type located on the same vertical position
 	 * as the table text fields.

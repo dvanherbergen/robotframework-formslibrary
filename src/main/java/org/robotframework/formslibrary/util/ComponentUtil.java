@@ -189,6 +189,12 @@ public class ComponentUtil {
 		component.dispatchEvent(new MouseEvent(component, MouseEvent.MOUSE_RELEASED, 0, MouseEvent.BUTTON1, 5, 5, 1, false));
 	}
 
+	public static void simulateMouseDoubleClick(Component component) {
+
+		component.dispatchEvent(new MouseEvent(component, MouseEvent.MOUSE_PRESSED, 0, MouseEvent.BUTTON1, 5, 5, 2, false));
+		component.dispatchEvent(new MouseEvent(component, MouseEvent.MOUSE_RELEASED, 0, MouseEvent.BUTTON1, 5, 5, 2, false));
+	}
+
 	/**
 	 * Simulate a key press/release event on the component.
 	 * 

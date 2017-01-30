@@ -25,6 +25,12 @@ public class TableKeywords {
 		new TableOperator().selectRow(columnValues);
 	}
 
+	@RobotKeyword("Double Click on a row in a result table by content.\n\n" + "Example:\n" + "| Double Click Row Row | _market_ | _gas_ | \n")
+	@ArgumentNames({ "*columnvalues" })
+	public void doubleClickRow(String... columnValues) {
+		new TableOperator().doubleClickRow(columnValues);
+	}
+
 	@RobotKeyword("Select a row in a result table by content. If the row is not visible, the down button in the scrollbar will be pressed up to 50 times in an attempt to try and locate the row. Specify the index (occurrence) of the scrollbar which should be used for scrolling."
 			+ "Example:\n" + "| Scroll To Row | _scrollbarIndex_ | _market_ | _gas_ | \n")
 	@ArgumentNames({ "scrollbarIndex", "*columnvalues" })
