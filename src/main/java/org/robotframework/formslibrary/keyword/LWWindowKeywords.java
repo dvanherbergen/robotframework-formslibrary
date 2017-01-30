@@ -25,6 +25,12 @@ public class LWWindowKeywords {
 		return result;
 	}
 
+	@RobotKeyword("Get Current Window Title.\n\n Returns the title of the selected window. Assumes current context is window.\n\nExample:\n| ${title}= | Get Current Window Title |\n")
+	public String getCurrentWindowTitle() {
+
+		return new LWWindowOperator().getSelectedWindowTitle();
+	}
+
 	@RobotKeyword("Set the context to a specific window. The window is selected by title. Use 'List Window Titles' to view available titles if needed.\n\n\n\nExample:\n| Set Window Context | _myWindow_ |\n")
 	@ArgumentNames({ "identifier" })
 	public void setWindowContext(String title) {

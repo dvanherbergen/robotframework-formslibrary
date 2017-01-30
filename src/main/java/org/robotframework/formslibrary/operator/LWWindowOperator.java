@@ -54,6 +54,26 @@ public class LWWindowOperator extends AbstractRootComponentOperator {
 		return frameTitles;
 	}
 
+	public String getSelectedWindowTitle() {
+
+		Component[] extendedFrames = ((Container) getSource()).getComponents();
+		for (Component frame : extendedFrames) {
+			if (frame.isFocusOwner()) {
+				Component[] children = ((Container) frame).getComponents();
+				for (Component child : children) {
+
+					if (ComponentType.TITLE_BAR.matches(child)) {
+						boolean visible = ObjectUtil.getBoolean(frame, "isVisible()");
+						if (visible) {
+							return ObjectUtil.getString(child, "getLWWindow().getTitle()");
+						}
+					}
+				}
+			}
+		}
+		return null;
+	}
+
 	/**
 	 * Change the current context to the window with the given title.
 	 * 
