@@ -4,21 +4,17 @@
 	<groupId>org.robotframework</groupId>
 	<artifactId>formslibrary</artifactId>
 	<version>0.9.8</version>
-
 	<name>robotframework-formslibrary</name>
 	<description>A Robot Framework library for Oracle Forms UI testing</description>
-
 	<licenses>
 		<license>
 			<name>The Apache Software License, Version 2.0</name>
 			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
 		</license>
 	</licenses>
-
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-
 	<build>
 		<plugins>
 			<plugin>
@@ -43,7 +39,8 @@
 						<configuration>
 							<createDependencyReducedPom>false</createDependencyReducedPom>
 							<transformers>
-								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 									<manifestEntries>
 										<Premain-Class>org.robotframework.remoteswinglibrary.agent.JavaAgent</Premain-Class>
 									</manifestEntries>
@@ -158,13 +155,21 @@
 						<configuration>
 							<mainClass>org.robotframework.formslibrary.KeywordGenerator</mainClass>
 							<arguments>
-								<argument>target/classes/FormsLibrary_keywords.py</argument>
+								<argument>target/classes/FormsLibrary_Keywords.py</argument>
 							</arguments>
 						</configuration>
 					</execution>
 				</executions>
 			</plugin>
 		</plugins>
+		<resources>
+			<resource>
+				<directory>src/main/python</directory>
+				<includes>
+					<include>*.py</include>
+				</includes>
+			</resource>
+		</resources>
 	</build>
 
 	<dependencies>

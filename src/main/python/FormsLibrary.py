@@ -11,6 +11,8 @@
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
+
+import FormsLibrary_Keywords
 from contextlib import contextmanager
 import inspect
 import math
@@ -20,7 +22,7 @@ import tempfile
 import threading
 import time
 import traceback
-import formslibrary_keywords
+
 
 IS_PYTHON3 = sys.version_info[0] >= 3
 if IS_PYTHON3:
@@ -551,7 +553,7 @@ class FormsLibrary(object):
             return FormsLibrary.KEYWORDS + [kw for
                                       kw in self.current.get_keyword_names(attempts=attempts)
                                       if kw not in overrided_keywords]
-        return FormsLibrary.KEYWORDS + [kw for kw in formslibrary_keywords.keywords
+        return FormsLibrary.KEYWORDS + [kw for kw in FormsLibrary_Keywords.keywords
                                               if kw not in overrided_keywords]
 
 
@@ -560,7 +562,7 @@ class FormsLibrary(object):
             return self._get_args(name)
         if self.current:
             return self.current.get_keyword_arguments(name)
-        return formslibrary_keywords.keyword_arguments[name]
+        return FormsLibrary_Keywords.keyword_arguments[name]
 
     def _get_args(self, method_name):
         spec = inspect.getargspec(getattr(self, method_name))
@@ -581,7 +583,7 @@ class FormsLibrary(object):
             return getattr(self, name).__doc__
         if self.current:
         	return self.current.get_keyword_documentation(name)
-        return formslibrary_keywords.keyword_documentation[name]
+        return FormsLibrary_Keywords.keyword_documentation[name]
 
     def run_keyword(self, name, arguments, kwargs):
 		if unicode(name).startswith(u"capture"):
@@ -594,5 +596,5 @@ class FormsLibrary(object):
 			return getattr(self, name)(*arguments, **kwargs)        
 		if self.current:
 			return self.current.run_keyword(name, arguments, kwargs)
-		if name in formslibrary_keywords.keywords:
+		if name in FormsLibrary_Keywords.keywords:
 			raise Exception("To use this keyword, you need to connect to the application first.")
